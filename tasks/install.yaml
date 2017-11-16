@@ -1,0 +1,42 @@
+---
+- name: Ensure dependencies are installed
+  apt:
+    pkg: "{{ item }}"
+    state: latest
+    update_cache: yes
+    cache_valid_time: 600
+  with_items:
+    - build-essential
+    - libssl-dev
+    - libffi-dev
+    - python-dev
+    - python-pip
+    - libsasl2-dev
+    - libldap2-dev
+
+- postgresql_db:
+    name: "{{ superset_postgres_db_name }}"
+  tags: [ database ]
+
+- postgresql_user:
+    db: "{{ superset_postgres_db_name }}"
+    name: "{{ superset_postgres_db_user }}"
+    password: "{{ superset_postgres_db_pass }}"
+  tags: [ database ]
+
+- name: Create superset group.
+  group: name={{ superset_group }}
+
+- name: Create superset user.
+  user: name={{ superset_user }} group={{ superset_group }} shell=/sbin/nologin
+
+- name: Install pip libraries, including superset
+  pip:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+    - setuptools
+    - pip
+    - psycopg2
+    - superset
+

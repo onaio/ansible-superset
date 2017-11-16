@@ -1,0 +1,9 @@
+---
+# handlers file for superset
+
+- name: reload systemctl
+  command: systemctl daemon-reload
+
+- name: restart superset
+  service: name=superset state=restarted enabled=yes
+  when: superset_perform_restart

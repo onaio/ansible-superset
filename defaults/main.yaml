@@ -1,0 +1,26 @@
+# web UI details
+superset_username: admin
+superset_firstname: Superset
+superset_lastname: Admin
+superset_email: techops+superset@ona.io
+superset_pass: REPLACEaVnwiLmc489m13
+
+# web application configuration
+superset_app: superset
+superset_flask_secret_key: REPLACEalhD4LIU4Ssn6
+superset_port: 8888
+superset_workers: 2
+superset_mapbox_api_key: REPLACE
+
+# database credentials
+superset_postgres_db_host: localhost
+superset_postgres_db_port: 5432
+superset_postgres_db_name: superset
+superset_postgres_db_user: superset
+superset_postgres_db_pass: REPLACEHS&y7834yKDSd
+
+# whether to restart superset after making changes; default is True, for a cluster you may wish to disable
+superset_perform_restart: True
+
+# whether to force a restart, useful if another role has made changes (such as updating a custom nar); default is False
+superset_force_restart: False

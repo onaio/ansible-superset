@@ -1,0 +1,5 @@
+superset_virtualenv: superset
+superset_group: superset
+superset_user: superset
+superset_service: /etc/systemd/system/superset.service
+superset_python_path: /usr/local/lib/python2.7

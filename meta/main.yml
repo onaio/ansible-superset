@@ -1,0 +1,14 @@
+---
+galaxy_info:
+  author: Ona Engineering
+  description: This role is used to install and configure Apache Superset
+  min_ansible_version: 2.1
+  license: BSD
+  platforms:
+    - name: Ubuntu
+      verions:
+      - xenial
+  categories:
+    - apache
+    - superset
+    - visualization

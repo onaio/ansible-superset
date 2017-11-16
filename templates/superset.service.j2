@@ -1,0 +1,14 @@
+[Unit]
+Description=Superset
+After=network.target
+
+[Service]
+User={{ superset_user }}
+Type=simple
+ExecStart=/usr/local/bin/superset runserver -p {{ superset_port }} -w {{ superset_workers }}
+ExecReload=/bin/kill -HUP $MAINPID
+Restart=on-failure
+KillSignal=SIGINT
+
+[Install]
+WantedBy=multi-user.target
