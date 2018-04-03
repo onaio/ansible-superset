@@ -1,0 +1,14 @@
+- name: "Set superset favicon."
+  copy:
+    src: "{{ superset_favicon_path }}"
+    dest: "{{ superset_python_path }}/dist-packages/superset/static/assets/images/s.png"
+
+- name: "Set superset logo."
+  copy:
+    src: "{{ superset_logo_path }}"
+    dest: "{{ superset_python_path }}/dist-packages/superset/static/assets/images/superset.png"
+
+- name: "Set superset 2x logo."
+  copy:
+    src: "{{ superset_2x_logo_path }}"
+    dest: "{{ superset_python_path }}/dist-packages/superset/static/assets/images/superset-logo@2x.png"

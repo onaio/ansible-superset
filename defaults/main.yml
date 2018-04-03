@@ -24,3 +24,11 @@ superset_perform_restart: True
 
 # whether to force a restart, useful if another role has made changes (such as updating a custom nar); default is False
 superset_force_restart: False
+
+# white labelling
+superset_white_label: False
+
+# full file paths to superset branding images
+superset_favicon_path: REPLACE
+superset_logo_path: REPLACE
+superset_2x_logo_path: REPLACE

@@ -1,3 +1,5 @@
 ---
 - include: install.yml
 - include: config.yml
+- include: while-label.yml
+  when: superset_white_label == True
