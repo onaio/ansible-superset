@@ -1,0 +1,8 @@
+- name: Copy superset branding images.
+  copy:
+    src: "files/{{ item }}"
+    dest: "{{ superset_python_path }}/dist-packages/superset/static/assets/images/{{ item }}"
+  with_items:
+    - "{{ superset_favicon_path }}"
+    - "{{ superset_logo_path }}"
+    - "{{ superset_2x_logo_path }}"

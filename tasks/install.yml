@@ -13,6 +13,7 @@
     - python-pip
     - libsasl2-dev
     - libldap2-dev
+    - libmysqlclient-dev
 
 - postgresql_db:
     name: "{{ superset_postgres_db_name }}"
@@ -38,5 +39,6 @@
     - setuptools
     - pip
     - psycopg2
+    - mysql
     - superset
 
