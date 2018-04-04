@@ -15,6 +15,17 @@
     - libldap2-dev
     - libmysqlclient-dev
 
+- name: Install pip libraries, including superset
+  pip:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+    - setuptools
+    - pip
+    - psycopg2
+    - mysql
+    - superset
+
 - postgresql_db:
     name: "{{ superset_postgres_db_name }}"
   tags: [ database ]
@@ -30,15 +41,3 @@
 
 - name: Create superset user.
   user: name={{ superset_user }} group={{ superset_group }} shell=/sbin/nologin
-
-- name: Install pip libraries, including superset
-  pip:
-    name: "{{ item }}"
-    state: latest
-  with_items:
-    - setuptools
-    - pip
-    - psycopg2
-    - mysql
-    - superset
-

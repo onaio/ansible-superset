@@ -12,6 +12,9 @@ superset_port: 8888
 superset_workers: 2
 superset_mapbox_api_key: REPLACE
 
+# database verisons
+superset_postgres_db_version: 9.6
+
 # database credentials
 superset_postgres_db_host: localhost
 superset_postgres_db_port: 5432

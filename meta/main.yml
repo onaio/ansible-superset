@@ -12,3 +12,10 @@ galaxy_info:
     - apache
     - superset
     - visualization
+
+dependencies:
+- role: ANXS.postgresql
+  become: True
+  version: "{{superset_postgres_db_version}}"
+  tags:
+    - postgres
