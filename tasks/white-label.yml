@@ -1,3 +1,4 @@
+---
 - name: Copy superset branding images.
   copy:
     src: "files/{{ item }}"
@@ -8,14 +9,18 @@
     - "{{ superset_2x_logo_path }}"
   when: superset_white_label_use_filepaths == True
 
-- name: Set up superset branding images
-  tasks:
-    - name: Decode and set up base64 encoded favicon
-      shell: echo {{ superset_favicon_base64 | b64decode }} > "{{ superset_python_path }}/dist-packages/superset/static/assets/images/s.png"
-
-    - name: Decode and set up base64 encoded logo
-      shell: echo {{ superset_logo_base64 | b64decode }} > "{{ superset_python_path }}/dist-packages/superset/static/assets/images/superset.png"
-
-    - name: Decode and set up base64 encoded @2x logo
-      shell: echo {{ superset_2x_logo_base64 | b64decode }} > "{{ superset_python_path }}/dist-packages/superset/static/assets/images/superset-logo@2x.png"
+- name: Decode and set up base64 encoded favicon
+  shell: echo {{ superset_favicon_base64 }} | base64 -d > "{{ superset_python_path }}/dist-packages/superset/static/assets/images/s.png"
   when: superset_white_label_use_base64 == True
+
+- name: Decode and set up base64 encoded logo
+  shell: echo {{ superset_logo_base64 }} | base64 -d > "{{ superset_python_path }}/dist-packages/superset/static/assets/images/superset.png"
+  when: superset_white_label_use_base64 == True
+
+- name: Decode and set up base64 encoded @2x logo
+  shell: echo {{ superset_2x_logo_base64 }} | base64 -d > "{{ superset_python_path }}/dist-packages/superset/static/assets/images/superset-logo@2x.png"
+  when: superset_white_label_use_base64 == True
+
+- name: Ensure Superset is restarted
+  service: name=superset state=restarted
+  when: superset_force_restart
