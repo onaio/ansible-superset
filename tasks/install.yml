@@ -38,7 +38,7 @@
   with_items:
     - setuptools
     - pip
-    - psycopg2
+    - psycopg2-binary
     - mysql
     - superset
 

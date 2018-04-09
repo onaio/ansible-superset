@@ -27,8 +27,15 @@ superset_force_restart: False
 
 # white labelling
 superset_white_label: False
+superset_white_label_use_base64: False
+superset_white_label_use_filepaths: False
 
-# full file paths to superset branding images
-superset_favicon_path: REPLACE
-superset_logo_path: REPLACE
-superset_2x_logo_path: REPLACE
+# base64 encoded superset branding images
+superset_favicon_base64:
+superset_logo_base64:
+superset_2x_logo_base64:
+
+# file paths to superset branding images
+superset_favicon_path:
+superset_logo_path:
+superset_2x_logo_path:
