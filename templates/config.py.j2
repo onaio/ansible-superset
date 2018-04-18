@@ -53,7 +53,7 @@ SQLALCHEMY_TRACK_MODIFICATIONS = False
 # ---------------------------------------------------------
 
 # Your App secret key
-SECRET_KEY = '\2\1thisismyscretkey\1\2\e\y\y\h'  # noqa
+SECRET_KEY = '{{ superset_secret_key }}'  # noqa
 
 # The SQLAlchemy connection string.
 # SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(DATA_DIR, 'superset.db')
@@ -116,7 +116,27 @@ DRUID_ANALYSIS_TYPES = ['cardinality']
 # AUTH_DB : Is for database (username/password()
 # AUTH_LDAP : Is for LDAP
 # AUTH_REMOTE_USER : Is for using REMOTE_USER from web server
-AUTH_TYPE = AUTH_DB
+AUTH_TYPE = {{ superset_auth_type }}
+{% if superset_oauth_providers %}
+OAUTH_PROVIDERS [
+{% for provider in superset_oauth_providers %}
+{
+    'name': '{{ provider.name }}',
+    'icon': '{{ provider.icon }}',
+    'token_key': '{{ provider.token_key }}',
+    'remote_app': {
+        'consumer_key': '{{ provider.consumer_key }}',
+        'consumer_secret': '{{ provider.consumer_secret }}',
+        'base_url': '{{ provider.base_url }}',
+        # if provided this should be a json object
+        'request_token_params': {{ provider.request_token_params }},
+        'request_token_url': '{{ provider.request_token_url }}',
+        'access_token_url': '{{ provider.access_token_url }}',
+        'authorize_url': '{{ provider.authorize_url }}'
+}{% if loop.index != loop.length %},{% endif %}
+{% endfor %}
+]
+{% endif %}
 
 # Uncomment to setup Full admin role name
 # AUTH_ROLE_ADMIN = 'Admin'
@@ -157,12 +177,11 @@ BABEL_DEFAULT_LOCALE = 'en'
 BABEL_DEFAULT_FOLDER = 'babel/translations'
 # The allowed translation for you app
 LANGUAGES = {
-    'en': {'flag': 'us', 'name': 'English'},
-    'it': {'flag': 'it', 'name': 'Italian'},
-    'fr': {'flag': 'fr', 'name': 'French'},
-    'zh': {'flag': 'cn', 'name': 'Chinese'},
-    'ja': {'flag': 'jp', 'name': 'Japanese'},
+{% for language in superset_languages %}
+    '{{ language.key }}': {'flag': '{{ language.flag }}', 'name': '{{ language.name }}'},
+{% endfor %}
 }
+
 # ---------------------------------------------------
 # Image and file configuration
 # ---------------------------------------------------

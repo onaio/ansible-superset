@@ -9,6 +9,51 @@ Use this role to install, configure, and manage Apache Superset.
     # whether to restart Superset after making changes; default is True, for a cluster you may wish to disable
     superset_perform_restart: True
 
+## Available Languages
+
+This allows you control what languages are available and how they are labelled.
+
+```yml
+supeset_languages
+  - key: en
+    flag: us
+    name: English
+  - key: ja
+    flag: jp
+    name: Japanese
+```
+
+The default is a subset of the total available languages, take a look at the `/translations` folder of the
+current Superset release to see what other languages are available.
+
+## Authentication Backends
+
+This allows you to configure what authentication backend superset users. The default
+
+```yml
+superset_auth_type: AUTH_DB
+```
+
+uses Supersets on DB to manage users. Currenly configuration options are supported only for the `AUTH_OAUTH` type.
+
+If you have selected that authentication type you can provide additional configuration details with
+
+```yml
+superset_oauth_providers:
+  - name
+  - icon
+  - token_key
+  - consumer_key
+  - consumer_secret
+  - base_url
+  - request_token_params
+  - request_token_url
+  - access_token_url
+  - authorize_url
+```
+
+where `request_token_params`, if provided is a JSON object.
+
 ## White Labelling ##
 
 This role allows you to do some white-labelling of superset by allowed you to change the superset 'branding images', which are:
