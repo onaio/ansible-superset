@@ -178,7 +178,7 @@ BABEL_DEFAULT_FOLDER = 'babel/translations'
 # The allowed translation for you app
 LANGUAGES = {
 {% for language in superset_languages %}
-    '{{ language.key }}': {'flag': '{{ language.flag }}', 'name': '{{ language.name }}'{% if loop.index != loop.length %},{% endif %}
+    '{{ language.key }}': {'flag': '{{ language.flag }}', 'name': '{{ language.name }}'},
 {% endfor %}
 }
 
