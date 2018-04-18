@@ -175,12 +175,11 @@ BABEL_DEFAULT_LOCALE = 'en'
 BABEL_DEFAULT_FOLDER = 'babel/translations'
 # The allowed translation for you app
 LANGUAGES = {
-    'en': {'flag': 'us', 'name': 'English'},
-    'it': {'flag': 'it', 'name': 'Italian'},
-    'fr': {'flag': 'fr', 'name': 'French'},
-    'zh': {'flag': 'cn', 'name': 'Chinese'},
-    'ja': {'flag': 'jp', 'name': 'Japanese'},
+{% for language in superset_languages %}
+    '{{ language.key }}': {'flag': '{{ language.flag }}', 'name': '{{ language.name }}'{% if loop.index != loop.length %},{% endif %}
+{% endfor %}
 }
+
 # ---------------------------------------------------
 # Image and file configuration
 # ---------------------------------------------------

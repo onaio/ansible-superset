@@ -1,5 +1,23 @@
 superset_secret_key: REPLACE\2\1thisismyscretkey\1\2\e\y\y\h
 
+# available languages
+superset_languages:
+    - key: en
+      flag: us
+      name: English
+    - key: it
+      flag: it
+      name: Italian
+    - key: fr
+      flag: fr
+      name: French
+    - key: zh
+      flag: cn
+      name: Chinese
+    - key: ja
+      flag: jp
+      name: Japanese
+
 # web UI details
 superset_username: admin
 superset_firstname: Superset
