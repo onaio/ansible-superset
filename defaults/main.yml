@@ -1,3 +1,5 @@
+superset_secret_key: REPLACE\2\1thisismyscretkey\1\2\e\y\y\h
+
 # web UI details
 superset_username: admin
 superset_firstname: Superset
@@ -24,6 +26,10 @@ superset_perform_restart: True
 
 # whether to force a restart, useful if another role has made changes (such as updating a custom nar); default is False
 superset_force_restart: False
+
+# authentication configuration
+superset_auth_type: AUTH_DB
+superset_oauth_providers:
 
 # white labelling
 superset_white_label: False
