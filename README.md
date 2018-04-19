@@ -41,15 +41,15 @@ If you have selected that authentication type you can provide additional configu
 ```yml
 superset_oauth_providers:
   - name:
-  - icon:
-  - token_key:
-  - consumer_key:
-  - consumer_secret:
-  - base_url:
-  - request_token_params:
-  - request_token_url:
-  - access_token_url:
-  - authorize_url:
+    icon:
+    token_key:
+    consumer_key:
+    consumer_secret:
+    base_url:
+    request_token_params:
+    request_token_url:
+    access_token_url:
+    authorize_url:
 ```
 
 where `request_token_params`, if provided is a JSON object.
