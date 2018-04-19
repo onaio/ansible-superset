@@ -125,11 +125,13 @@ OAUTH_PROVIDERS [
     'icon': '{{ provider.icon }}',
     'token_key': '{{ provider.token_key }}',
     'remote_app': {
-        'consumer_key': '{{ provider.consumer_key }}',
-        'consumer_secret': '{{ provider.consumer_secret }}',
+        'consumer_key': {{ provider.consumer_key }},
+        'consumer_secret': {{ provider.consumer_secret }},
         'base_url': '{{ provider.base_url }}',
+        {% if provider.request_token_params %}
         # if provided this should be a json object
         'request_token_params': {{ provider.request_token_params }},
+        {% endif %}
         'request_token_url': '{{ provider.request_token_url }}',
         'access_token_url': '{{ provider.access_token_url }}',
         'authorize_url': '{{ provider.authorize_url }}'

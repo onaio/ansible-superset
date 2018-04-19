@@ -52,7 +52,9 @@ superset_oauth_providers:
     authorize_url:
 ```
 
-where `request_token_params`, if provided is a JSON object.
+where `request_token_params`, if provided is a JSON object. All values except `request_token_params`, `consumer_key`,
+and `consumer_secret` are rendered in quotes. You would typically set `consumer_key` and `consumer_secret` to
+retrieve env vars, e.g. `os.environ.get('OAUTH2_CLIENT_SECRET')`.
 
 ## White Labelling ##
 
