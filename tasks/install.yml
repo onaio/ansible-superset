@@ -41,4 +41,4 @@
     - psycopg2-binary
     - mysql
     - superset
-
+    - Flask-OAuthlib
