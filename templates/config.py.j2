@@ -119,7 +119,7 @@ DRUID_ANALYSIS_TYPES = ['cardinality']
 # AUTH_REMOTE_USER : Is for using REMOTE_USER from web server
 AUTH_TYPE = {{ superset_auth_type }}
 {% if superset_oauth_providers %}
-OAUTH_PROVIDERS [
+OAUTH_PROVIDERS = [
 {% for provider in superset_oauth_providers %}
 {
     'name': '{{ provider.name }}',
