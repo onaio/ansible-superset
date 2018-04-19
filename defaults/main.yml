@@ -48,6 +48,7 @@ superset_force_restart: False
 # authentication configuration
 superset_auth_type: AUTH_DB
 superset_oauth_providers:
+superset_service_env_vars:
 
 # white labelling
 superset_white_label: False

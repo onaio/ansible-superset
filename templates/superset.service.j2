@@ -3,6 +3,11 @@ Description=Superset
 After=network.target
 
 [Service]
+{% if superset_service_env_vars %}
+{% for var in superset_service_env_vars %}
+Environment="{{ var.key }}={{ var.value }}"
+{% endfor %}
+{% endif %}
 User={{ superset_user }}
 Type=simple
 ExecStart=/usr/local/bin/superset runserver -p {{ superset_port }} -w {{ superset_workers }}
