@@ -135,6 +135,7 @@ OAUTH_PROVIDERS [
         'request_token_url': '{{ provider.request_token_url }}',
         'access_token_url': '{{ provider.access_token_url }}',
         'authorize_url': '{{ provider.authorize_url }}'
+    }
 }{% if loop.index != loop.length %},{% endif %}
 {% endfor %}
 ]
