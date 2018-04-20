@@ -1,20 +1,24 @@
-# Superset #
+# Superset
 
 Use this role to install, configure, and manage Apache Superset.
 
-## Role Variables ##
+By default this installs Superset version 0.24. To install a different version, set the `superset_version` variable.
 
-### Other Default variables are listed below ###
+## Role Variables
 
-    # whether to restart Superset after making changes; default is True, for a cluster you may wish to disable
-    superset_perform_restart: True
+### Other Default variables are listed below
+
+```yml
+# whether to restart Superset after making changes; default is True, for a cluster you may wish to disable
+superset_perform_restart: True
+```
 
 ## Available Languages
 
 This allows you control what languages are available and how they are labelled.
 
 ```yml
-supeset_languages
+supeset_languages:
   - key: en
     flag: us
     name: English
@@ -60,10 +64,10 @@ You can set your environment variables for the service using:
 
 ```yml
 superset_service_env_vars:
-  - OAUTH2_CLIENT_SECRET: THE_SECRET
+  OAUTH2_CLIENT_SECRET: THE_SECRET
 ```
 
-## White Labelling ##
+## White Labelling
 
 This role allows you to do some white-labelling of superset by allowed you to change the superset 'branding images', which are:
 
@@ -79,7 +83,7 @@ Turn on white-labelling by setting this variable to True:
 superset_white_label: True
 ```
 
-### Use files to change the branding ###
+### Use files to change the branding
 
 You can use files by setting the following variables.
 
@@ -90,7 +94,7 @@ superset_logo_path: "/path-to-/superset.png"
 superset_2x_logo_path: "/path-to-/superset-logo@2x.png"
 ```
 
-### Use base64 encoded images to change the branding ###
+### Use base64 encoded images to change the branding
 
 To avoid the hassle of dealing with files, you can use base64 encoded images by setting the following variables.
 
@@ -101,10 +105,10 @@ superset_logo_base64: "base64 encoded logo"
 superset_2x_logo_base64: "base64 encoded 2x logo"
 ```
 
-## License ##
+## License
 
 Apache 2
 
-## Authors ##
+## Authors
 
 [Ona Engineering](https://ona.io)
