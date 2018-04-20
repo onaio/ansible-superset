@@ -60,7 +60,7 @@ You can set your environment variables for the service using:
 
 ```yml
 superset_service_env_vars:
-  - OAUTH2_CLIENT_SECRET: THE_SECRET
+  OAUTH2_CLIENT_SECRET: THE_SECRET
 ```
 
 ## White Labelling ##
