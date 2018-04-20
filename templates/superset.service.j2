@@ -4,8 +4,8 @@ After=network.target
 
 [Service]
 {% if superset_service_env_vars %}
-{% for var in superset_service_env_vars %}
-Environment="{{ var.key }}={{ var.value }}"
+{% for (key, value) in superset_service_env_vars.items() %}
+Environment="{{ key }}={{ value }}"
 {% endfor %}
 {% endif %}
 User={{ superset_user }}
