@@ -1,3 +1,7 @@
+# the pip version of superset to deploy
+superset_version: 0.24
+
+# the application secret key
 superset_secret_key: REPLACE\2\1thisismyscretkey\1\2\e\y\y\h
 
 # available languages

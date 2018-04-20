@@ -31,7 +31,7 @@
 - name: Create superset user.
   user: name={{ superset_user }} group={{ superset_group }} shell=/sbin/nologin
 
-- name: Install pip libraries, including superset
+- name: Install dependent pip libraries
   pip:
     name: "{{ item }}"
     state: latest
@@ -40,5 +40,9 @@
     - pip
     - psycopg2-binary
     - mysql
-    - superset
     - Flask-OAuthlib
+
+- name: Install superset
+  pip:
+    name: superset
+    version: "{{ superset_version }}"
