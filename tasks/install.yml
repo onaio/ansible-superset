@@ -15,6 +15,17 @@
     - libldap2-dev
     - libmysqlclient-dev
 
+- name: Install dependent pip libraries
+  pip:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+    - setuptools
+    - pip
+    - psycopg2-binary
+    - mysql
+    - Flask-OAuthlib
+
 - postgresql_db:
     name: "{{ superset_postgres_db_name }}"
   tags: [ database ]
@@ -30,17 +41,6 @@
 
 - name: Create superset user.
   user: name={{ superset_user }} group={{ superset_group }} shell=/sbin/nologin
-
-- name: Install dependent pip libraries
-  pip:
-    name: "{{ item }}"
-    state: latest
-  with_items:
-    - setuptools
-    - pip
-    - psycopg2-binary
-    - mysql
-    - Flask-OAuthlib
 
 - name: Install superset
   pip:
