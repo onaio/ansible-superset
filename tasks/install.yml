@@ -75,3 +75,14 @@
     version: "{{ superset_version }}"
     virtualenv: "{{ superset_virtualenv_path }}"
     virtualenv_python: "{{ superset_python_executable }}"
+
+- name: Make sure the superset upload directories exists
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0755
+    owner: "{{ superset_user }}"
+    group: "{{ superset_group }}"
+  with_items:
+    - "{{ superset_img_upload_dir }}"
+    - "{{ superset_upload_dir }}"
