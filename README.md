@@ -123,6 +123,24 @@ superset_logo_base64: "base64 encoded logo"
 superset_2x_logo_base64: "base64 encoded 2x logo"
 ```
 
+### Asset Uploads
+
+Superset, by default, will activate the following extensions for data uploads:
+
+```yml
+superset_allowed_extensions:
+  - csv
+```
+
+Check the `ALLOWED_EXTENSIONS` configuration in Superset's [config.py](https://github.com/apache/incubator-superset/blob/master/superset/config.py) for the list of supported extensions.
+
+The upload directories for images and data files (to be used by data import extensions) are set to:
+
+```yml
+superset_img_upload_dir: "{{ superset_user_home }}/images/"
+superset_upload_dir: "{{ superset_user_home }}/uploads/"
+```
+
 ## License
 
 Apache 2
