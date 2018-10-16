@@ -35,6 +35,7 @@ superset_flask_secret_key: REPLACEalhD4LIU4Ssn6
 superset_port: 8888
 superset_workers: 2
 superset_mapbox_api_key: REPLACE
+superset_app_name: superset
 
 # database credentials
 superset_postgres_db_host: localhost
