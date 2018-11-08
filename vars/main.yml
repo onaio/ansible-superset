@@ -1,5 +1,7 @@
-superset_virtualenv: superset
+superset_virtualenv_path: "{{ superset_home }}/.virtualenvs/{{ superset_user }}"
+superset_home: "/home/{{ superset_user }}"
+superset_shell: "/sbin/nologin"
 superset_group: superset
 superset_user: superset
 superset_service: /etc/systemd/system/superset.service
-superset_python_path: /usr/local/lib/python2.7
+superset_python_path: "{{ superset_virtualenv_path }}/lib/{{ superset_python_executable }}"

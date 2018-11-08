@@ -1,13 +1,13 @@
 - name: "Set superset config configured."
-  template: src=config.py.j2 dest={{ superset_python_path }}/dist-packages/superset/config.py
+  template: src=config.py.j2 dest={{ superset_python_path }}/site-packages/superset/config.py
   notify:
     - restart superset
 
 - name: Create an admin user.
-  shell: fabmanager create-admin --app {{ superset_app }} --username {{ superset_username }} --firstname {{ superset_firstname }}  --lastname {{ superset_lastname }}  --email {{ superset_email }} --password {{ superset_pass }}
+  shell: "{{ superset_virtualenv_path }}/bin/fabmanager create-admin --app {{ superset_app }} --username {{ superset_username }} --firstname {{ superset_firstname }}  --lastname {{ superset_lastname }}  --email {{ superset_email }} --password {{ superset_pass }}"
 
 - name: Superset init.
-  shell: superset db upgrade && superset load_examples && superset init
+  shell: "{{ superset_virtualenv_path }}/bin/superset db upgrade && {{ superset_virtualenv_path }}/bin/superset load_examples && {{ superset_virtualenv_path }}/bin/superset init"
 
 - name: Create superset systemd service
   template:
