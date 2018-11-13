@@ -1,4 +1,18 @@
 ---
+- name: Create superset group.
+  group:
+    name: "{{ superset_group }}"
+
+- name: Create superset user.
+  user:
+    name: "{{ superset_user }}"
+    group: "{{ superset_group }}"
+    shell: "{{ superset_shell }}"
+    home: "{{ superset_home }}"
+    create_home: yes
+
+- include_tasks: "install-{{ superset_python_executable }}.yml"
+
 - name: Ensure dependencies are installed
   apt:
     pkg: "{{ item }}"
@@ -9,19 +23,32 @@
     - build-essential
     - libssl-dev
     - libffi-dev
-    - python-dev
-    - python-pip
     - libsasl2-dev
     - libldap2-dev
     - libmysqlclient-dev
+
+- name: Delete the Superset virtualenv directory
+  file:
+    state: absent
+    path: "{{ superset_virtualenv_path }}"
+  when: superset_recreate_virtualenv
+
+- name: Make sure the Superset virtualenv directory exists
+  file:
+    state: directory
+    path: "{{ superset_virtualenv_path }}"
+    owner: "{{ superset_user }}"
+    group: "{{ superset_group }}"
+    recurse: yes
 
 - name: Install dependent pip libraries
   pip:
     name: "{{ item }}"
     state: latest
+    virtualenv: "{{ superset_virtualenv_path }}"
+    virtualenv_python: "{{ superset_python_executable }}"
   with_items:
     - setuptools
-    - pip
     - psycopg2-binary
     - mysql
     - Flask-OAuthlib
@@ -36,13 +63,9 @@
     password: "{{ superset_postgres_db_pass }}"
   tags: [ database ]
 
-- name: Create superset group.
-  group: name={{ superset_group }}
-
-- name: Create superset user.
-  user: name={{ superset_user }} group={{ superset_group }} shell=/sbin/nologin
-
 - name: Install superset
   pip:
     name: superset
     version: "{{ superset_version }}"
+    virtualenv: "{{ superset_virtualenv_path }}"
+    virtualenv_python: "{{ superset_python_executable }}"

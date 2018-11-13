@@ -1,6 +1,9 @@
 # the pip version of superset to deploy
 superset_version: 0.24
 
+# the python executable to install superset using
+superset_python_executable: "python2.7"
+
 # the application secret key
 superset_secret_key: REPLACE\2\1thisismyscretkey\1\2\e\y\y\h
 
@@ -30,6 +33,7 @@ superset_email: techops+superset@ona.io
 superset_pass: REPLACEaVnwiLmc489m13
 
 # web application configuration
+superset_recreate_virtualenv: False
 superset_app: superset
 superset_flask_secret_key: REPLACEalhD4LIU4Ssn6
 superset_port: 8888

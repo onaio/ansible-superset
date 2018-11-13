@@ -1,0 +1,9 @@
+---
+- name: Ensure dependencies are installed
+  apt:
+    pkg: "{{ item }}"
+    state: latest
+    update_cache: yes
+  with_items:
+    - python-pip
+    - python-dev

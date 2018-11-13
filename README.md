@@ -6,6 +6,9 @@ By default this installs Superset version 0.24. To install a different version, 
 
 ## Role Variables
 
+`superset_python_executable`: Specifies which Python binary to use to install Superset. The role currently supports `python2.7` and `python3.6`.
+`superset_recreate_virtualenv`: Set to `True` if you'd like the role to recreate the Python virtualenv Superset is installed.
+
 ### Other Default variables are listed below
 
 ```yml
