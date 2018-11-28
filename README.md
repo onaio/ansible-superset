@@ -7,7 +7,16 @@ By default this installs Superset version 0.24. To install a different version, 
 ## Role Variables
 
 `superset_python_executable`: Specifies which Python binary to use to install Superset. The role currently supports `python2.7` and `python3.6`.
+
 `superset_recreate_virtualenv`: Set to `True` if you'd like the role to recreate the Python virtualenv Superset is installed.
+
+This role creates a superset user and database. To connect to the database host, set:
+- `superset_postgres_db_host`: The database host
+- `superset_postgres_login_user`: The postgres user used to create the superset database and user
+- `superset_postgres_login_password`: the password for the postgres user used to create the superset database and user
+- `superset_postgres_db_name`: The superset database name (to be created). This is the database superset will use.
+- `superset_postgres_db_user`: Superset postgres user name (to be created)
+- `superset_postgres_db_pass`: Superset postgres user password
 
 ### Other Default variables are listed below
 
@@ -72,9 +81,9 @@ superset_service_env_vars:
 
 ## White Labelling
 
-This role allows you to do some white-labelling of superset by allowed you to change the superset 'branding images', which are:
+This role allows you to do some white-labelling of superset by allowing you to change the superset app name and 'branding images', which are:
 
-- The favicon: `s.png`
+- The favicon: `favicon.png`
 - The logo: `superset.png`
 - The 2x logo: `superset-logo@2x.png`
 
@@ -86,13 +95,19 @@ Turn on white-labelling by setting this variable to True:
 superset_white_label: True
 ```
 
+### Change App Name
+
+```yml
+superset_app_name: 'My App'
+```
+
 ### Use files to change the branding
 
 You can use files by setting the following variables.
 
 ```yml
 superset_white_label_use_filepaths: True
-superset_favicon_path: "/path-to-/s.png"
+superset_favicon_path: "/path-to-/favicon.png"
 superset_logo_path: "/path-to-/superset.png"
 superset_2x_logo_path: "/path-to-/superset-logo@2x.png"
 ```

@@ -72,3 +72,6 @@ superset_2x_logo_base64:
 superset_favicon_path:
 superset_logo_path:
 superset_2x_logo_path:
+superset_app_name: "Superset"
+superset_postgres_login_user: "postgres"
+superset_postgres_login_password: ""

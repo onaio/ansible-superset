@@ -54,10 +54,16 @@
     - Flask-OAuthlib
 
 - postgresql_db:
+    login_host: "{{ superset_postgres_db_host }}"
+    login_user: "{{ superset_postgres_login_user }}"
+    login_password: "{{ superset_postgres_login_password }}"
     name: "{{ superset_postgres_db_name }}"
   tags: [ database ]
 
 - postgresql_user:
+    login_host: "{{ superset_postgres_db_host }}"
+    login_user: "{{ superset_postgres_login_user }}"
+    login_password: "{{ superset_postgres_login_password }}"
     db: "{{ superset_postgres_db_name }}"
     name: "{{ superset_postgres_db_user }}"
     password: "{{ superset_postgres_db_pass }}"

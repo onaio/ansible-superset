@@ -10,7 +10,7 @@
   when: superset_white_label_use_filepaths == True
 
 - name: Decode and set up base64 encoded favicon
-  shell: echo {{ superset_favicon_base64 }} | base64 -d > "{{ superset_python_path }}/site-packages/superset/static/assets/images/s.png"
+  shell: echo {{ superset_favicon_base64 }} | base64 -d > "{{ superset_python_path }}/site-packages/superset/static/assets/images/favicon.png"
   when: superset_white_label_use_base64 == True
 
 - name: Decode and set up base64 encoded logo
