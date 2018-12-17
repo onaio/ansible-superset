@@ -1,0 +1,17 @@
+pipeline:
+  build:
+    image: ubuntu:xenial
+    commands:
+      - apt update
+      - apt install -y git sudo python-pip python-minimal software-properties-common
+      - pip install ansible
+      - apt-get -y clean && apt-get -y autoclean
+      - ansible-galaxy install -r requirements.yml
+      - ansible-playbook -i "127.0.0.1,"  tests/test.yml --syntax-check
+      - ansible-playbook -i "127.0.0.1," tests/test.yml --connection=local --become
+  notify:
+    image: plugins/slack
+    secrets: [ slack_webhook ]
+    when:
+      status: [success, failure]
+      event: [push, tag]
