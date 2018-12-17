@@ -15,3 +15,9 @@ pipeline:
     when:
       status: [success, failure]
       event: [push, tag]
+services:
+  postgres:
+    image: onaio/postgis:9.5
+    environment:
+        - POSTGRES_USER=superset
+        - POSTGRES_PASSWORD=hunter2
