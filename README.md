@@ -123,6 +123,12 @@ superset_logo_base64: "base64 encoded logo"
 superset_2x_logo_base64: "base64 encoded 2x logo"
 ```
 
+## Testing
+
+This project comes with a Vagrantfile, this is a fast and easy way to test changes to the role, fire it up with `vagrant up`.
+
+See [vagrant docs](https://docs.vagrantup.com/v2/) for getting setup with vagrant
+
 ## License
 
 Apache 2
