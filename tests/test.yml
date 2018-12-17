@@ -13,12 +13,21 @@
         test -e /usr/bin/sudo || apt install -y sudo
       register: output
       changed_when: output.stdout|trim() != ""
+    - name: Install "postgresql" package
+      apt:
+        name: postgresql-9.5
+        state: present
+    - name: Install "python-psycopg2" package
+      apt:
+        name: python-psycopg2
+        state: present
   gather_facts: False
   become: True
 
 - name: Test Superset role
   hosts: all
   vars:
+    # superset stuff
     superset_version: 0.24
     superset_python_executable: "python3.6"
     superset_secret_key: hunter2
@@ -45,6 +54,11 @@
     superset_service_env_vars:
       ONA_KEY: "onauser"
       ONA_SECRET: "hunter2"
+    superset_postgres_db_name: superset
+    superset_postgres_db_user: superset
+    superset_postgres_db_pass: hunter2
+    superset_postgres_login_user: "postgres"
+    superset_postgres_login_password: "hunter2"
     superset_white_label: True
     superset_white_label_use_base64: True
     superset_favicon_base64: |
