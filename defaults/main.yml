@@ -25,6 +25,9 @@ superset_languages:
       flag: jp
       name: Japanese
 
+# system user
+superset_user_home: /home/superset
+
 # web UI details
 superset_username: admin
 superset_firstname: Superset
@@ -39,6 +42,8 @@ superset_flask_secret_key: REPLACEalhD4LIU4Ssn6
 superset_port: 8888
 superset_workers: 2
 superset_mapbox_api_key: REPLACE
+superset_allowed_extensions:
+  - csv
 
 # database credentials
 superset_postgres_db_host: localhost
@@ -75,3 +80,7 @@ superset_2x_logo_path:
 superset_app_name: "Superset"
 superset_postgres_login_user: "postgres"
 superset_postgres_login_password: ""
+
+# upload directories
+superset_upload_dir: "{{ superset_user_home }}/uploads/"
+superset_img_upload_dir: "{{ superset_user_home }}/images/"
