@@ -137,8 +137,8 @@ Check the `ALLOWED_EXTENSIONS` configuration in Superset's [config.py](https://g
 The upload directories for images and data files (to be used by data import extensions) are set to:
 
 ```yml
-superset_img_upload_dir: "{{ superset_user_home }}/images/"
-superset_upload_dir: "{{ superset_user_home }}/uploads/"
+superset_img_upload_dir: "{{ superset_home }}/images/"
+superset_upload_dir: "{{ superset_home }}/uploads/"
 ```
 
 ## License

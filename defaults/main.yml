@@ -25,9 +25,6 @@ superset_languages:
       flag: jp
       name: Japanese
 
-# system user
-superset_user_home: /home/superset
-
 # web UI details
 superset_username: admin
 superset_firstname: Superset
@@ -82,5 +79,5 @@ superset_postgres_login_user: "postgres"
 superset_postgres_login_password: ""
 
 # upload directories
-superset_upload_dir: "{{ superset_user_home }}/uploads/"
-superset_img_upload_dir: "{{ superset_user_home }}/images/"
+superset_upload_dir: "{{ superset_home }}/uploads/"
+superset_img_upload_dir: "{{ superset_home }}/images/"
