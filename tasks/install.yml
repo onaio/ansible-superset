@@ -41,7 +41,16 @@
     group: "{{ superset_group }}"
     recurse: yes
 
-- name: Install dependent pip libraries
+- name: Install global dependent pip libraries
+  pip:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+    - psycopg2-binary
+
+- name: Install Superset dependent pip libraries
+  become: true
+  become_user: "{{ superset_user }}"
   pip:
     name: "{{ item }}"
     state: latest
@@ -67,9 +76,12 @@
     db: "{{ superset_postgres_db_name }}"
     name: "{{ superset_postgres_db_user }}"
     password: "{{ superset_postgres_db_pass }}"
+    encrypted: true
   tags: [ database ]
 
 - name: Install superset
+  become: true
+  become_user: "{{ superset_user }}"
   pip:
     name: superset
     version: "{{ superset_version }}"
