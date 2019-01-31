@@ -7,3 +7,10 @@
   with_items:
     - python-pip
     - python-dev
+
+- name: Install virtualenv via pip
+  pip:
+    name: "{{ item }}"
+    executable: pip
+  with_items:
+    - virtualenv
