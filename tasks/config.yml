@@ -1,13 +1,32 @@
 - name: "Set superset config configured."
-  template: src=config.py.j2 dest={{ superset_python_path }}/site-packages/superset/config.py
+  template:
+    src: "superset_python_path/superset_config.py.j2"
+    dest: "{{ superset_python_path }}/superset_config.py"
+    owner: "{{ superset_user }}"
+    group: "{{ superset_group }}"
   notify:
     - restart superset
 
 - name: Create an admin user.
-  shell: "{{ superset_virtualenv_path }}/bin/fabmanager create-admin --app {{ superset_app }} --username {{ superset_username }} --firstname {{ superset_firstname }}  --lastname {{ superset_lastname }}  --email {{ superset_email }} --password {{ superset_pass }}"
+  become: true
+  become_user: "{{ superset_user }}"
+  shell: "export PYTHONPATH='{{ superset_python_path }}' && {{ superset_virtualenv_path }}/bin/fabmanager create-admin --app {{ superset_app }} --username {{ superset_username }} --firstname {{ superset_firstname }}  --lastname {{ superset_lastname }}  --email {{ superset_email }} --password {{ superset_pass }}"
+
+- name: Upgrade the superset db.
+  become: true
+  become_user: "{{ superset_user }}"
+  shell: "export PYTHONPATH='{{ superset_python_path }}' && {{ superset_virtualenv_path }}/bin/superset db upgrade"
+
+- name: Load superset examples.
+  become: true
+  become_user: "{{ superset_user }}"
+  shell: "export PYTHONPATH='{{ superset_python_path }}' && {{ superset_virtualenv_path }}/bin/superset load_examples"
+  when: superset_load_examples
 
 - name: Superset init.
-  shell: "{{ superset_virtualenv_path }}/bin/superset db upgrade && {{ superset_virtualenv_path }}/bin/superset load_examples && {{ superset_virtualenv_path }}/bin/superset init"
+  become: true
+  become_user: "{{ superset_user }}"
+  shell: "export PYTHONPATH='{{ superset_python_path }}' && {{ superset_virtualenv_path }}/bin/superset init"
 
 - name: Create superset systemd service
   template:

@@ -1,0 +1,93 @@
+from collections import OrderedDict
+import imp
+import json
+import os
+import sys
+
+from celery.schedules import crontab
+from dateutil import tz
+from flask_appbuilder.security.manager import AUTH_DB
+
+from superset.stats_logger import DummyStatsLogger
+
+# ---------------------------------------------------------
+# Superset specific config
+# ---------------------------------------------------------
+SUPERSET_WORKERS = {{ superset_workers }}
+SUPERSET_WEBSERVER_PORT = {{ superset_port }}
+# ---------------------------------------------------------
+
+# Your App secret key
+SECRET_KEY = '{{ superset_secret_key }}'  # noqa
+
+# The SQLAlchemy connection string.
+# SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(DATA_DIR, 'superset.db')
+# SQLALCHEMY_DATABASE_URI = 'mysql://myapp@localhost/myapp'
+SQLALCHEMY_DATABASE_URI = 'postgresql://{{ superset_postgres_db_user }}:{{ superset_postgres_db_pass }}@{{ superset_postgres_db_host }}:{{ superset_postgres_db_port }}/{{ superset_postgres_db_name }}'
+
+# ------------------------------
+# GLOBALS FOR APP Builder
+# ------------------------------
+# Uncomment to setup Your App name
+APP_NAME = "{{ superset_app_name }}"
+
+# ----------------------------------------------------
+# AUTHENTICATION CONFIG
+# ----------------------------------------------------
+# The authentication type
+# AUTH_OID : Is for OpenID
+# AUTH_DB : Is for database (username/password()
+# AUTH_LDAP : Is for LDAP
+# AUTH_REMOTE_USER : Is for using REMOTE_USER from web server
+AUTH_TYPE = {{ superset_auth_type }}
+{% if superset_oauth_providers %}
+OAUTH_PROVIDERS = [
+{% for provider in superset_oauth_providers %}
+{
+    'name': '{{ provider.name }}',
+    'icon': '{{ provider.icon }}',
+    {% if provider.token_key is defined %}
+    'token_key': '{{ provider.token_key }}',
+    {% endif %}
+    'remote_app': {
+        'consumer_key': {{ provider.consumer_key }},
+        'consumer_secret': {{ provider.consumer_secret }},
+        'base_url': '{{ provider.base_url }}',
+        {% if provider.request_token_params is defined %}
+        # if provided this should be a json object
+        'request_token_params': {{ provider.request_token_params }},
+        {% endif %}
+        {% if provider.request_token_url is defined %}
+        'request_token_url': '{{ provider.request_token_url }}',
+        {% endif %}
+        'access_token_url': '{{ provider.access_token_url }}',
+        'authorize_url': '{{ provider.authorize_url }}'
+    }
+}{% if loop.index != loop.length %},{% endif %}
+{% endfor %}
+]
+{% endif %}
+
+# The allowed translation for you app
+LANGUAGES = {
+{% for language in superset_languages %}
+    '{{ language.key }}': {'flag': '{{ language.flag }}', 'name': '{{ language.name }}'},
+{% endfor %}
+}
+
+# ---------------------------------------------------
+# Image and file configuration
+# ---------------------------------------------------
+# The file upload folder, when using models with files
+UPLOAD_FOLDER = "{{ superset_upload_dir }}"
+
+# The image upload folder, when using models with images
+IMG_UPLOAD_FOLDER = "{{ superset_img_upload_dir }}"
+
+# Set this API key to enable Mapbox visualizations
+MAPBOX_API_KEY = "{{ superset_mapbox_api_key }}"
+
+{% if superset_allowed_extensions is defined and superset_allowed_extensions|length > 0 %}
+# Allowed format types for upload on Database view
+ALLOWED_EXTENSIONS = set(['{{ superset_allowed_extensions|join("', '") }}'])
+{% endif %}
