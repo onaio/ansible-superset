@@ -81,3 +81,9 @@ superset_postgres_login_password: ""
 # upload directories
 superset_upload_dir: "{{ superset_home }}/uploads/"
 superset_img_upload_dir: "{{ superset_home }}/images/"
+
+# Allow for javascript controls components
+# this enables programmers to customize certain charts (like the
+# geospatial ones) by inputing javascript in controls. This exposes
+# an XSS security vulnerability
+superset_enable_javascript_controls: False
