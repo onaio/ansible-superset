@@ -52,7 +52,7 @@
 
 - name: Install superset patchup (ketchup)
   pip:
-    name: '-e git+https://github.com/onaio/superset-patchup.git@{{ superset_ketchup_version }}#egg=superset_patchup'
+    name: 'git+{{ superset_ketchup_git_url }}@{{ superset_ketchup_version }}'
     state: latest
     virtualenv: "{{ superset_virtualenv_path }}"
     virtualenv_python: "{{ superset_python_executable }}"

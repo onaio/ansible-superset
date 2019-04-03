@@ -94,5 +94,5 @@ superset_enable_cors: False
 
 # superset patchup (ketchup)
 superset_use_ketchup: False
-superset_ketchup_git_url: "git@github.com:onaio/superset-patchup.git"
+superset_ketchup_git_url: "https://github.com/onaio/superset-patchup.git"
 superset_ketchup_version: "master"
