@@ -26,6 +26,7 @@
     - libsasl2-dev
     - libldap2-dev
     - libmysqlclient-dev
+    - python-pip
 
 - name: Delete the Superset virtualenv directory
   file:
