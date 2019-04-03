@@ -32,6 +32,9 @@ else:
 if not os.path.exists(DATA_DIR):
     os.makedirs(DATA_DIR)
 
+# patchup 
+from superset_patchup.oauth import CustomSecurityManager
+
 # ---------------------------------------------------------
 # Superset specific config
 # ---------------------------------------------------------
@@ -144,6 +147,8 @@ OAUTH_PROVIDERS = [
 }{% if loop.index != loop.length %},{% endif %}
 {% endfor %}
 ]
+
+CUSTOM_SECURITY_MANAGER = CustomSecurityManager
 {% endif %}
 
 # Uncomment to setup Full admin role name
