@@ -88,3 +88,10 @@ superset_img_upload_dir: "{{ superset_home }}/images/"
 # geospatial ones) by inputing javascript in controls. This exposes
 # an XSS security vulnerability
 superset_enable_javascript_controls: False
+
+# cors
+superset_enable_cors: False
+
+# superset patchup (ketchup)
+superset_use_ketchup: False
+superset_ketchup_version: "master"
