@@ -131,8 +131,8 @@ OAUTH_PROVIDERS = [
     'token_key': '{{ provider.token_key }}',
     {% endif %}
     'remote_app': {
-        'consumer_key': {{ provider.consumer_key }},
-        'consumer_secret': {{ provider.consumer_secret }},
+        'consumer_key': '{{ provider.consumer_key }}',
+        'consumer_secret': '{{ provider.consumer_secret }}',
         'base_url': '{{ provider.base_url }}',
         {% if provider.request_token_params is defined %}
         # if provided this should be a json object
@@ -140,6 +140,9 @@ OAUTH_PROVIDERS = [
         {% endif %}
         {% if provider.request_token_url is defined %}
         'request_token_url': '{{ provider.request_token_url }}',
+        {% endif %}
+        {% if provider.access_token_method is defined %}
+        'access_token_method': '{{ provider.access_token_method }}',
         {% endif %}
         'access_token_url': '{{ provider.access_token_url }}',
         'authorize_url': '{{ provider.authorize_url }}'
@@ -149,6 +152,11 @@ OAUTH_PROVIDERS = [
 ]
 
 CUSTOM_SECURITY_MANAGER = CustomSecurityManager
+
+# The default user self registration role
+AUTH_USER_REGISTRATION_ROLE = '{{ superset_auth_user_registration_role }}'
+# Will allow user self registration
+AUTH_USER_REGISTRATION = {{ superset_auth_user_registration }}
 {% endif %}
 
 # Uncomment to setup Full admin role name
