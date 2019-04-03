@@ -63,17 +63,21 @@
     - mysql
     - Flask-OAuthlib
 
-- postgresql_db:
-    login_host: "{{ superset_postgres_db_host }}"
-    login_user: "{{ superset_postgres_login_user }}"
-    login_password: "{{ superset_postgres_login_password }}"
+- name: Install superset patchup (ketchup)
+  pip:
+    name: '-e git+https://github.com/onaio/superset-patchup.git@{{ superset_ketchup_version }}#egg=superset_patchup'
+    state: latest
+    virtualenv: "{{ superset_virtualenv_path }}"
+    virtualenv_python: "{{ superset_python_executable }}"
+  when: superset_use_ketchup == True
+
+- name: Create postgres database
+  postgresql_db:
     name: "{{ superset_postgres_db_name }}"
   tags: [ database ]
 
-- postgresql_user:
-    login_host: "{{ superset_postgres_db_host }}"
-    login_user: "{{ superset_postgres_login_user }}"
-    login_password: "{{ superset_postgres_login_password }}"
+- name: Create postgres user
+  postgresql_user:
     db: "{{ superset_postgres_db_name }}"
     name: "{{ superset_postgres_db_user }}"
     password: "{{ superset_postgres_db_pass }}"
