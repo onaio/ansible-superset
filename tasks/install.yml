@@ -69,6 +69,9 @@
 - name: Create postgres database
   postgresql_db:
     name: "{{ superset_postgres_db_name }}"
+    login_host: "{{ superset_postgres_db_host }}"
+    login_user: "{{ superset_postgres_login_user }}"
+    login_password: "{{ superset_postgres_login_password }}"
   tags: [ database ]
 
 - name: Create postgres user
@@ -77,6 +80,9 @@
     name: "{{ superset_postgres_db_user }}"
     password: "{{ superset_postgres_db_pass }}"
     encrypted: true
+    login_host: "{{ superset_postgres_db_host }}"
+    login_user: "{{ superset_postgres_login_user }}"
+    login_password: "{{ superset_postgres_login_password }}"
   tags: [ database ]
 
 - name: Install superset
