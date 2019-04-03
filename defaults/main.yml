@@ -88,7 +88,7 @@ superset_upload_dir: "{{ superset_home }}/uploads/"
 superset_img_upload_dir: "{{ superset_home }}/images/"
 
 # config path
-superset_config_module_path: "{{ superset_python_path }}/site-packages/superset/config.py"
+superset_config_module_path: "{{ superset_python_path }}/superset_config.py"
 
 # Allow for javascript controls components
 # this enables programmers to customize certain charts (like the
