@@ -15,18 +15,10 @@
 
 - name: Ensure dependencies are installed
   apt:
-    pkg: "{{ item }}"
+    pkg: ["build-essential", "libssl-dev", "libffi-dev", "libsasl2-dev", "libldap2-dev", "libmysqlclient-dev", "python-pip"]
     state: latest
     update_cache: yes
     cache_valid_time: 600
-  with_items:
-    - build-essential
-    - libssl-dev
-    - libffi-dev
-    - libsasl2-dev
-    - libldap2-dev
-    - libmysqlclient-dev
-    - python-pip
 
 - name: Delete the Superset virtualenv directory
   file:
@@ -53,15 +45,10 @@
   become: true
   become_user: "{{ superset_user }}"
   pip:
-    name: "{{ item }}"
+    name: ["setuptools", "psycopg2-binary", "mysql", "Flask-OAuthlib"]
     state: latest
     virtualenv: "{{ superset_virtualenv_path }}"
     virtualenv_python: "{{ superset_python_executable }}"
-  with_items:
-    - setuptools
-    - psycopg2-binary
-    - mysql
-    - Flask-OAuthlib
 
 - name: Install superset patchup (ketchup)
   pip:
