@@ -40,9 +40,14 @@
     - restart superset
 
 - name: Ensure Superset is running
-  service: name=superset state=started enabled=yes
+  service:
+    name: superset
+    state: started
+    enabled: yes
 
 - name: Ensure Superset is restarted
-  service: name=superset state=restarted
+  service:
+    name: superset
+    state: restarted
   when: superset_force_restart
 
