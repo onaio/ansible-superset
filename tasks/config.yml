@@ -1,7 +1,7 @@
 - name: "Set superset config configured."
   template:
     src: "superset_python_path/superset_config.py.j2"
-    dest: "{{ superset_python_path }}/superset_config.py"
+    dest: "{{ superset_config_module_path }}"
     owner: "{{ superset_user }}"
     group: "{{ superset_group }}"
   notify:
