@@ -56,7 +56,15 @@
     state: latest
     virtualenv: "{{ superset_virtualenv_path }}"
     virtualenv_python: "{{ superset_python_executable }}"
-  when: superset_use_ketchup == True
+  when: superset_use_ketchup
+
+- name: Install flask_cors
+  pip:
+    name: flask_cors
+    state: latest
+    virtualenv: "{{ superset_virtualenv_path }}"
+    virtualenv_python: "{{ superset_python_executable }}"
+  when: superset_enable_cors
 
 - name: Create postgres database
   postgresql_db:
@@ -79,6 +87,13 @@
     version: "{{ superset_version }}"
     virtualenv: "{{ superset_virtualenv_path }}"
     virtualenv_python: "{{ superset_python_executable }}"
+
+- name: Install additional packages
+  pip:
+    name: "{{ superset_additional_pip_packages }}"
+    virtualenv: "{{ superset_virtualenv_path }}"
+    virtualenv_python: "{{ superset_python_executable }}"
+  when: superset_install_additional_pip_packages
 
 - name: Make sure the superset upload directories exists
   file:
