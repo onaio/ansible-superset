@@ -60,6 +60,10 @@ superset_force_restart: False
 superset_auth_type: AUTH_DB
 superset_oauth_providers:
 superset_service_env_vars:
+# allow user self registration
+superset_auth_user_registration: False
+# default role when user self registers
+superset_auth_user_registration_role: Public
 
 # white labelling
 superset_white_label: False
@@ -83,6 +87,9 @@ superset_postgres_login_password: ""
 superset_upload_dir: "{{ superset_home }}/uploads/"
 superset_img_upload_dir: "{{ superset_home }}/images/"
 
+# config path
+superset_config_module_path: "{{ superset_python_path }}/site-packages/superset/config.py"
+
 # Allow for javascript controls components
 # this enables programmers to customize certain charts (like the
 # geospatial ones) by inputing javascript in controls. This exposes
@@ -91,6 +98,10 @@ superset_enable_javascript_controls: False
 
 # cors
 superset_enable_cors: False
+
+# additional superset packages
+superset_additional_pip_packages: ["pandas==0.23.4", "sqlalchemy==1.2.18"]
+superset_install_additional_pip_packages: False
 
 # superset patchup (ketchup)
 superset_use_ketchup: False
