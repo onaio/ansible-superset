@@ -107,6 +107,9 @@ superset_enable_cors: False
 #   }
 superset_http_headers:
 
+# Extract and use X-Forwarded-For/X-Forwarded-Proto headers?
+superset_enable_proxy_fix: False
+
 # additional python packages installed after Superset is installed
 superset_additional_pip_packages: []
 superset_install_additional_pip_packages: False
