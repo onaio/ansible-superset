@@ -1,16 +1,12 @@
 ---
 - name: Ensure dependencies are installed
   apt:
-    pkg: "{{ item }}"
+    pkg: ["python-pip", "python-dev"]
     state: latest
     update_cache: yes
-  with_items:
-    - python-pip
-    - python-dev
 
 - name: Install virtualenv via pip
   pip:
-    name: "{{ item }}"
+    name: "virtualenv"
     executable: pip
-  with_items:
-    - virtualenv
+
