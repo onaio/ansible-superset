@@ -44,6 +44,7 @@
     name: superset
     state: started
     enabled: yes
+  when: superset_check_if_running
 
 - name: Ensure Superset is restarted
   service:
