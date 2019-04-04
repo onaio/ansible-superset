@@ -99,8 +99,8 @@ superset_enable_javascript_controls: False
 # cors
 superset_enable_cors: False
 
-# additional superset packages
-superset_additional_pip_packages: ["pandas==0.23.4", "sqlalchemy==1.2.18"]
+# additional python packages installed after Superset is installed
+superset_additional_pip_packages: []
 superset_install_additional_pip_packages: False
 
 # superset patchup (ketchup)
