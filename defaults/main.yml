@@ -99,6 +99,14 @@ superset_enable_javascript_controls: False
 # cors
 superset_enable_cors: False
 
+# HTTP headers
+# needs to be set as a Python dictionary, like so:
+# superset_http_headers: |
+#   {
+#     'X-Frame-Options': 'SAMEORIGIN'
+#   }
+superset_http_headers:
+
 # additional python packages installed after Superset is installed
 superset_additional_pip_packages: []
 superset_install_additional_pip_packages: False

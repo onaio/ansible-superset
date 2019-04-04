@@ -118,6 +118,14 @@ if ENABLE_CORS:
 # an XSS security vulnerability
 ENABLE_JAVASCRIPT_CONTROLS = {{ superset_enable_javascript_controls }}
 
+{% if superset_http_headers %}
+# static http headers to be served by your Superset server.
+# The following example prevents iFrame from other domains
+# and "clickjacking" as a result
+# HTTP_HEADERS = {'X-Frame-Options': 'SAMEORIGIN'}
+HTTP_HEADERS = {{ superset_http_headers }}
+{% endif %}
+
 {% if superset_allowed_extensions is defined and superset_allowed_extensions|length > 0 %}
 # Allowed format types for upload on Database view
 ALLOWED_EXTENSIONS = set(['{{ superset_allowed_extensions|join("', '") }}'])
