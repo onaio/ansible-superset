@@ -79,6 +79,8 @@ superset_service_env_vars:
   OAUTH2_CLIENT_SECRET: THE_SECRET
 ```
 
+> Note that some oAuth providers such as `onadata` require that the `request_token_url`, `access_token_url`, and `authorize_url` all end with a `/` character.
+
 ## White Labelling
 
 This role allows you to do some white-labelling of superset by allowing you to change the superset app name and 'branding images', which are:
@@ -140,6 +142,12 @@ The upload directories for images and data files (to be used by data import exte
 superset_img_upload_dir: "{{ superset_home }}/images/"
 superset_upload_dir: "{{ superset_home }}/uploads/"
 ```
+
+## Testing
+
+This project comes with a Vagrantfile, this is a fast and easy way to test changes to the role, fire it up with `vagrant up`.
+
+See [vagrant docs](https://docs.vagrantup.com/v2/) for getting setup with vagrant
 
 ## License
 
