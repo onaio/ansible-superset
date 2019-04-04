@@ -34,11 +34,6 @@
     group: "{{ superset_group }}"
     recurse: yes
 
-# - name: Install global dependent pip libraries
-#   pip:
-#     name: ["psycopg2-binary"]
-#     state: latest
-
 - name: Install Superset dependent pip libraries
   become: true
   become_user: "{{ superset_user }}"
@@ -49,6 +44,8 @@
     virtualenv_python: "{{ superset_python_executable }}"
 
 - name: Install superset patchup (ketchup)
+  become: true
+  become_user: "{{ superset_user }}"
   pip:
     name: 'git+{{ superset_ketchup_git_url }}@{{ superset_ketchup_version }}'
     state: latest
@@ -57,6 +54,8 @@
   when: superset_use_ketchup
 
 - name: Install flask_cors
+  become: true
+  become_user: "{{ superset_user }}"
   pip:
     name: flask_cors
     state: latest
@@ -93,6 +92,8 @@
     virtualenv_python: "{{ superset_python_executable }}"
 
 - name: Install additional packages
+  become: true
+  become_user: "{{ superset_user }}"
   pip:
     name: "{{ superset_additional_pip_packages }}"
     virtualenv: "{{ superset_virtualenv_path }}"
