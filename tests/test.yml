@@ -62,6 +62,9 @@
       {
         'X-Frame-Options': 'SAMEORIGIN'
       }
+    superset_service_env_vars:
+      LC_ALL: en_US.UTF-8
+      LANG: en_US.UTF-8
   gather_facts: True
   become: True
   roles:
