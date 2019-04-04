@@ -14,3 +14,5 @@
   pip:
     name: virtualenv
     executable: pip3
+    state: latest
+
