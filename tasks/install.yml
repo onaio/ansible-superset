@@ -15,7 +15,7 @@
 
 - name: Ensure dependencies are installed
   apt:
-    pkg: ["build-essential", "libssl-dev", "libffi-dev", "libsasl2-dev", "libldap2-dev", "libmysqlclient-dev", "python-pip"]
+    pkg: ["build-essential", "libssl-dev", "libffi-dev", "libsasl2-dev", "libldap2-dev", "libmysqlclient-dev", "python-pip", "python-psycopg2", "libpq-dev"]
     state: latest
     update_cache: yes
     cache_valid_time: 600
@@ -34,12 +34,10 @@
     group: "{{ superset_group }}"
     recurse: yes
 
-- name: Install global dependent pip libraries
-  pip:
-    name: "{{ item }}"
-    state: latest
-  with_items:
-    - psycopg2-binary
+# - name: Install global dependent pip libraries
+#   pip:
+#     name: ["psycopg2-binary"]
+#     state: latest
 
 - name: Install Superset dependent pip libraries
   become: true
@@ -76,10 +74,10 @@
 
 - name: Create postgres user
   postgresql_user:
-    db: "{{ superset_postgres_db_name }}"
     name: "{{ superset_postgres_db_user }}"
     password: "{{ superset_postgres_db_pass }}"
     encrypted: true
+    db: "{{ superset_postgres_db_name }}"
     login_host: "{{ superset_postgres_db_host }}"
     login_user: "{{ superset_postgres_login_user }}"
     login_password: "{{ superset_postgres_login_password }}"
