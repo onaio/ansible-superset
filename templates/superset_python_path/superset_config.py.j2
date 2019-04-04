@@ -6,7 +6,7 @@ import sys
 
 from celery.schedules import crontab
 from dateutil import tz
-from flask_appbuilder.security.manager import AUTH_DB
+from flask_appbuilder.security.manager import AUTH_DB, AUTH_OAUTH
 
 from superset.stats_logger import DummyStatsLogger
 
@@ -43,8 +43,10 @@ APP_NAME = "{{ superset_app_name }}"
 # AUTH_OID : Is for OpenID
 # AUTH_DB : Is for database (username/password()
 # AUTH_LDAP : Is for LDAP
+# AUTH_OAUTH : Is for oAuth
 # AUTH_REMOTE_USER : Is for using REMOTE_USER from web server
 AUTH_TYPE = {{ superset_auth_type }}
+
 {% if superset_oauth_providers %}
 OAUTH_PROVIDERS = [
 {% for provider in superset_oauth_providers %}
@@ -55,8 +57,8 @@ OAUTH_PROVIDERS = [
     'token_key': '{{ provider.token_key }}',
     {% endif %}
     'remote_app': {
-        'consumer_key': {{ provider.consumer_key }},
-        'consumer_secret': {{ provider.consumer_secret }},
+        'consumer_key': '{{ provider.consumer_key }}',
+        'consumer_secret': '{{ provider.consumer_secret }}',
         'base_url': '{{ provider.base_url }}',
         {% if provider.request_token_params is defined %}
         # if provided this should be a json object
@@ -79,7 +81,7 @@ OAUTH_PROVIDERS = [
 CUSTOM_SECURITY_MANAGER = CustomSecurityManager
 {% endif %}
 
-{% endif %}
+{% endif %}  # end superset_oauth_providers if block
 
 # The allowed translation for you app
 LANGUAGES = {
@@ -92,7 +94,6 @@ LANGUAGES = {
 AUTH_USER_REGISTRATION_ROLE = '{{ superset_auth_user_registration_role }}'
 # Will allow user self registration
 AUTH_USER_REGISTRATION = {{ superset_auth_user_registration }}
-{% endif %}
 
 # ---------------------------------------------------
 # Image and file configuration
