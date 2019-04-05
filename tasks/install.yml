@@ -15,18 +15,10 @@
 
 - name: Ensure dependencies are installed
   apt:
-    pkg: "{{ item }}"
+    pkg: ["build-essential", "libssl-dev", "libffi-dev", "libsasl2-dev", "libldap2-dev", "libmysqlclient-dev", "python-pip", "python-psycopg2", "libpq-dev"]
     state: latest
     update_cache: yes
     cache_valid_time: 600
-  with_items:
-    - build-essential
-    - libssl-dev
-    - libffi-dev
-    - libsasl2-dev
-    - libldap2-dev
-    - libmysqlclient-dev
-    - python-pip
 
 - name: Delete the Superset virtualenv directory
   file:
@@ -42,42 +34,52 @@
     group: "{{ superset_group }}"
     recurse: yes
 
-- name: Install global dependent pip libraries
-  pip:
-    name: "{{ item }}"
-    state: latest
-  with_items:
-    - psycopg2-binary
-
 - name: Install Superset dependent pip libraries
   become: true
   become_user: "{{ superset_user }}"
   pip:
-    name: "{{ item }}"
+    name: ["setuptools", "psycopg2-binary", "mysql", "Flask-OAuthlib"]
     state: latest
     virtualenv: "{{ superset_virtualenv_path }}"
     virtualenv_python: "{{ superset_python_executable }}"
-  with_items:
-    - setuptools
-    - psycopg2-binary
-    - mysql
-    - Flask-OAuthlib
 
-- postgresql_db:
+- name: Install superset patchup (ketchup)
+  become: true
+  become_user: "{{ superset_user }}"
+  pip:
+    name: 'git+{{ superset_ketchup_git_url }}@{{ superset_ketchup_version }}'
+    state: latest
+    virtualenv: "{{ superset_virtualenv_path }}"
+    virtualenv_python: "{{ superset_python_executable }}"
+  when: superset_use_ketchup
+
+- name: Install flask_cors
+  become: true
+  become_user: "{{ superset_user }}"
+  pip:
+    name: flask_cors
+    state: latest
+    virtualenv: "{{ superset_virtualenv_path }}"
+    virtualenv_python: "{{ superset_python_executable }}"
+  when: superset_enable_cors
+
+- name: Create postgres database
+  postgresql_db:
+    name: "{{ superset_postgres_db_name }}"
     login_host: "{{ superset_postgres_db_host }}"
     login_user: "{{ superset_postgres_login_user }}"
     login_password: "{{ superset_postgres_login_password }}"
-    name: "{{ superset_postgres_db_name }}"
   tags: [ database ]
 
-- postgresql_user:
-    login_host: "{{ superset_postgres_db_host }}"
-    login_user: "{{ superset_postgres_login_user }}"
-    login_password: "{{ superset_postgres_login_password }}"
-    db: "{{ superset_postgres_db_name }}"
+- name: Create postgres user
+  postgresql_user:
     name: "{{ superset_postgres_db_user }}"
     password: "{{ superset_postgres_db_pass }}"
     encrypted: true
+    db: "{{ superset_postgres_db_name }}"
+    login_host: "{{ superset_postgres_db_host }}"
+    login_user: "{{ superset_postgres_login_user }}"
+    login_password: "{{ superset_postgres_login_password }}"
   tags: [ database ]
 
 - name: Install superset
@@ -88,6 +90,15 @@
     version: "{{ superset_version }}"
     virtualenv: "{{ superset_virtualenv_path }}"
     virtualenv_python: "{{ superset_python_executable }}"
+
+- name: Install additional packages
+  become: true
+  become_user: "{{ superset_user }}"
+  pip:
+    name: "{{ superset_additional_pip_packages }}"
+    virtualenv: "{{ superset_virtualenv_path }}"
+    virtualenv_python: "{{ superset_python_executable }}"
+  when: superset_install_additional_pip_packages
 
 - name: Make sure the superset upload directories exists
   file:

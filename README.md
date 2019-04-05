@@ -66,6 +66,8 @@ superset_oauth_providers:
     request_token_url:
     access_token_url:
     authorize_url:
+    access_token_method:
+    custom_redirect_url:
 ```
 
 where `request_token_params`, if provided is a JSON object. All values except `request_token_params`, `consumer_key`,
@@ -78,6 +80,8 @@ You can set your environment variables for the service using:
 superset_service_env_vars:
   OAUTH2_CLIENT_SECRET: THE_SECRET
 ```
+
+> Note that some oAuth providers such as `onadata` require that the `request_token_url`, `access_token_url`, and `authorize_url` all end with a `/` character.
 
 ## White Labelling
 
@@ -140,6 +144,23 @@ The upload directories for images and data files (to be used by data import exte
 superset_img_upload_dir: "{{ superset_home }}/images/"
 superset_upload_dir: "{{ superset_home }}/uploads/"
 ```
+
+### Superset-patchup (ketchup)
+
+This role can be set to optionally include Superset-patchup, by doing this:
+
+```yml
+superset_use_ketchup: True
+superset_ketchup_version: "v0.1.0"
+```
+
+Superset-patchup enhances Superset by adding more festures.  You can read more about this project here: [Superset-patchup documentation](https://github.com/onaio/superset-patchup)
+
+## Testing
+
+This project comes with a Vagrantfile, this is a fast and easy way to test changes to the role, fire it up with `vagrant up`.
+
+See [vagrant docs](https://docs.vagrantup.com/v2/) for getting setup with vagrant
 
 ## License
 

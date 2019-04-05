@@ -1,7 +1,7 @@
 - name: "Set superset config configured."
   template:
     src: "superset_python_path/superset_config.py.j2"
-    dest: "{{ superset_python_path }}/superset_config.py"
+    dest: "{{ superset_config_module_path }}"
     owner: "{{ superset_user }}"
     group: "{{ superset_group }}"
   notify:
@@ -40,9 +40,15 @@
     - restart superset
 
 - name: Ensure Superset is running
-  service: name=superset state=started enabled=yes
+  service:
+    name: superset
+    state: started
+    enabled: yes
+  when: superset_check_if_running
 
 - name: Ensure Superset is restarted
-  service: name=superset state=restarted
+  service:
+    name: superset
+    state: restarted
   when: superset_force_restart
 

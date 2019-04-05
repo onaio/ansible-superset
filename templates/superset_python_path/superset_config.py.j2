@@ -6,9 +6,16 @@ import sys
 
 from celery.schedules import crontab
 from dateutil import tz
-from flask_appbuilder.security.manager import AUTH_DB
+from flask_appbuilder.security.manager import AUTH_DB, AUTH_OAUTH
 
 from superset.stats_logger import DummyStatsLogger
+
+{% if superset_use_ketchup %}
+# patchup
+from superset_patchup.oauth import CustomSecurityManager
+
+CUSTOM_SECURITY_MANAGER = CustomSecurityManager
+{% endif %}
 
 # ---------------------------------------------------------
 # Superset specific config
@@ -38,8 +45,10 @@ APP_NAME = "{{ superset_app_name }}"
 # AUTH_OID : Is for OpenID
 # AUTH_DB : Is for database (username/password()
 # AUTH_LDAP : Is for LDAP
+# AUTH_OAUTH : Is for oAuth
 # AUTH_REMOTE_USER : Is for using REMOTE_USER from web server
 AUTH_TYPE = {{ superset_auth_type }}
+
 {% if superset_oauth_providers %}
 OAUTH_PROVIDERS = [
 {% for provider in superset_oauth_providers %}
@@ -60,13 +69,20 @@ OAUTH_PROVIDERS = [
         {% if provider.request_token_url is defined %}
         'request_token_url': '{{ provider.request_token_url }}',
         {% endif %}
+        {% if provider.access_token_method is defined %}
+        'access_token_method': '{{ provider.access_token_method }}',
+        {% endif %}
+        {% if provider.custom_redirect_url is defined %}
+        'custom_redirect_url': '{{ provider.custom_redirect_url }}',
+        {% endif %}
         'access_token_url': '{{ provider.access_token_url }}',
         'authorize_url': '{{ provider.authorize_url }}'
     }
 }{% if loop.index != loop.length %},{% endif %}
 {% endfor %}
 ]
-{% endif %}
+
+{% endif %}  # end superset_oauth_providers if block
 
 # The allowed translation for you app
 LANGUAGES = {
@@ -74,6 +90,11 @@ LANGUAGES = {
     '{{ language.key }}': {'flag': '{{ language.flag }}', 'name': '{{ language.name }}'},
 {% endfor %}
 }
+
+# The default user self registration role
+AUTH_USER_REGISTRATION_ROLE = '{{ superset_auth_user_registration_role }}'
+# Will allow user self registration
+AUTH_USER_REGISTRATION = {{ superset_auth_user_registration }}
 
 # ---------------------------------------------------
 # Image and file configuration
@@ -86,6 +107,32 @@ IMG_UPLOAD_FOLDER = "{{ superset_img_upload_dir }}"
 
 # Set this API key to enable Mapbox visualizations
 MAPBOX_API_KEY = "{{ superset_mapbox_api_key }}"
+
+# CORS Options
+ENABLE_CORS = {{ superset_enable_cors }}
+if ENABLE_CORS:
+    CORS_OPTIONS = {}
+
+# Allow for javascript controls components
+# this enables programmers to customize certain charts (like the
+# geospatial ones) by inputing javascript in controls. This exposes
+# an XSS security vulnerability
+ENABLE_JAVASCRIPT_CONTROLS = {{ superset_enable_javascript_controls }}
+
+{% if superset_http_headers %}
+# static http headers to be served by your Superset server.
+# The following example prevents iFrame from other domains
+# and "clickjacking" as a result
+# HTTP_HEADERS = {'X-Frame-Options': 'SAMEORIGIN'}
+HTTP_HEADERS = {{ superset_http_headers }}
+{% endif %}
+
+# Extract and use X-Forwarded-For/X-Forwarded-Proto headers?
+ENABLE_PROXY_FIX = {{ superset_enable_proxy_fix }}
+
+# Add custom roles
+ADD_CUSTOM_ROLES = {{ superset_add_custom_roles }}
+CUSTOM_ROLES = {{ superset_custom_roles }}
 
 {% if superset_allowed_extensions is defined and superset_allowed_extensions|length > 0 %}
 # Allowed format types for upload on Database view

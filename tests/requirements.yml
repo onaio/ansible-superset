@@ -1,0 +1,4 @@
+---
+- src: https://github.com/ANXS/postgresql
+  name: ANXS.postgresql
+  version: f326a92b02e63224a65076565cc9873768faee25
