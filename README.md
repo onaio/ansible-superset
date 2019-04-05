@@ -66,6 +66,8 @@ superset_oauth_providers:
     request_token_url:
     access_token_url:
     authorize_url:
+    access_token_method:
+    custom_redirect_url:
 ```
 
 where `request_token_params`, if provided is a JSON object. All values except `request_token_params`, `consumer_key`,

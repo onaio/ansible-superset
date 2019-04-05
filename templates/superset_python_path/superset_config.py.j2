@@ -70,6 +70,9 @@ OAUTH_PROVIDERS = [
         {% if provider.access_token_method is defined %}
         'access_token_method': '{{ provider.access_token_method }}',
         {% endif %}
+        {% if provider.custom_redirect_url is defined %}
+        'custom_redirect_url': '{{ provider.custom_redirect_url }}',
+        {% endif %}
         'access_token_url': '{{ provider.access_token_url }}',
         'authorize_url': '{{ provider.authorize_url }}'
     }
