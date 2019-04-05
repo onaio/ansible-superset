@@ -13,6 +13,8 @@ from superset.stats_logger import DummyStatsLogger
 {% if superset_use_ketchup %}
 # patchup
 from superset_patchup.oauth import CustomSecurityManager
+
+CUSTOM_SECURITY_MANAGER = CustomSecurityManager
 {% endif %}
 
 # ---------------------------------------------------------
@@ -79,10 +81,6 @@ OAUTH_PROVIDERS = [
 }{% if loop.index != loop.length %},{% endif %}
 {% endfor %}
 ]
-
-{% if superset_use_ketchup %}
-CUSTOM_SECURITY_MANAGER = CustomSecurityManager
-{% endif %}
 
 {% endif %}  # end superset_oauth_providers if block
 
