@@ -121,3 +121,14 @@ superset_install_additional_pip_packages: False
 superset_use_ketchup: False
 superset_ketchup_git_url: "https://github.com/onaio/superset-patchup.git"
 superset_ketchup_version: "master"
+
+# Add custom superset roles
+superset_add_custom_roles: False
+# This needs to be a Python dictionary defined like so:
+# superset_custom_roles: |
+#   {
+#     'Custom_Role_1': {'all_datasource_access'},
+#     'Custom_Role_2': {'all_datasource_access', 'SQL Lab'},
+#     'ROLE_NAME': {'PERMISSION1', 'PERMISSION2'}
+#   }
+superset_custom_roles:
