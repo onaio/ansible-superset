@@ -9,6 +9,7 @@ Environment="{{ key }}={{ value }}"
 {% endfor %}
 {% endif %}
 Environment="PATH={{ superset_virtualenv_path }}/bin:$PATH"
+Environment="PYTHONPATH={{ superset_python_path }}"
 User={{ superset_user }}
 Type=simple
 ExecStart={{ superset_virtualenv_path }}/bin/superset runserver -p {{ superset_port }} -w {{ superset_workers }}
