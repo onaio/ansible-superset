@@ -1,5 +1,5 @@
 # the pip version of superset to deploy
-superset_version: 0.24
+superset_version: 0.28.1
 
 # the python executable to install superset using
 superset_python_executable: "python3.6"
