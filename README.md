@@ -145,6 +145,17 @@ superset_img_upload_dir: "{{ superset_home }}/images/"
 superset_upload_dir: "{{ superset_home }}/uploads/"
 ```
 
+### Superset-patchup (ketchup)
+
+This role can be set to optionally include Superset-patchup, by doing this:
+
+```yml
+superset_use_ketchup: True
+superset_ketchup_version: "v0.1.0"
+```
+
+Superset-patchup enhances Superset by adding more festures.  You can read more about this project here: [Superset-patchup documentation](https://github.com/onaio/superset-patchup)
+
 ## Testing
 
 This project comes with a Vagrantfile, this is a fast and easy way to test changes to the role, fire it up with `vagrant up`.
