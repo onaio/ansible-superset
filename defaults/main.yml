@@ -101,6 +101,16 @@ superset_enable_javascript_controls: False
 
 # cors
 superset_enable_cors: False
+# CORS options
+# needs to be set as a Python dictionary, like so:
+# superset_cors_options: |
+#   {
+#      "origins": "*",
+#      "methods": "GET",
+#      "allow_headers": "Custom-Api-Token",
+#      "supports_credentials": True
+#   }
+superset_cors_options:
 
 # HTTP headers
 # needs to be set as a Python dictionary, like so:
