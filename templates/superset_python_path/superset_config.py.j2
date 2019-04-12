@@ -110,8 +110,9 @@ MAPBOX_API_KEY = "{{ superset_mapbox_api_key }}"
 
 # CORS Options
 ENABLE_CORS = {{ superset_enable_cors }}
-if ENABLE_CORS:
-    CORS_OPTIONS = {}
+{% if superset_cors_options %}
+CORS_OPTIONS = {{ superset_cors_options }}
+{% endif %}
 
 # Allow for javascript controls components
 # this enables programmers to customize certain charts (like the
