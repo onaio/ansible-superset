@@ -82,7 +82,7 @@
     login_password: "{{ superset_postgres_login_password }}"
   tags: [ database ]
 
-- name: Install superset
+- name: Install superset from pypi
   become: true
   become_user: "{{ superset_user }}"
   pip:
@@ -90,6 +90,17 @@
     version: "{{ superset_version }}"
     virtualenv: "{{ superset_virtualenv_path }}"
     virtualenv_python: "{{ superset_python_executable }}"
+  when: superset_install_from_git == False
+
+- name: Install superset from git
+  become: true
+  become_user: "{{ superset_user }}"
+  pip:
+    name: 'git+{{ superset_git_url }}@{{ superset_version }}'
+    state: latest
+    virtualenv: "{{ superset_virtualenv_path }}"
+    virtualenv_python: "{{ superset_python_executable }}"
+  when: superset_install_from_git
 
 - name: Install additional packages
   become: true

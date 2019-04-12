@@ -1,6 +1,10 @@
 # the pip version of superset to deploy
 superset_version: 0.28.1
 
+# installation options
+superset_install_from_git: false
+superset_git_url: https://github.com/apache/incubator-superset.git
+
 # the python executable to install superset using
 superset_python_executable: "python3.6"
 
