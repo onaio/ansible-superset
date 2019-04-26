@@ -50,6 +50,7 @@
     superset_load_examples: False
     superset_auth_user_registration: True
     superset_auth_user_registration_role: Admin
+    public_role_like_gamma: True
     superset_white_label: True
     superset_white_label_use_base64: True
     superset_white_label_use_filepaths: False

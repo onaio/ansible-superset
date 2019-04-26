@@ -67,6 +67,8 @@ superset_service_env_vars:
 superset_auth_user_registration: False
 # default role when user self registers
 superset_auth_user_registration_role: Public
+# set public role like gamma
+public_role_like_gamma: False
 
 # white labelling
 superset_white_label: False
