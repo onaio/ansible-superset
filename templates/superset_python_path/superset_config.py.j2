@@ -137,6 +137,11 @@ ADD_CUSTOM_ROLES = {{ superset_add_custom_roles }}
 CUSTOM_ROLES = {{ superset_custom_roles }}
 {% endif %}
 
+# PATCHUP_EMAIL_BASE
+{% if superset_patchup_email_base %}
+PATCHUP_EMAIL_BASE = {{ superset_patchup_email_base }}
+{% endif %}
+
 {% if superset_allowed_extensions is defined and superset_allowed_extensions|length > 0 %}
 # Allowed format types for upload on Database view
 ALLOWED_EXTENSIONS = set(['{{ superset_allowed_extensions|join("', '") }}'])
