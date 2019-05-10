@@ -146,3 +146,11 @@ superset_add_custom_roles: False
 #     'ROLE_NAME': {'PERMISSION1', 'PERMISSION2'}
 #   }
 superset_custom_roles:
+
+# PATCHUP_EMAIL_BASE
+# this is used for OAuth providers whose users do not have an email address
+# superset requires an email address and so we need to provide it
+# the email base should be a string e.g. superset@example.com
+# we then use it to construct email addresses for the user logging in
+# that look like superset+username@example.com (if the base was as set above)
+superset_patchup_email_base:
