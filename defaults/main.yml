@@ -89,6 +89,10 @@ superset_favicon_path:
 superset_logo_path:
 superset_2x_logo_path:
 superset_app_name: "Superset"
+# Set to true if you'd want the role to login to PostgreSQL using the provided
+# credentials instead as using the default authentication mechanism (sudo'ing to
+# the prostgres user)
+superset_postgres_login: true
 superset_postgres_login_user: "postgres"
 superset_postgres_login_password: ""
 
