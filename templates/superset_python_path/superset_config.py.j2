@@ -132,7 +132,9 @@ ENABLE_PROXY_FIX = {{ superset_enable_proxy_fix }}
 
 # Add custom roles
 ADD_CUSTOM_ROLES = {{ superset_add_custom_roles }}
+{% if superset_add_custom_roles %}
 CUSTOM_ROLES = {{ superset_custom_roles }}
+{% endif %}
 
 {% if superset_allowed_extensions is defined and superset_allowed_extensions|length > 0 %}
 # Allowed format types for upload on Database view
