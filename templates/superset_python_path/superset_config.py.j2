@@ -1,15 +1,4 @@
-from collections import OrderedDict
-import imp
-import json
-import os
-import sys
-
-from celery.schedules import crontab
-from dateutil import tz
 from flask_appbuilder.security.manager import AUTH_DB, AUTH_OAUTH
-
-from superset.stats_logger import DummyStatsLogger
-
 {% if superset_use_ketchup %}
 # patchup
 from superset_patchup.oauth import CustomSecurityManager
