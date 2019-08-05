@@ -56,7 +56,6 @@
     superset_white_label_use_filepaths: False
     superset_additional_pip_packages: ["pandas==0.23.4", "sqlalchemy==1.2.18", "ipdb"]
     superset_install_additional_pip_packages: True
-    superset_flask_app_mutator: True
     superset_add_custom_roles: True
     superset_custom_roles: |
       {
