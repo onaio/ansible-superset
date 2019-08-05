@@ -137,3 +137,11 @@ PATCHUP_EMAIL_BASE = {{ superset_patchup_email_base }}
 # Allowed format types for upload on Database view
 ALLOWED_EXTENSIONS = set(['{{ superset_allowed_extensions|join("', '") }}'])
 {% endif %}
+
+{% if superset_flask_app_mutator%}
+# Allow adding custom views from superset_patchup
+def import_custom_view(myapp):
+    from superset_patchup import views
+
+FLASK_APP_MUTATOR = import_custom_view
+{% endif %}
