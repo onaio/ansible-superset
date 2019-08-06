@@ -2,8 +2,10 @@ from flask_appbuilder.security.manager import AUTH_DB, AUTH_OAUTH
 {% if superset_use_ketchup %}
 # patchup
 from superset_patchup.oauth import CustomSecurityManager
+from superset_patchup import patch_app
 
 CUSTOM_SECURITY_MANAGER = CustomSecurityManager
+FLASK_APP_MUTATOR = patch_app
 {% endif %}
 
 # ---------------------------------------------------------
