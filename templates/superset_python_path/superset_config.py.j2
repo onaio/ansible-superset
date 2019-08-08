@@ -1,12 +1,4 @@
 from flask_appbuilder.security.manager import AUTH_DB, AUTH_OAUTH
-{% if superset_use_ketchup %}
-# patchup
-from superset_patchup.oauth import CustomSecurityManager
-from superset_patchup import patch_app
-
-CUSTOM_SECURITY_MANAGER = CustomSecurityManager
-FLASK_APP_MUTATOR = patch_app
-{% endif %}
 
 # ---------------------------------------------------------
 # Superset specific config
@@ -140,10 +132,9 @@ PATCHUP_EMAIL_BASE = {{ superset_patchup_email_base }}
 ALLOWED_EXTENSIONS = set(['{{ superset_allowed_extensions|join("', '") }}'])
 {% endif %}
 
-{% if superset_flask_app_mutator%}
-# Allow adding custom views from superset_patchup
-def import_custom_view(myapp):
-    from superset_patchup import views
+{% if superset_use_ketchup %}
+import sys
+import superset_patchup
 
-FLASK_APP_MUTATOR = import_custom_view
+superset_patchup.add_ketchup(sys.modules[__name__])
 {% endif %}
