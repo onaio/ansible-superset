@@ -152,9 +152,11 @@ This role can be set to optionally include Superset-patchup, by doing this:
 ```yml
 superset_use_ketchup: True
 superset_ketchup_version: "v0.1.0"
-```
+```  
 
-Superset-patchup enhances Superset by adding more festures.  You can read more about this project here: [Superset-patchup documentation](https://github.com/onaio/superset-patchup)
+Superset-patchup enhances Superset by adding more features.  You can read more about this project here: [Superset-patchup documentation](https://github.com/onaio/superset-patchup)
+
+> Note that the versions of ansible-superset bindings including this warning are only compatible with superset-patchup v0.1.6 and above (due to changed initialization logic).
 
 ## Testing
 

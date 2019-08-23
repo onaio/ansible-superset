@@ -160,6 +160,3 @@ superset_custom_roles:
 # we then use it to construct email addresses for the user logging in
 # that look like superset+username@example.com (if the base was as set above)
 superset_patchup_email_base:
-
-# Add Flask App Mutator
-superset_flask_app_mutator: False
