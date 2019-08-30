@@ -138,3 +138,12 @@ import superset_patchup
 
 superset_patchup.add_ketchup(sys.modules[__name__])
 {% endif %}
+
+# Superset caching config
+{% if superset_enable_cache and superset_cache_config is iterable %}
+CACHE_CONFIG = {
+{% for confKey,confVal in superset_cache_config.items() %}
+    '{{ confKey }}': {{ confVal }}
+{% endfor %}
+}
+{% endif %}
