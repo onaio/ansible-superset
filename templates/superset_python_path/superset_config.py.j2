@@ -147,3 +147,8 @@ CACHE_CONFIG = {
 {% endfor %}
 }
 {% endif %}
+
+# Superset celery task cache warmup configs
+{% if superset_enable_celerybeat and superset_celerybeat_schedule %}
+CELERYBEAT_SCHEDULE = {{ superset_celerybeat_schedule }}
+{% endif %}

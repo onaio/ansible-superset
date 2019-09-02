@@ -164,7 +164,23 @@ superset_patchup_email_base:
 # Configure superset caching
 superset_enable_cache: False
 superset_cache_config:
-   CACHE_TYPE: 'redis'
-   CACHE_DEFAULT_TIMEOUT: 60 * 60 * 24, # 1 day default (in secs)
-   CACHE_KEY_PREFIX: 'superset_results'
-   CACHE_REDIS_URL: 'redis://redis:6379/0'
+  CACHE_TYPE: 'redis'
+  CACHE_DEFAULT_TIMEOUT: 60 * 60 * 24 # 1 day default (in secs)
+  CACHE_KEY_PREFIX: 'superset_results'
+  CACHE_REDIS_URL: 'redis://localhost:6379/0'
+
+# Configure celery task cache warmup
+# The configs is a dictionary like so:
+# superset_celerybeat_schedule = {
+#     'cache-warmup-hourly': {
+#         'task': 'cache-warmup',
+#         'schedule': crontab(minute=0, hour='*'),  # hourly
+#         'kwargs': {
+#             'strategy_name': 'top_n_dashboards',
+#             'top_n': 5,
+#             'since': '7 days ago',
+#         },
+#     },
+# }
+superset_enable_celerybeat: False
+superset_celerybeat_schedule:
