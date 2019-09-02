@@ -140,12 +140,8 @@ superset_patchup.add_ketchup(sys.modules[__name__])
 {% endif %}
 
 # Superset caching config
-{% if superset_enable_cache and superset_cache_config is iterable %}
-CACHE_CONFIG = {
-{% for confKey,confVal in superset_cache_config.items() %}
-    '{{ confKey }}': {{ confVal }}
-{% endfor %}
-}
+{% if superset_enable_cache and superset_cache_config %}
+CACHE_CONFIG = {{ superset_cache_config }}
 {% endif %}
 
 # Superset celery task cache warmup configs
