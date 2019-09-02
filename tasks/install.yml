@@ -38,7 +38,7 @@
   become: true
   become_user: "{{ superset_user }}"
   pip:
-    name: ["setuptools", "psycopg2-binary", "mysql", "Flask-OAuthlib"]
+    name: ["setuptools", "psycopg2-binary", "mysql", "Flask-OAuthlib", "crontab"]
     state: latest
     virtualenv: "{{ superset_virtualenv_path }}"
     virtualenv_python: "{{ superset_python_executable }}"
