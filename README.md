@@ -158,6 +158,35 @@ Superset-patchup enhances Superset by adding more features.  You can read more a
 
 > Note that the versions of ansible-superset bindings including this warning are only compatible with superset-patchup v0.1.6 and above (due to changed initialization logic).
 
+###  Superset caching
+To enable [caching](https://superset.incubator.apache.org/installation.html#caching) in superset, provide `CACHE_CONFIG` that complies with the Flask-Cache specifications.
+
+```yml
+superset_enable_cache: False
+superset_cache_config:
+  CACHE_TYPE: 'redis'
+  CACHE_DEFAULT_TIMEOUT: 60 * 60 * 24 # 1 day default (in secs)
+  CACHE_KEY_PREFIX: 'superset_results'
+  CACHE_REDIS_URL: 'redis://localhost:6379/0'
+```
+
+To allow periodical warmup of the cache, configure Superset's celery task with the preferred warmup strategy. Enable celerybeat and configure it's dictionary like so:
+
+```yml
+superset_enable_celerybeat: False
+superset_celerybeat_schedule: {
+    'cache-warmup-hourly': {
+        'task': 'cache-warmup',
+        'schedule': crontab(minute=0, hour='*'),  hourly
+        'kwargs': {
+            'strategy_name': 'top_n_dashboards',
+            'top_n': 5,
+            'since': '7 days ago',
+        },
+    },
+}
+```
+
 ## Testing
 
 This project comes with a Vagrantfile, this is a fast and easy way to test changes to the role, fire it up with `vagrant up`.
