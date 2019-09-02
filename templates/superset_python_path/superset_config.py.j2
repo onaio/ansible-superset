@@ -146,5 +146,6 @@ CACHE_CONFIG = {{ superset_cache_config }}
 
 # Superset celery task cache warmup configs
 {% if superset_enable_celerybeat and superset_celerybeat_schedule %}
+import crontab
 CELERYBEAT_SCHEDULE = {{ superset_celerybeat_schedule }}
 {% endif %}
