@@ -171,16 +171,17 @@ superset_cache_config:
 
 # Configure celery task cache warmup
 # The configs is a dictionary like so:
-# superset_celerybeat_schedule = {
+# superset_celerybeat_schedule: | 
+#   {
 #     'cache-warmup-hourly': {
-#         'task': 'cache-warmup',
-#         'schedule': crontab(minute=0, hour='*'),  # hourly
-#         'kwargs': {
-#             'strategy_name': 'top_n_dashboards',
-#             'top_n': 5,
-#             'since': '7 days ago',
-#         },
+#       'task': 'cache-warmup',
+#       'schedule': crontab(minute=0, hour='*'),  # hourly
+#       'kwargs': {
+#           'strategy_name': 'top_n_dashboards',
+#           'top_n': 5,
+#           'since': '7 days ago',
+#       },
 #     },
-# }
+#   }
 superset_enable_celerybeat: False
 superset_celerybeat_schedule:
