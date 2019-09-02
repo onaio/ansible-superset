@@ -162,29 +162,32 @@ Superset-patchup enhances Superset by adding more features.  You can read more a
 To enable [caching](https://superset.incubator.apache.org/installation.html#caching) in superset, provide `CACHE_CONFIG` that complies with the Flask-Cache specifications.
 
 ```yml
-superset_enable_cache: False
-superset_cache_config:
-  CACHE_TYPE: 'redis'
-  CACHE_DEFAULT_TIMEOUT: 60 * 60 * 24 # 1 day default (in secs)
-  CACHE_KEY_PREFIX: 'superset_results'
-  CACHE_REDIS_URL: 'redis://localhost:6379/0'
+superset_enable_cache: True
+superset_cache_config: |
+  {
+    'CACHE_TYPE': 'redis',
+    'CACHE_DEFAULT_TIMEOUT': 60 * 60 * 24, # 1 day
+    'CACHE_KEY_PREFIX': 'superset_results',
+    'CACHE_REDIS_URL': 'redis://localhost:6379/0'
+  }
 ```
 
 To allow periodical warmup of the cache, configure Superset's celery task with the preferred warmup strategy. Enable celerybeat and configure it's dictionary like so:
 
 ```yml
-superset_enable_celerybeat: False
-superset_celerybeat_schedule: {
+superset_enable_celerybeat: True
+superset_celerybeat_schedule: |
+  {
     'cache-warmup-hourly': {
-        'task': 'cache-warmup',
-        'schedule': crontab(minute=0, hour='*'),  hourly
-        'kwargs': {
-            'strategy_name': 'top_n_dashboards',
-            'top_n': 5,
-            'since': '7 days ago',
-        },
+      'task': 'cache-warmup',
+      'schedule': crontab(minute=0, hour='*'),  # hourly
+      'kwargs': {
+          'strategy_name': 'top_n_dashboards',
+          'top_n': 5,
+          'since': '7 days ago',
+      },
     },
-}
+  }
 ```
 
 ## Testing
