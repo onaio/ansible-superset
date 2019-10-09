@@ -139,13 +139,13 @@ import superset_patchup
 superset_patchup.add_ketchup(sys.modules[__name__])
 {% endif %}
 
-# Superset caching config
 {% if superset_enable_cache and superset_cache_config %}
+# Superset caching config
 CACHE_CONFIG = {{ superset_cache_config }}
 {% endif %}
 
-# Superset celery task cache warmup configs
 {% if superset_enable_celerybeat and superset_celerybeat_schedule %}
+# Superset celery task cache warmup configs
 import crontab
 CELERYBEAT_SCHEDULE = {{ superset_celerybeat_schedule }}
 {% endif %}

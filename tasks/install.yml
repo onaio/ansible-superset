@@ -15,7 +15,7 @@
 
 - name: Ensure dependencies are installed
   apt:
-    pkg: ["build-essential", "libssl-dev", "libffi-dev", "libsasl2-dev", "libldap2-dev", "libmysqlclient-dev", "python-pip", "python-psycopg2", "libpq-dev"]
+    pkg: "{{ superset_apt_dependencies_packages }}"
     state: latest
     update_cache: yes
     cache_valid_time: 600
@@ -38,7 +38,7 @@
   become: true
   become_user: "{{ superset_user }}"
   pip:
-    name: ["setuptools", "psycopg2-binary", "mysql", "Flask-OAuthlib", "crontab"]
+    name: "{{ superset_pip_dependencies_packages }}"
     state: latest
     virtualenv: "{{ superset_virtualenv_path }}"
     virtualenv_python: "{{ superset_python_executable }}"
