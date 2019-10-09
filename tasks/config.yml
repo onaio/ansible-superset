@@ -10,7 +10,7 @@
 - name: Create an admin user.
   become: true
   become_user: "{{ superset_user }}"
-  shell: "export PYTHONPATH='{{ superset_python_path }}' && {{ superset_virtualenv_path }}/bin/fabmanager create-admin --app {{ superset_app }} --username {{ superset_username }} --firstname {{ superset_firstname }}  --lastname {{ superset_lastname }}  --email {{ superset_email }} --password {{ superset_pass }}"
+  shell: "export PYTHONPATH='{{ superset_python_path }}' && export FLASK_APP='{{ superset_app }}' && {{ superset_virtualenv_path }}/bin/flask fab create-admin --username {{ superset_username }} --firstname {{ superset_firstname }}  --lastname {{ superset_lastname }}  --email {{ superset_email }} --password {{ superset_pass }}"
 
 - name: Upgrade the superset db.
   become: true
