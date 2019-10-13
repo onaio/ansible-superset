@@ -2,7 +2,7 @@
 
 Use this role to install, configure, and manage Apache Superset.
 
-By default this installs Superset version 0.24. To install a different version, set the `superset_version` variable.
+By default this installs Superset version 0.28.1. To install a different version, set the `superset_version` variable.
 
 ## Role Variables
 
