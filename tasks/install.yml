@@ -103,7 +103,7 @@
   become: true
   become_user: "{{ superset_user }}"
   pip:
-    name: apache-superset
+    name: "{{ superset_package_name }}""
     version: "{{ superset_version }}"
     virtualenv: "{{ superset_virtualenv_path }}"
     virtualenv_python: "{{ superset_python_executable }}"
