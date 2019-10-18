@@ -13,7 +13,7 @@ Environment="PYTHONPATH={{ superset_python_path }}"
 User={{ superset_user }}
 Type=simple
 ExecStart=
-ExecStart={{ superset_virtualenv_path }}/bin/superset {{ superset_run_command }} -p {{ superset_port }} {{ superset_additional_options}}
+ExecStart={{ superset_virtualenv_path }}/bin/superset {{ superset_start_command }} -p {{ superset_port }} {{ superset_additional_options}}
 ExecReload=/bin/kill -HUP $MAINPID
 Restart=on-failure
 KillSignal=SIGINT
