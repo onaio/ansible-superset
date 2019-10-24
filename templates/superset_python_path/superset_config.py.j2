@@ -149,3 +149,7 @@ CACHE_CONFIG = {{ superset_cache_config }}
 import crontab
 CELERYBEAT_SCHEDULE = {{ superset_celerybeat_schedule }}
 {% endif %}
+
+# Roles that are controlled by the API / Superset and should not be changes
+# by humans.
+ROBOT_PERMISSION_ROLES = {{ superset_robot_permission_roles }}
