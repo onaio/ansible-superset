@@ -188,3 +188,6 @@ superset_celerybeat_schedule: |
 
 superset_apt_dependencies_packages: ["build-essential", "libssl-dev", "libffi-dev", "libsasl2-dev", "libldap2-dev", "libmysqlclient-dev", "python-pip", "python-psycopg2", "libpq-dev"]
 superset_pip_dependencies_packages: ["setuptools", "psycopg2-binary", "mysql", "Flask-OAuthlib", "crontab"]
+
+# Roles created by superset
+superset_robot_permission_roles: ['Public', 'Gamma', 'Alpha', 'Admin', 'sql_lab']
