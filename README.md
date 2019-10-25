@@ -145,6 +145,14 @@ superset_img_upload_dir: "{{ superset_home }}/images/"
 superset_upload_dir: "{{ superset_home }}/uploads/"
 ```
 
+### Change JSON Limit
+
+Modify this value to increase the Superset dashboard position JSON data limit. BY default this is set to 2^16, in the below example we increase it to 2^24.
+
+```yml
+superset_dashboard_position_data_limit: 16777216
+```
+
 ### Superset-patchup (ketchup)
 
 This role can be set to optionally include Superset-patchup, by doing this:
