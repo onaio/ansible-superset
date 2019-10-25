@@ -191,3 +191,6 @@ superset_pip_dependencies_packages: ["setuptools", "psycopg2-binary", "mysql", "
 
 # Roles created by superset
 superset_robot_permission_roles: ['Public', 'Gamma', 'Alpha', 'Admin', 'sql_lab']
+
+# Configure superset dashboard position json data limit
+superset_dashboard_position_data_limit: 131072
