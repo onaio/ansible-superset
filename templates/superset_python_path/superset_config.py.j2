@@ -142,6 +142,7 @@ superset_patchup.add_ketchup(sys.modules[__name__])
 {% if superset_enable_cache and superset_cache_config %}
 # Superset caching config
 CACHE_CONFIG = {{ superset_cache_config }}
+CACHE_DEFAULT_TIMEOUT = {{ superset_cache_default_timeout }}
 {% endif %}
 
 {% if superset_enable_celerybeat and superset_celerybeat_schedule %}
