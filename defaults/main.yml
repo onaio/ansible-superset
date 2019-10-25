@@ -166,10 +166,10 @@ superset_enable_cache: False
 superset_cache_config: |
   {
     'CACHE_TYPE': 'redis',
-    'CACHE_DEFAULT_TIMEOUT': 60 * 60 * 24, # 1 day
     'CACHE_KEY_PREFIX': 'superset_results',
     'CACHE_REDIS_URL': 'redis://localhost:6379/0'
   }
+superset_cache_default_timeout: 60 * 60 * 24, # 1 day
 
 # Configure superset celery task cache warmup
 superset_enable_celerybeat: False

@@ -167,17 +167,17 @@ Superset-patchup enhances Superset by adding more features.  You can read more a
 > Note that the versions of ansible-superset bindings including this warning are only compatible with superset-patchup v0.1.6 and above (due to changed initialization logic).
 
 ###  Superset caching
-To enable [caching](https://superset.incubator.apache.org/installation.html#caching) in superset, provide `CACHE_CONFIG` that complies with the Flask-Cache specifications.
+To enable [caching](https://superset.incubator.apache.org/installation.html#caching) in superset, provide `CACHE_CONFIG` that complies with the Flask-Cache specifications and `CACHE_DEFAULT_TIMEOUT` that determines the cache warmup period.
 
 ```yml
 superset_enable_cache: True
 superset_cache_config: |
   {
     'CACHE_TYPE': 'redis',
-    'CACHE_DEFAULT_TIMEOUT': 60 * 60 * 24, # 1 day
     'CACHE_KEY_PREFIX': 'superset_results',
     'CACHE_REDIS_URL': 'redis://localhost:6379/0'
   }
+superset_cache_default_timeout: 60 * 60 * 24, # 1 day
 ```
 
 To allow periodical warmup of the cache, configure Superset's celery task with the preferred warmup strategy. Enable celerybeat and configure it's dictionary like so:
