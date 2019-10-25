@@ -147,7 +147,7 @@ superset_upload_dir: "{{ superset_home }}/uploads/"
 
 ### Change JSON Limit
 
-Modify this value to increase the Superset dashboard position JSON data limit. BY default this is set to 2^16, in the below example we increase it to 2^24.
+Modify this value to increase the Superset dashboard position JSON data limit. By default this is set to 2^16, in the below example we increase it to 2^24.
 
 ```yml
 superset_dashboard_position_data_limit: 16777216
