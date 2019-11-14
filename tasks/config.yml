@@ -7,26 +7,46 @@
   notify:
     - restart superset
 
-- name: Create an admin user.
+- name: Create an admin user(Superset version < 0.34.0)
   become: true
   become_user: "{{ superset_user }}"
-  shell: "export PYTHONPATH='{{ superset_python_path }}' && {{ superset_virtualenv_path }}/bin/fabmanager create-admin --app {{ superset_app }} --username {{ superset_username }} --firstname {{ superset_firstname }}  --lastname {{ superset_lastname }}  --email {{ superset_email }} --password {{ superset_pass }}"
+  command: "{{ superset_virtualenv_path }}/bin/fabmanager create-admin --app {{ superset_app }} --username {{ superset_username }} \
+            --firstname {{ superset_firstname }}  --lastname {{ superset_lastname }}  --email {{ superset_email }} --password {{ superset_pass }}"
+  environment:
+    PYTHONPATH: "{{ superset_python_path }}"
+  when: superset_version is version_compare('0.34.0', '<')
+
+- name: Create an admin user(Superset version >= 0.34.0)
+  become: true
+  become_user: "{{ superset_user }}"
+  command: "{{ superset_virtualenv_path }}/bin/flask fab create-admin --username {{ superset_username }} --firstname {{ superset_firstname }} \
+            --lastname {{ superset_lastname }}  --email {{ superset_email }} --password {{ superset_pass }}"
+  environment:
+    PYTHONPATH: "{{ superset_python_path }}"
+    FLASK_APP: "{{ superset_app }}"
+  when: superset_version is version_compare('0.34.0', '>=')
 
 - name: Upgrade the superset db.
   become: true
   become_user: "{{ superset_user }}"
-  shell: "export PYTHONPATH='{{ superset_python_path }}' && {{ superset_virtualenv_path }}/bin/superset db upgrade"
+  command: "{{ superset_virtualenv_path }}/bin/superset db upgrade"
+  environment:
+    PYTHONPATH: "{{ superset_python_path }}"
 
 - name: Load superset examples.
   become: true
   become_user: "{{ superset_user }}"
-  shell: "export PYTHONPATH='{{ superset_python_path }}' && {{ superset_virtualenv_path }}/bin/superset load_examples"
+  command: "{{ superset_virtualenv_path }}/bin/superset load_examples"
+  environment:
+    PYTHONPATH: "{{ superset_python_path }}"
   when: superset_load_examples
 
 - name: Superset init.
   become: true
   become_user: "{{ superset_user }}"
-  shell: "export PYTHONPATH='{{ superset_python_path }}' && {{ superset_virtualenv_path }}/bin/superset init"
+  command: "{{ superset_virtualenv_path }}/bin/superset init"
+  environment:
+    PYTHONPATH: "{{ superset_python_path }}"
 
 - name: Create superset systemd service
   template:
@@ -51,4 +71,3 @@
     name: superset
     state: restarted
   when: superset_force_restart
-

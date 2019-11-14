@@ -1,9 +1,12 @@
 # the pip version of superset to deploy
-superset_version: 0.28.1
+superset_version: 0.34.0
 
 # installation options
 superset_install_from_git: false
 superset_git_url: https://github.com/apache/incubator-superset.git
+superset_package_name: apache-superset
+superset_start_command: run
+superset_additional_options: --with-threads
 
 # the python executable to install superset using
 superset_python_executable: "python3.6"
@@ -194,3 +197,6 @@ superset_robot_permission_roles: ['Public', 'Gamma', 'Alpha', 'Admin', 'sql_lab'
 
 # Configure superset dashboard position json data limit
 superset_dashboard_position_data_limit: 65535
+
+superset_virtualenv_path: "{{ superset_home }}/.virtualenvs/{{ superset_user }}"
+superset_python_path: "{{ superset_virtualenv_path }}/lib/{{ superset_python_executable }}"
