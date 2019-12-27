@@ -117,6 +117,7 @@
     state: latest
     virtualenv: "{{ superset_virtualenv_path }}"
     virtualenv_python: "{{ superset_python_executable }}"
+    extra_args: "-e"
   when: superset_install_from_git
 
 - name: Install additional packages
