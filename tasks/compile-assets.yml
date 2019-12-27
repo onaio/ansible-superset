@@ -1,0 +1,34 @@
+---
+- name: Install superset from git
+  become: false
+  git:
+    accept_hostkey: "yes"
+    repo: "{{ superset_git_url }}"
+    version: "{{ superset_version }}"
+    dest: "/tmp/{{ superset_version }}"
+    delegate_to: "127.0.0.1"
+  when: superset_install_from_git
+
+- name: Compile javascript 
+  become: false
+  npm:
+    path: "/tmp/{{ superset_version }}/superset/static/assets"
+    delegate_to: "127.0.0.1"
+  when: superset_install_from_git
+
+- name: Compress dist directory
+  archive:
+    path: "/tmp/{{ superset_version }}/superset/static/assets/dist"
+    dest: "/tmp/{{ superset_version }}/superset/static/assets/dist.tgz"
+    delegate_to: "127.0.0.1"
+  when: superset_install_from_git
+
+- name: UnCompress dist directory
+  become: true
+  become_user: "{{ superset_user }}"
+  unarchive:
+    src: "/tmp/{{ superset_version }}/superset/static/assets/dist.tgz"
+    dest: "{{ superset_base_path }}/static/assets"
+  when: superset_install_from_git
+  notify:
+    - restart superset

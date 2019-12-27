@@ -1,3 +1,8 @@
+---
+- set_fact:
+  superset_base_path: "{{ superset_virtualenv_path }}/src/superset/superset"
+  when: superset_install_from_git
+
 - name: "Set superset config configured."
   template:
     src: "superset_python_path/superset_config.py.j2"

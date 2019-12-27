@@ -1,5 +1,6 @@
 ---
 - include: install.yml
 - include: config.yml
+- include: compile-assets.yml
 - include: white-label.yml
   when: superset_white_label == True
