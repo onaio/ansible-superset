@@ -113,7 +113,7 @@
   become: true
   become_user: "{{ superset_user }}"
   pip:
-    name: 'git+{{ superset_git_url }}@{{ superset_version }}'
+    name: 'git+{{ superset_git_url }}@{{ superset_version }}#egg=superset'
     state: latest
     virtualenv: "{{ superset_virtualenv_path }}"
     virtualenv_python: "{{ superset_python_executable }}"
