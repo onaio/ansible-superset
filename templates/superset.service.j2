@@ -3,7 +3,7 @@ Description=Superset
 After=network.target
 
 [Service]
-{% if superset_service_env_vars %}
+{% if superset_service_env_vars|default([]) %}
 {% for (key, value) in superset_service_env_vars.items() %}
 Environment="{{ key }}={{ value }}"
 {% endfor %}

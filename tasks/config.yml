@@ -1,7 +1,7 @@
 ---
 - set_fact:
     superset_base_path: "{{ superset_virtualenv_path }}/src/superset/superset"
-  when: superset_install_from_git
+  when: superset_install_from_git|bool
 
 - name: "Set superset config configured."
   template:
@@ -17,7 +17,7 @@
   become_user: "{{ superset_user }}"
   command: "{{ superset_virtualenv_path }}/bin/fabmanager create-admin --app {{ superset_app }} --username {{ superset_username }} \
             --firstname {{ superset_firstname }}  --lastname {{ superset_lastname }}  --email {{ superset_email }} --password {{ superset_pass }}"
-  when: not superset_install_from_git and superset_version is version_compare('0.34.0', '<')
+  when: not superset_install_from_git|bool and superset_version is version_compare('0.34.0', '<')
 
 - name: Create an admin user(Superset version >= 0.34.0)
   become: true
@@ -26,7 +26,7 @@
             --lastname {{ superset_lastname }}  --email {{ superset_email }} --password {{ superset_pass }}"
   environment:
     FLASK_APP: "{{ superset_app }}"
-  when: superset_install_from_git or superset_version is version_compare('0.34.0', '>=')
+  when: superset_install_from_git|bool or superset_version is version_compare('0.34.0', '>=')
 
 - name: Upgrade the superset db.
   become: true
@@ -37,7 +37,7 @@
   become: true
   become_user: "{{ superset_user }}"
   command: "{{ superset_virtualenv_path }}/bin/superset load_examples"
-  when: superset_load_examples
+  when: superset_load_examples|bool
 
 - name: Superset init.
   become: true
@@ -60,10 +60,10 @@
     name: superset
     state: started
     enabled: yes
-  when: superset_check_if_running
+  when: superset_check_if_running|bool
 
 - name: Ensure Superset is restarted
   service:
     name: superset
     state: restarted
-  when: superset_force_restart
+  when: superset_force_restart|bool
