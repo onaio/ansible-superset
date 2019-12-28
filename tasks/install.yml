@@ -24,7 +24,7 @@
   file:
     state: absent
     path: "{{ superset_virtualenv_path }}"
-  when: superset_recreate_virtualenv
+  when: superset_recreate_virtualenv|bool
 
 - name: Make sure the Superset virtualenv directory exists
   file:
@@ -51,7 +51,7 @@
     state: latest
     virtualenv: "{{ superset_virtualenv_path }}"
     virtualenv_python: "{{ superset_python_executable }}"
-  when: superset_use_ketchup
+  when: superset_use_ketchup|bool
 
 - name: Install flask_cors
   become: true
@@ -61,7 +61,7 @@
     state: latest
     virtualenv: "{{ superset_virtualenv_path }}"
     virtualenv_python: "{{ superset_python_executable }}"
-  when: superset_enable_cors
+  when: superset_enable_cors|bool
 
 - block:
   - name: Create postgres database
@@ -82,7 +82,7 @@
       login_user: "{{ superset_postgres_login_user }}"
       login_password: "{{ superset_postgres_login_password }}"
     tags: [ database ]
-  when: superset_postgres_login == true
+  when: superset_postgres_login|bool
 
 - block:
   - name: Create postgres database
@@ -97,7 +97,7 @@
       encrypted: true
       db: "{{ superset_postgres_db_name }}"
     tags: [ database ]
-  when: superset_postgres_login == false
+  when: not superset_postgres_login|bool
 
 - name: Install superset from pypi
   become: true
@@ -107,17 +107,18 @@
     version: "{{ superset_version }}"
     virtualenv: "{{ superset_virtualenv_path }}"
     virtualenv_python: "{{ superset_python_executable }}"
-  when: superset_install_from_git == False
+  when: not superset_install_from_git|bool
 
 - name: Install superset from git
   become: true
   become_user: "{{ superset_user }}"
   pip:
-    name: 'git+{{ superset_git_url }}@{{ superset_version }}'
+    name: 'git+{{ superset_git_url }}@{{ superset_version }}#egg=superset'
     state: latest
     virtualenv: "{{ superset_virtualenv_path }}"
     virtualenv_python: "{{ superset_python_executable }}"
-  when: superset_install_from_git
+    extra_args: "-e"
+  when: superset_install_from_git|bool
 
 - name: Install additional packages
   become: true
@@ -126,7 +127,7 @@
     name: "{{ superset_additional_pip_packages }}"
     virtualenv: "{{ superset_virtualenv_path }}"
     virtualenv_python: "{{ superset_python_executable }}"
-  when: superset_install_additional_pip_packages
+  when: superset_install_additional_pip_packages|bool
 
 - name: Make sure the superset upload directories exists
   file:
