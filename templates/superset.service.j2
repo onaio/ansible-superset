@@ -12,7 +12,7 @@ Environment="PATH={{ superset_virtualenv_path }}/bin:$PATH"
 Environment="PYTHONPATH={{ superset_python_path }}"
 User={{ superset_user }}
 Type=simple
-ExecStart={{ superset_virtualenv_path }}/bin/uwsgi --ini {{ superset_virtualenv_path }}/uwsgi.ini
+ExecStart={{ superset_virtualenv_path }}/bin/uwsgi --ini {{ superset_codebase_path }}/uwsgi.ini
 ExecReload=/bin/kill -HUP $MAINPID
 Restart=on-failure
 KillSignal=SIGINT

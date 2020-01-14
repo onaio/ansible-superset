@@ -205,7 +205,7 @@ superset_base_path: "{{ superset_python_path }}/site-packages/superset"
 # uwsgi configs
 superset_wsgi_socket: "{{ superset_codebase_path }}/superset.sock"
 superset_wsgi_chmod_socket: "664"
-superset_codebase_path: "/tmp"
+superset_codebase_path: "{{ superset_home }}/app"
 superset_wsgi_master: True
 superset_wsgi_processes: "5"
 superset_pid_file: "{{ superset_codebase_path }}/superset.pid"
