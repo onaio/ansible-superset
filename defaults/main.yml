@@ -201,3 +201,22 @@ superset_dashboard_position_data_limit: 65535
 superset_virtualenv_path: "{{ superset_home }}/.virtualenvs/{{ superset_user }}"
 superset_python_path: "{{ superset_virtualenv_path }}/lib/{{ superset_python_executable }}"
 superset_base_path: "{{ superset_python_path }}/site-packages/superset"
+
+# uwsgi configs
+superset_wsgi_socket: "{{ superset_codebase_path }}/superset.sock"
+superset_wsgi_chmod_socket: "664"
+superset_codebase_path: "/tmp"
+superset_wsgi_master: True
+superset_wsgi_processes: "5"
+superset_pid_file: "{{ superset_codebase_path }}/superset.pid"
+superset_wsgi_vacuum: True
+superset_wsgi_max_requests: "100"
+superset_wsgi_logto: "{{ superset_codebase_path }}/uwsgi_superset.log"
+superset_wsgi_buffer_size: "8192"
+superset_reload_on_rss: "325"
+superset_mount: "/={{ superset_user }}:app"
+superset_manage_script_name: True
+superset_wsgi_env: 
+  - "HTTPS=on"
+  - "FLASK=superset"
+superset_wsgi_stats: "{{ superset_codebase_path }}/superset.stats.sock"
