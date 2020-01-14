@@ -44,6 +44,14 @@
   become_user: "{{ superset_user }}"
   command: "{{ superset_virtualenv_path }}/bin/superset init"
 
+- name: Copy uwsgi.ini
+  template:
+    src: uwsgi.ini.j2
+    dest: "{{ superset_virtualenv_path }}/uwsgi.ini"
+    mode: 0644
+    owner: "{{ superset_user }}"
+    group: "{{ superset_group }}"
+
 - name: Create superset systemd service
   template:
     src: "superset.service.j2"
