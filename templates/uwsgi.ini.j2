@@ -3,10 +3,10 @@
 http={{ superset_wsgi_http }}
 {% endif %}
 socket={{ superset_wsgi_socket }}
-chown-socket={{ superset_user }}:{{ superset_group }}
+chown-socket={{ superset_user }}:{{ superset_wsgi_group }}
 chmod-socket={{ superset_wsgi_chmod_socket }}
 uid={{ superset_user }}
-gid={{ superset_group }}
+gid={{ superset_wsgi_group }}
 chdir={{ superset_codebase_path }}
 master={{ superset_wsgi_master }}
 processes={{ superset_wsgi_processes }}
@@ -20,10 +20,11 @@ static-map={{ superset_wsgi_static_map }}
 {% endif %}
 buffer-size={{ superset_wsgi_buffer_size }}
 reload-on-rss={{ superset_reload_on_rss }}
-mount ={{ superset_mount }}
+module={{ superset_wsgi_module }}
+mount={{ superset_mount }}
 manage-script-name={{ superset_manage_script_name }}
 {% for wsgi_env in superset_wsgi_env%}
-env = wsgi_env
+env={{ wsgi_env }}
 {% endfor %}
 stats={{ superset_wsgi_stats }}
 {% if superset_wsgi_enable_threads is defined %}
