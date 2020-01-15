@@ -1,12 +1,12 @@
 [uwsgi]
-{% if superset_wsgi_http %}
+{% if superset_wsgi_http is defined %}
 http={{ superset_wsgi_http }}
 {% endif %}
 socket={{ superset_wsgi_socket }}
 chown-socket={{ superset_user }}:{{ superset_group }}
 chmod-socket={{ superset_wsgi_chmod_socket }}
-uid={{ superset_wsgi_user }}
-gid={{ superset_wsgi_group }}
+uid={{ superset_user }}
+gid={{ superset_group }}
 chdir={{ superset_codebase_path }}
 master={{ superset_wsgi_master }}
 processes={{ superset_wsgi_processes }}
@@ -15,20 +15,20 @@ vacuum={{ superset_wsgi_vacuum }}                # clear environment on exit
 max-requests={{ superset_wsgi_max_requests }}    # respawn processes after serving N requests
 logto={{ superset_wsgi_logto }}
 virtualenv={{ superset_virtualenv_path }}
-{% if superset_wsgi_static_map %}
+{% if superset_wsgi_static_map is defined %}
 static-map={{ superset_wsgi_static_map }}
 {% endif %}
 buffer-size={{ superset_wsgi_buffer_size }}
 reload-on-rss={{ superset_reload_on_rss }}
 mount ={{ superset_mount }}
 manage-script-name={{ superset_manage_script_name }}
-{% for wsgi_env in superset_wsgi_env %}
+{% for wsgi_env in superset_wsgi_env%}
 env = wsgi_env
 {% endfor %}
 stats={{ superset_wsgi_stats }}
-{% if superset_wsgi_enable_threads %}
+{% if superset_wsgi_enable_threads is defined %}
 enable-threads
 {% endif %}
-{% if superset_wsgi_memory_report %}
+{% if superset_wsgi_memory_report is defined %}
 memory-report
 {% endif %}
