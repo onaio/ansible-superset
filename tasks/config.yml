@@ -44,6 +44,14 @@
   become_user: "{{ superset_user }}"
   command: "{{ superset_virtualenv_path }}/bin/superset init"
 
+- name: Create uwsgi app folder
+  file:
+    path: "{{ superset_codebase_path }}"
+    state: directory
+    owner: "{{ superset_user }}"
+    group: "{{ superset_group }}"
+    mode: 0755
+
 - name: Copy uwsgi.ini
   template:
     src: uwsgi.ini.j2
