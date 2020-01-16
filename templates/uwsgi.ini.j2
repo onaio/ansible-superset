@@ -23,7 +23,7 @@ reload-on-rss={{ superset_reload_on_rss }}
 module={{ superset_wsgi_module }}
 mount={{ superset_mount }}
 manage-script-name={{ superset_manage_script_name }}
-{% for wsgi_env in superset_wsgi_env%}
+{% for wsgi_env in superset_wsgi_env %}
 env={{ wsgi_env }}
 {% endfor %}
 stats={{ superset_wsgi_stats }}
