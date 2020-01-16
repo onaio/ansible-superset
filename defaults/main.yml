@@ -203,6 +203,7 @@ superset_python_path: "{{ superset_virtualenv_path }}/lib/{{ superset_python_exe
 superset_base_path: "{{ superset_python_path }}/site-packages/superset"
 
 # uwsgi configs
+superset_wsgi_http:
 superset_wsgi_socket: "{{ superset_codebase_path }}/superset.sock"
 superset_wsgi_group: "www-data"
 superset_wsgi_chmod_socket: "664"
@@ -212,7 +213,8 @@ superset_wsgi_processes: "5"
 superset_pid_file: "{{ superset_codebase_path }}/superset.pid"
 superset_wsgi_vacuum: True
 superset_wsgi_max_requests: "100"
-superset_wsgi_logto: "{{ superset_codebase_path }}/uwsgi_superset.log"
+superset_wsgi_logto: "/var/log/uwsgi/uwsgi_superset.log"
+superset_wsgi_static_map: ""
 superset_wsgi_buffer_size: "8192"
 superset_reload_on_rss: "325"
 superset_wsgi_module: "superset.app:create_app()"
@@ -222,3 +224,5 @@ superset_wsgi_env:
   - "HTTPS=on"
   - "FLASK=superset"
 superset_wsgi_stats: "{{ superset_codebase_path }}/superset.stats.sock"
+superset_wsgi_enable_threads: False
+superset_wsgi_memory_report: False
