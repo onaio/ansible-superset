@@ -44,13 +44,20 @@
   become_user: "{{ superset_user }}"
   command: "{{ superset_virtualenv_path }}/bin/superset init"
 
-- name: Create uwsgi app folder
+- name: Ensure required directories are present
   file:
-    path: "{{ superset_codebase_path }}"
     state: directory
     owner: "{{ superset_user }}"
     group: "{{ superset_group }}"
+    path: "{{ item }}"
     mode: 0755
+  when:
+    - item is defined
+    - item is not none
+  with_items:
+    - "{{ superset_codebase_path }}"
+    - "{{ superset_log_path }}"
+    - "{{ superset_pid_sock_dir }}"
 
 - name: Copy uwsgi.ini
   template:
@@ -59,6 +66,14 @@
     mode: 0644
     owner: "{{ superset_user }}"
     group: "{{ superset_group }}"
+
+- name: customize logrotate rules
+  template:
+    src: etc/logrotate.d/superset.j2
+    dest: "/etc/logrotate.d/{{ superset_service_name }}"
+    owner: root
+    group: root
+    mode: 0644
 
 - name: Create superset systemd service
   template:
