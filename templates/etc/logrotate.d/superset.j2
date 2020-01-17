@@ -1,0 +1,9 @@
+"{{ superset_log_path }}/*.log" "{{ superset_wsgi_logto }}" {
+    copytruncate
+    daily
+    rotate 52
+    compress
+    delaycompress
+    missingok
+    notifempty
+}

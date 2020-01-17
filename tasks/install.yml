@@ -7,6 +7,8 @@
   user:
     name: "{{ superset_user }}"
     group: "{{ superset_group }}"
+    groups:
+      - "{{ superset_wsgi_group }}"
     shell: "{{ superset_shell }}"
     home: "{{ superset_home }}"
     create_home: yes
