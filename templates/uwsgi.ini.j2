@@ -1,0 +1,37 @@
+[uwsgi]
+{% if superset_wsgi_http %}
+http={{ superset_wsgi_http }}
+{% endif %}
+{% if superset_wsgi_socket %}
+socket={{ superset_wsgi_socket }}
+{% endif %}
+chown-socket={{ superset_user }}:{{ superset_wsgi_group }}
+chmod-socket={{ superset_wsgi_chmod_socket }}
+uid={{ superset_user }}
+gid={{ superset_wsgi_group }}
+chdir={{ superset_codebase_path }}
+master={{ superset_wsgi_master }}
+processes={{ superset_wsgi_processes }}
+pidfile={{ superset_pid_file }}
+vacuum={{ superset_wsgi_vacuum }}                # clear environment on exit
+max-requests={{ superset_wsgi_max_requests }}    # respawn processes after serving N requests
+logto={{ superset_wsgi_logto }}
+virtualenv={{ superset_virtualenv_path }}
+{% if superset_wsgi_static_map %}
+static-map={{ superset_wsgi_static_map }}
+{% endif %}
+buffer-size={{ superset_wsgi_buffer_size }}
+reload-on-rss={{ superset_reload_on_rss }}
+module={{ superset_wsgi_module }}
+mount={{ superset_mount }}
+manage-script-name={{ superset_manage_script_name }}
+{% for wsgi_env in superset_wsgi_env %}
+env={{ wsgi_env }}
+{% endfor %}
+stats={{ superset_wsgi_stats }}
+{% if superset_wsgi_enable_threads %}
+enable-threads
+{% endif %}
+{% if superset_wsgi_memory_report %}
+memory-report
+{% endif %}

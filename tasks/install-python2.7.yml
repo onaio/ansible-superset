@@ -9,4 +9,3 @@
   pip:
     name: "virtualenv"
     executable: pip
-

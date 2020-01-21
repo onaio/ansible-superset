@@ -2,7 +2,7 @@
 
 Use this role to install, configure, and manage Apache Superset.
 
-By default this installs Superset version 0.24. To install a different version, set the `superset_version` variable.
+By default this installs Superset version 0.28.1. To install a different version, set the `superset_version` variable.
 
 ## Role Variables
 
@@ -145,6 +145,14 @@ superset_img_upload_dir: "{{ superset_home }}/images/"
 superset_upload_dir: "{{ superset_home }}/uploads/"
 ```
 
+### Change JSON Limit
+
+Modify this value to increase the Superset dashboard position JSON data limit. By default this is set to 2^16, in the below example we increase it to 2^24.
+
+```yml
+superset_dashboard_position_data_limit: 16777216
+```
+
 ### Superset-patchup (ketchup)
 
 This role can be set to optionally include Superset-patchup, by doing this:
@@ -159,17 +167,17 @@ Superset-patchup enhances Superset by adding more features.  You can read more a
 > Note that the versions of ansible-superset bindings including this warning are only compatible with superset-patchup v0.1.6 and above (due to changed initialization logic).
 
 ###  Superset caching
-To enable [caching](https://superset.incubator.apache.org/installation.html#caching) in superset, provide `CACHE_CONFIG` that complies with the Flask-Cache specifications.
+To enable [caching](https://superset.incubator.apache.org/installation.html#caching) in superset, provide `CACHE_CONFIG` that complies with the Flask-Cache specifications and `CACHE_DEFAULT_TIMEOUT` that determines the cache warmup period.
 
 ```yml
 superset_enable_cache: True
 superset_cache_config: |
   {
     'CACHE_TYPE': 'redis',
-    'CACHE_DEFAULT_TIMEOUT': 60 * 60 * 24, # 1 day
     'CACHE_KEY_PREFIX': 'superset_results',
     'CACHE_REDIS_URL': 'redis://localhost:6379/0'
   }
+superset_cache_default_timeout: 60 * 60 * 24, # 1 day
 ```
 
 To allow periodical warmup of the cache, configure Superset's celery task with the preferred warmup strategy. Enable celerybeat and configure it's dictionary like so:
