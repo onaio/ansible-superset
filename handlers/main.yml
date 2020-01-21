@@ -6,4 +6,4 @@
 
 - name: restart superset
   service: name=superset state=restarted enabled=yes
-  when: superset_perform_restart
+  when: superset_perform_restart|bool
