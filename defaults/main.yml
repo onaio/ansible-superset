@@ -132,6 +132,7 @@ superset_cors_options:
 #     'X-Frame-Options': 'SAMEORIGIN'
 #   }
 superset_http_headers:
+superset_session_cookie_samesite: "None"  # One of [None, 'Lax', 'Strict']
 
 # Extract and use X-Forwarded-For/X-Forwarded-Proto headers?
 superset_enable_proxy_fix: False
@@ -225,7 +226,7 @@ superset_reload_on_rss: "325"
 superset_wsgi_module: "superset.app:create_app()"
 superset_mount: "/={{ superset_user }}:app"
 superset_manage_script_name: True
-superset_wsgi_env: 
+superset_wsgi_env:
   - "HTTPS=on"
   - "FLASK=superset"
 superset_wsgi_stats: "{{ superset_pid_sock_dir }}/superset.stats.sock"
