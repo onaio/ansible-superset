@@ -1,36 +1,41 @@
 ---
-- name: Install superset from git
-  become: false
-  git:
-    accept_hostkey: "yes"
-    repo: "{{ superset_git_url }}"
-    version: "{{ superset_version }}"
-    dest: "/tmp/{{ superset_version }}"
-  delegate_to: "127.0.0.1"
-  when: superset_install_from_git|bool
+	- name: Install superset from git
+	  become: false
+	  git:
+	    accept_hostkey: "yes"
+	    repo: "{{ superset_git_url }}"
+	    version: "{{ superset_version }}"
+	    dest: "/tmp/{{ superset_version }}"
+	  delegate_to: "127.0.0.1"
+	  when: superset_install_from_git|bool
 
-- name: Install javascript dependencies
-  become: false
-  npm:
-    path: "/tmp/{{ superset_version }}/superset/static/assets"
-  delegate_to: "127.0.0.1"
-  when: superset_install_from_git|bool
+	- name: Install javascript dependencies
+	  become: false
+	  npm:
+	    path: "/tmp/{{ superset_version }}/superset/static/assets"
+	    executable: "{{ superset_local_build_npm_dir }}/npm"
+	  delegate_to: "127.0.0.1"
+	  environment:
+	    PATH: "{{ superset_local_build_npm_dir }}:{{ lookup('env', 'PATH') }}"
+	  when: superset_install_from_git|bool
 
-- name: Compile javascript
-  become: false
-  command: "npm run build"
-  args:
-    chdir: "/tmp/{{ superset_version }}/superset/static/assets"
-  delegate_to: "127.0.0.1"
-  when: superset_install_from_git|bool
+	- name: Compile javascript
+	  become: false
+	  command: "{{ superset_local_build_npm_dir }}/npm run build {{ superset_local_build_npm_args }}"
+	  args:
+	    chdir: "/tmp/{{ superset_version }}/superset/static/assets"
+	  environment:
+	    PATH: "{{ superset_local_build_npm_dir }}:{{ lookup('env', 'PATH') }}"
+	  delegate_to: "127.0.0.1"
+	  when: superset_install_from_git|bool
 
-- name: Compress dist directory
-  become: false
-  archive:
-    path: "/tmp/{{ superset_version }}/superset/static/assets/dist"
-    dest: "/tmp/{{ superset_version }}/superset/static/assets/dist.tgz"
-  delegate_to: "127.0.0.1"
-  when: superset_install_from_git|bool
+	- name: Compress dist directory
+	  become: false
+	  archive:
+	    path: "/tmp/{{ superset_version }}/superset/static/assets/dist"
+	    dest: "/tmp/{{ superset_version }}/superset/static/assets/dist.tgz"
+	  delegate_to: "127.0.0.1"
+	  when: superset_install_from_git|bool
 
 - name: UnCompress dist directory
   become: true
