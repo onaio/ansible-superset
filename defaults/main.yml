@@ -235,4 +235,5 @@ superset_wsgi_memory_report: False
 
 # local npm build
 superset_local_build_npm_dir: "/usr/bin"
-superset_local_build_npm_args: "--max-old-space-size=1042"
+superset_local_build_npm_args: "--max-old-space-size=1024"
+superset_local_build_directory: "/tmp/{{ lookup(‘env’, ‘USER’) }}/superset/{{ superset_version }}"
