@@ -5,30 +5,35 @@
     accept_hostkey: "yes"
     repo: "{{ superset_git_url }}"
     version: "{{ superset_version }}"
-    dest: "/tmp/{{ superset_version }}"
+    dest: "{{ superset_local_build_directory }}"
   delegate_to: "127.0.0.1"
   when: superset_install_from_git|bool
 
 - name: Install javascript dependencies
   become: false
   npm:
-    path: "/tmp/{{ superset_version }}/superset/static/assets"
+    path: "{{ superset_local_build_directory }}/superset/static/assets"
+    executable: "{{ superset_local_build_npm_dir }}/npm"
   delegate_to: "127.0.0.1"
+  environment:
+    PATH: "{{ superset_local_build_npm_dir }}:{{ lookup('env', 'PATH') }}"
   when: superset_install_from_git|bool
 
 - name: Compile javascript
   become: false
-  command: "npm run build"
+  command: "{{ superset_local_build_npm_dir }}/npm run build {{ superset_local_build_npm_args }}"
   args:
-    chdir: "/tmp/{{ superset_version }}/superset/static/assets"
+    chdir: "{{ superset_local_build_directory }}/superset/static/assets"
+  environment:
+    PATH: "{{ superset_local_build_npm_dir }}:{{ lookup('env', 'PATH') }}"
   delegate_to: "127.0.0.1"
   when: superset_install_from_git|bool
 
 - name: Compress dist directory
   become: false
   archive:
-    path: "/tmp/{{ superset_version }}/superset/static/assets/dist"
-    dest: "/tmp/{{ superset_version }}/superset/static/assets/dist.tgz"
+    path: "{{ superset_local_build_directory }}/superset/static/assets/dist"
+    dest: "{{ superset_local_build_directory }}/superset/static/assets/dist.tgz"
   delegate_to: "127.0.0.1"
   when: superset_install_from_git|bool
 
@@ -36,7 +41,7 @@
   become: true
   become_user: "{{ superset_user }}"
   unarchive:
-    src: "/tmp/{{ superset_version }}/superset/static/assets/dist.tgz"
+    src: "{{ superset_local_build_directory }}/superset/static/assets/dist.tgz"
     dest: "{{ superset_base_path }}/static/assets"
   when: superset_install_from_git|bool
   notify:
