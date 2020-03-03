@@ -1,4 +1,9 @@
 ---
+- name: Add Deadsnakes PPA
+  apt_repository:
+    repo: ppa:deadsnakes/ppa
+  when: ansible_lsb.major_release|int < 18
+
 - name: Ensure dependencies are installed
   apt:
     pkg: ["python3.6", "python3.6-dev", "python3-pip", "python3-setuptools"]
