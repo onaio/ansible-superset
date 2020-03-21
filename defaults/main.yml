@@ -42,7 +42,6 @@ superset_pass: REPLACEaVnwiLmc489m13
 # web application configuration
 superset_recreate_virtualenv: False
 superset_app: superset
-superset_flask_secret_key: REPLACEalhD4LIU4Ssn6
 superset_port: 8888
 superset_workers: 2
 superset_mapbox_api_key: REPLACE
