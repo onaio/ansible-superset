@@ -84,7 +84,7 @@
       login_user: "{{ superset_postgres_login_user }}"
       login_password: "{{ superset_postgres_login_password }}"
     tags: [ database ]
-  when: superset_postgres_login|bool
+  when: superset_postgres_login|bool and superset_perform_restart|bool
 
 - block:
   - name: Create postgres database
@@ -99,7 +99,7 @@
       encrypted: true
       db: "{{ superset_postgres_db_name }}"
     tags: [ database ]
-  when: not superset_postgres_login|bool
+  when: not superset_postgres_login|bool and superset_perform_restart|bool
 
 - name: Install superset from pypi
   become: true

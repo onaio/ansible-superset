@@ -19,7 +19,7 @@
             --firstname {{ superset_firstname }}  --lastname {{ superset_lastname }}  --email {{ superset_email }} --password {{ superset_pass }}"
   environment:
     PYTHONPATH: "{{ superset_python_path }}"
-  when: not superset_install_from_git|bool and superset_version is version_compare('0.34.0', '<')
+  when: not superset_install_from_git|bool and superset_version is version_compare('0.34.0', '<') and superset_perform_restart|bool
 
 - name: Create an admin user(Superset version >= 0.34.0)
   become: true
@@ -29,7 +29,7 @@
   environment:
     PYTHONPATH: "{{ superset_python_path }}"
     FLASK_APP: "{{ superset_app }}"
-  when: superset_install_from_git|bool or superset_version is version_compare('0.34.0', '>=')
+  when: (superset_install_from_git|bool or superset_version is version_compare('0.34.0', '>=')) and superset_perform_restart|bool
 
 - name: Upgrade the superset db.
   become: true
@@ -37,6 +37,7 @@
   command: "{{ superset_virtualenv_path }}/bin/superset db upgrade"
   environment:
     PYTHONPATH: "{{ superset_python_path }}"
+  when: superset_perform_restart|bool
 
 - name: Load superset examples.
   become: true
@@ -44,7 +45,7 @@
   command: "{{ superset_virtualenv_path }}/bin/superset load_examples"
   environment:
     PYTHONPATH: "{{ superset_python_path }}"
-  when: superset_load_examples|bool
+  when: superset_load_examples|bool and superset_perform_restart|bool
 
 - name: Superset init.
   become: true
@@ -52,6 +53,7 @@
   command: "{{ superset_virtualenv_path }}/bin/superset init"
   environment:
     PYTHONPATH: "{{ superset_python_path }}"
+  when: superset_perform_restart|bool
 
 - name: Ensure required directories are present
   file:
@@ -100,7 +102,7 @@
     name: superset
     state: started
     enabled: yes
-  when: superset_check_if_running|bool
+  when: superset_check_if_running|bool and superset_perform_restart|bool
 
 - name: Ensure Superset is restarted
   service:
