@@ -111,15 +111,34 @@
     virtualenv_python: "{{ superset_python_executable }}"
   when: not superset_install_from_git|bool
 
-- name: Install superset from git
-  become: true
-  become_user: "{{ superset_user }}"
-  pip:
-    name: 'git+{{ superset_git_url }}@{{ superset_version }}#egg=superset'
-    state: latest
-    virtualenv: "{{ superset_virtualenv_path }}"
-    virtualenv_python: "{{ superset_python_executable }}"
-    extra_args: "-e"
+- block:
+  - name: Install superset from git
+    become: true
+    become_user: "{{ superset_user }}"
+    pip:
+      name: 'git+{{ superset_git_url }}@{{ superset_version }}#egg=superset'
+      state: latest
+      virtualenv: "{{ superset_virtualenv_path }}"
+      virtualenv_python: "{{ superset_python_executable }}"
+      extra_args: "-e"
+
+  - name: Install packages from requirements.txt
+    become: true
+    become_user: "{{ superset_user }}"
+    pip:
+      chdir: "{{ superset_virtualenv_path }}/src/superset"
+      requirements: "requirements.txt"
+      virtualenv: "{{ superset_virtualenv_path }}"
+      virtualenv_python: "{{ superset_python_executable }}"
+
+  - name: Copy additional static files
+    become: true
+    become_user: "{{ superset_user }}"
+    copy:
+      remote_src: yes
+      src: "{{ superset_virtualenv_path }}/lib/python3.6/site-packages/flask_appbuilder/static/appbuilder"
+      dest: "{{ superset_virtualenv_path }}/src/superset/superset/static/"
+
   when: superset_install_from_git|bool
 
 - name: Install additional packages
