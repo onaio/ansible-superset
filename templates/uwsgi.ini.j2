@@ -22,7 +22,9 @@ static-map={{ superset_wsgi_static_map }}
 {% endif %}
 buffer-size={{ superset_wsgi_buffer_size }}
 reload-on-rss={{ superset_reload_on_rss }}
+{% if superset_version is version_compare('0.35.0', '>=') %}
 module={{ superset_wsgi_module }}
+{% endif %}
 mount={{ superset_mount }}
 manage-script-name={{ superset_manage_script_name }}
 {% for wsgi_env in superset_wsgi_env %}
