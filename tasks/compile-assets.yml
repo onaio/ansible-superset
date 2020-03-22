@@ -1,5 +1,5 @@
 ---
-- name: Install superset from git
+- name: Clone superset repository locally.
   become: true
   become_user: "{{ superset_local_build_user }}"
   git:
@@ -7,6 +7,7 @@
     repo: "{{ superset_git_url }}"
     version: "{{ superset_version }}"
     dest: "{{ superset_local_build_directory }}"
+    force: yes
   delegate_to: "127.0.0.1"
   when: superset_install_from_git|bool
 
