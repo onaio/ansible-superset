@@ -167,3 +167,13 @@ SESSION_COOKIE_SAMESITE = {{ superset_session_cookie_samesite }}
 # You should also make sure to configure your WSGI server
 # (gunicorn, nginx, apache, ...) timeout setting to be <= to this setting
 SUPERSET_WEBSERVER_TIMEOUT = {{ superset_webserver_timeout|default(60) }}
+
+{% if sentry_dsn %}
+import sentry_sdk
+from sentry_sdk.integrations.flask import FlaskIntegration
+
+sentry_sdk.init(
+    dsn='{{ sentry_dsn }}',
+    integrations=[FlaskIntegration()]
+)
+{% endif %}
