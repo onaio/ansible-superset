@@ -3,6 +3,15 @@
     superset_base_path: "{{ superset_virtualenv_path }}/src/superset/superset"
   when: superset_install_from_git|bool
 
+- name: Copy pgpass credentials
+  template:
+    src: "pgpass.j2"
+    dest: "{{ superset_home }}/.pgpass"
+    owner: "{{ superset_user }}"
+    group: "{{ superset_group }}"
+    mode: "600"
+  when: superset_pgpass_credentials|length > 0
+
 - name: "Set superset config configured."
   template:
     src: "superset_python_path/superset_config.py.j2"

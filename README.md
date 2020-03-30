@@ -17,6 +17,7 @@ This role creates a superset user and database. To connect to the database host,
 - `superset_postgres_db_name`: The superset database name (to be created). This is the database superset will use.
 - `superset_postgres_db_user`: Superset postgres user name (to be created)
 - `superset_postgres_db_pass`: Superset postgres user password
+- `superset_pgpass_credentials`: A list of database credentials to be used for connections without a password in the format `hostname:port:database:username:password`.
 
 ### Other Default variables are listed below
 
@@ -160,7 +161,7 @@ This role can be set to optionally include Superset-patchup, by doing this:
 ```yml
 superset_use_ketchup: True
 superset_ketchup_version: "v0.1.0"
-```  
+```
 
 Superset-patchup enhances Superset by adding more features.  You can read more about this project here: [Superset-patchup documentation](https://github.com/onaio/superset-patchup)
 
