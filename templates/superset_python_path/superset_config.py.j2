@@ -161,3 +161,19 @@ SUPERSET_DASHBOARD_POSITION_DATA_LIMIT = {{ superset_dashboard_position_data_lim
 # Be explicit in allowing embedding superset dashboards in other sites
 # Ref: https://github.com/apache/incubator-superset/issues/8382
 SESSION_COOKIE_SAMESITE = {{ superset_session_cookie_samesite }}
+
+# This is an important setting, and should be lower than your
+# [load balancer / proxy / envoy / kong / ...] timeout settings.
+# You should also make sure to configure your WSGI server
+# (gunicorn, nginx, apache, ...) timeout setting to be <= to this setting
+SUPERSET_WEBSERVER_TIMEOUT = {{ superset_webserver_timeout|default(60) }}
+
+{% if sentry_dsn %}
+import sentry_sdk
+from sentry_sdk.integrations.flask import FlaskIntegration
+
+sentry_sdk.init(
+    dsn='{{ sentry_dsn }}',
+    integrations=[FlaskIntegration()]
+)
+{% endif %}

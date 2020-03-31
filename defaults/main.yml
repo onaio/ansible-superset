@@ -42,7 +42,6 @@ superset_pass: REPLACEaVnwiLmc489m13
 # web application configuration
 superset_recreate_virtualenv: False
 superset_app: superset
-superset_flask_secret_key: REPLACEalhD4LIU4Ssn6
 superset_port: 8888
 superset_workers: 2
 superset_mapbox_api_key: REPLACE
@@ -56,6 +55,7 @@ superset_postgres_db_port: 5432
 superset_postgres_db_name: superset
 superset_postgres_db_user: superset
 superset_postgres_db_pass: REPLACEHS&y7834yKDSd
+superset_pgpass_credentials: []
 
 # whether to check if the superset service is running
 superset_check_if_running: True
@@ -173,7 +173,9 @@ superset_cache_config: |
     'CACHE_KEY_PREFIX': 'superset_results',
     'CACHE_REDIS_URL': 'redis://localhost:6379/0'
   }
-superset_cache_default_timeout: 60 * 60 * 24, # 1 day
+superset_cache_default_timeout: 60 * 60 * 24  # 1 day
+
+superset_webserver_timeout: 60
 
 # Configure superset celery task cache warmup
 superset_enable_celerybeat: False
@@ -238,3 +240,6 @@ superset_local_build_npm_dir: "/usr/bin"
 superset_local_build_npm_args: "--max-old-space-size=1024"
 superset_local_build_directory: "/tmp/{{ superset_local_build_user }}/superset/{{ superset_version }}"
 superset_local_build_user: "{{ lookup('env', 'USER') }}"
+
+# sentry
+sentry_dsn:

@@ -84,7 +84,7 @@
       login_user: "{{ superset_postgres_login_user }}"
       login_password: "{{ superset_postgres_login_password }}"
     tags: [ database ]
-  when: superset_postgres_login|bool
+  when: superset_postgres_login|bool and superset_perform_restart|bool
 
 - block:
   - name: Create postgres database
@@ -99,7 +99,7 @@
       encrypted: true
       db: "{{ superset_postgres_db_name }}"
     tags: [ database ]
-  when: not superset_postgres_login|bool
+  when: not superset_postgres_login|bool and superset_perform_restart|bool
 
 - name: Install superset from pypi
   become: true
@@ -111,15 +111,35 @@
     virtualenv_python: "{{ superset_python_executable }}"
   when: not superset_install_from_git|bool
 
-- name: Install superset from git
-  become: true
-  become_user: "{{ superset_user }}"
-  pip:
-    name: 'git+{{ superset_git_url }}@{{ superset_version }}#egg=superset'
-    state: latest
-    virtualenv: "{{ superset_virtualenv_path }}"
-    virtualenv_python: "{{ superset_python_executable }}"
-    extra_args: "-e"
+- block:
+  - name: Install superset from git
+    become: true
+    become_user: "{{ superset_user }}"
+    pip:
+      name: 'git+{{ superset_git_url }}@{{ superset_version }}#egg=superset'
+      state: latest
+      virtualenv: "{{ superset_virtualenv_path }}"
+      virtualenv_python: "{{ superset_python_executable }}"
+      extra_args: "-e"
+
+  - name: Install packages from requirements.txt
+    become: true
+    become_user: "{{ superset_user }}"
+    pip:
+      chdir: "{{ superset_virtualenv_path }}/src/superset"
+      requirements: "requirements.txt"
+      virtualenv: "{{ superset_virtualenv_path }}"
+      virtualenv_python: "{{ superset_python_executable }}"
+    when: superset_version is version_compare('0.34.0', '>=')
+
+  - name: Copy additional static files
+    become: true
+    become_user: "{{ superset_user }}"
+    copy:
+      remote_src: yes
+      src: "{{ superset_virtualenv_path }}/lib/python3.6/site-packages/flask_appbuilder/static/appbuilder"
+      dest: "{{ superset_virtualenv_path }}/src/superset/superset/static/"
+
   when: superset_install_from_git|bool
 
 - name: Install additional packages
