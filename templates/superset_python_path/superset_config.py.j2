@@ -158,9 +158,18 @@ ROBOT_PERMISSION_ROLES = {{ superset_robot_permission_roles }}
 # Superset dashboard position json data limit
 SUPERSET_DASHBOARD_POSITION_DATA_LIMIT = {{ superset_dashboard_position_data_limit }}
 
+#
+# Flask session cookie options
+#
+# See https://flask.palletsprojects.com/en/1.1.x/security/#set-cookie-options
+# for details
+#
+SESSION_COOKIE_HTTPONLY = {{ superset_session_cookie_httponly }}  # Prevent cookie from being read by frontend JS?
+SESSION_COOKIE_SECURE = {{ superset_session_cookie_secure }}  # Prevent cookie from being transmitted over non-tls?
 # Be explicit in allowing embedding superset dashboards in other sites
 # Ref: https://github.com/apache/incubator-superset/issues/8382
-SESSION_COOKIE_SAMESITE = {{ superset_session_cookie_samesite }}
+SESSION_COOKIE_SAMESITE = {{ superset_session_cookie_samesite }}  # One of [None, 'Lax', 'Strict']
+
 
 # This is an important setting, and should be lower than your
 # [load balancer / proxy / envoy / kong / ...] timeout settings.
