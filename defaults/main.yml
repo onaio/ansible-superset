@@ -132,6 +132,10 @@ superset_cors_options:
 #     'X-Frame-Options': 'SAMEORIGIN'
 #   }
 superset_http_headers:
+# Prevent cookie from being read by frontend JS?
+superset_session_cookie_httponly: False
+# Prevent cookie from being transmitted over non-tls?
+superset_session_cookie_secure: True
 superset_session_cookie_samesite: "None"  # One of [None, 'Lax', 'Strict']
 
 # Extract and use X-Forwarded-For/X-Forwarded-Proto headers?
