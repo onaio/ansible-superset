@@ -183,6 +183,7 @@ from sentry_sdk.integrations.flask import FlaskIntegration
 
 sentry_sdk.init(
     dsn='{{ sentry_dsn }}',
-    integrations=[FlaskIntegration()]
+    integrations=[FlaskIntegration()],
+    release='{{ superset_version }}',
 )
 {% endif %}
