@@ -13,7 +13,7 @@ SECRET_KEY = '{{ superset_secret_key }}'  # noqa
 # The SQLAlchemy connection string.
 # SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(DATA_DIR, 'superset.db')
 # SQLALCHEMY_DATABASE_URI = 'mysql://myapp@localhost/myapp'
-SQLALCHEMY_DATABASE_URI = 'postgresql://{{ superset_postgres_db_user }}:{{ superset_postgres_db_pass }}@{{ superset_postgres_db_host }}:{{ superset_postgres_db_port }}/{{ superset_postgres_db_name }}'
+SQLALCHEMY_DATABASE_URI = '{{ superset_database_server_url }}'
 
 # ------------------------------
 # GLOBALS FOR APP Builder

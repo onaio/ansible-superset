@@ -56,6 +56,7 @@ superset_postgres_db_name: superset
 superset_postgres_db_user: superset
 superset_postgres_db_pass: REPLACEHS&y7834yKDSd
 superset_pgpass_credentials: []
+superset_database_server_url: "postgresql://{{ superset_postgres_db_user }}:{{ superset_postgres_db_pass }}@{{ superset_postgres_db_host }}:{{ superset_postgres_db_port }}/{{ superset_postgres_db_name }}"
 
 # whether to check if the superset service is running
 superset_check_if_running: True
