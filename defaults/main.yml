@@ -7,6 +7,7 @@ superset_git_url: https://github.com/apache/incubator-superset.git
 superset_package_name: apache-superset
 superset_start_command: run
 superset_additional_options: --with-threads
+superset_compile_assets: true
 
 # the python executable to install superset using
 superset_python_executable: "python3.6"
