@@ -15,7 +15,7 @@
   become: true
   become_user: "{{ superset_local_build_user }}"
   npm:
-    path: "{{ superset_local_build_directory }}/superset/static/assets"
+    path: "{{ superset_local_build_directory }}/{{ superset_assets_directory }}"
     executable: "{{ superset_local_build_npm_dir }}/npm"
   delegate_to: "127.0.0.1"
   environment:
@@ -27,7 +27,7 @@
   become_user: "{{ superset_local_build_user }}"
   command: "{{ superset_local_build_npm_dir }}/npm run build {{ superset_local_build_npm_args }}"
   args:
-    chdir: "{{ superset_local_build_directory }}/superset/static/assets"
+    chdir: "{{ superset_local_build_directory }}/{{ superset_assets_directory }}"
   environment:
     PATH: "{{ superset_local_build_npm_dir }}:{{ lookup('env', 'PATH') }}"
   delegate_to: "127.0.0.1"
@@ -37,8 +37,8 @@
   become: true
   become_user: "{{ superset_local_build_user }}"
   archive:
-    path: "{{ superset_local_build_directory }}/superset/static/assets/dist"
-    dest: "{{ superset_local_build_directory }}/superset/static/assets/dist.tgz"
+    path: "{{ superset_local_build_directory }}/{{ superset_assets_directory }}/dist"
+    dest: "{{ superset_local_build_directory }}/{{ superset_assets_directory }}/dist.tgz"
   delegate_to: "127.0.0.1"
   when: superset_install_from_git|bool
 
@@ -46,7 +46,7 @@
   become: true
   become_user: "{{ superset_user }}"
   unarchive:
-    src: "{{ superset_local_build_directory }}/superset/static/assets/dist.tgz"
+    src: "{{ superset_local_build_directory }}/{{ superset_assets_directory }}/dist.tgz"
     dest: "{{ superset_base_path }}/static/assets"
   when: superset_install_from_git|bool
   notify:
