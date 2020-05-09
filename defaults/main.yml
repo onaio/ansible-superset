@@ -43,7 +43,6 @@ superset_pass: REPLACEaVnwiLmc489m13
 superset_recreate_virtualenv: False
 superset_app: superset
 superset_port: 8888
-superset_workers: 2
 superset_mapbox_api_key: REPLACE
 superset_load_examples: true
 superset_allowed_extensions:
