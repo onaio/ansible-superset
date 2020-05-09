@@ -48,6 +48,7 @@ superset_mapbox_api_key: REPLACE
 superset_load_examples: true
 superset_allowed_extensions:
   - csv
+superset_log_level: INFO
 
 # database credentials
 superset_postgres_db_host: localhost
