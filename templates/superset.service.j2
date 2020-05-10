@@ -9,7 +9,6 @@ Environment="{{ key }}={{ value }}"
 {% endfor %}
 {% endif %}
 Environment="PATH={{ superset_virtualenv_path }}/bin:$PATH"
-Environment="PYTHONPATH={{ superset_python_path }}"
 User={{ superset_user }}
 Group={{ superset_wsgi_group }}
 Type=simple

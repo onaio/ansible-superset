@@ -1,0 +1,30 @@
+# Where to chdir at start.
+CELERYBEAT_CHDIR="{{ superset_codebase_path }}"
+
+# Python interpreter from environment, if using virtualenv
+ENV_PYTHON="{{ superset_virtualenv_path }}/bin/python"
+CELERY_BIN="{{ superset_virtualenv_path }}/bin/celery"
+
+# Name of the celery config module, don't change this.
+CELERY_APP="{{ superset_celery_app }}"
+
+# %n will be replaced with the nodename.
+
+# Workers should run as an unprivileged user.
+CELERYBEAT_USER="{{ superset_user }}"
+CELERYBEAT_GROUP="{{ superset_group }}"
+
+# Set any other env vars here too!
+C_FORCE_ROOT=1
+CELERYBEAT_LOG_LEVEL="{{ superset_celerybeat_log_level }}"
+CELERYBEAT_LOG_FILE="{{ superset_log_path }}/celerybeat.log"
+CELERY_CREATE_DIRS=1
+CELERYBEAT_SCHEDULE="{{ superset_celery_beat_pid_directory }}/celerybeat-schedule"
+CELERYBEAT_STATE_DIR="{{ superset_celery_beat_pid_directory }}/celerybeat"
+CELERYBEAT_PID_FILE="{{ superset_celery_beat_pid_file }}"
+
+{% if superset_celerybeat_extra_env_vars | length > 0 %}
+{% for var_name,var_value in superset_celerybeat_extra_env_vars.items() %}
+{{ var_name }}={{ var_value }}
+{% endfor %}
+{% endif %}

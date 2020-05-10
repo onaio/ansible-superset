@@ -1,5 +1,7 @@
 ---
 - include: install.yml
+- include: celery.yml
+  when: superset_enable_celery
 - include: config.yml
 - include: compile-assets.yml
 - include: white-label.yml

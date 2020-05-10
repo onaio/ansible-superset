@@ -1,0 +1,33 @@
+# Name of nodes to start, here we have a single node
+CELERYD_NODES="{{ superset_celeryd_nodes }}"
+
+# Where to chdir at start.
+CELERYD_CHDIR="{{ superset_codebase_path }}"
+
+# Python interpreter from environment, if using virtualenv
+ENV_PYTHON="{{ superset_virtualenv_path }}/bin/python"
+
+
+CELERY_BIN="{{ superset_virtualenv_path }}/bin/celery"
+# Extra arguments to celeryd
+CELERYD_OPTS="{{ superset_celeryd_opts }}"
+
+CELERY_APP="{{ superset_celery_app }}"
+
+# %n will be replaced with the nodename.
+CELERYD_LOG_FILE="{{ superset_log_path }}/celery-%n.log"
+CELERYD_PID_FILE="{{ superset_celeryd_pid_file }}"
+
+# Workers should run as an unprivileged user.
+CELERYD_USER="{{ superset_user }}"
+CELERYD_GROUP="{{ superset_group }}"
+
+CELERY_CREATE_DIRS=1
+C_FORCE_ROOT=1
+CELERYD_LOG_LEVEL="{{ superset_celeryd_log_level }}"
+
+{% if superset_celeryd_extra_env_vars | length > 0 %}
+{% for var_name,var_value in superset_celeryd_extra_env_vars.items() %}
+{{ var_name }}={{ var_value }}
+{% endfor %}
+{% endif %}

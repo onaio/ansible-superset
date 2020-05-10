@@ -144,12 +144,6 @@ CACHE_CONFIG = {{ superset_cache_config }}
 CACHE_DEFAULT_TIMEOUT = {{ superset_cache_default_timeout }}
 {% endif %}
 
-{% if superset_enable_celerybeat and superset_celerybeat_schedule %}
-# Superset celery task cache warmup configs
-from celery.schedules import crontab
-CELERYBEAT_SCHEDULE = {{ superset_celerybeat_schedule }}
-{% endif %}
-
 # Roles that are controlled by the API / Superset and should not be changes
 # by humans.
 ROBOT_PERMISSION_ROLES = {{ superset_robot_permission_roles }}
@@ -188,3 +182,36 @@ sentry_sdk.init(
 {% endif %}
 
 LOG_LEVEL = '{{ superset_log_level }}'
+
+{% if superset_enable_celery %}
+
+{% if superset_enable_celerybeat and superset_celerybeat_schedule %}
+from celery.schedules import crontab
+{% endif %}
+
+class CeleryConfig(object):
+    BROKER_URL = '{{ superset_broker_url }}'
+    CELERY_IMPORTS = {{ superset_celery_imports }}
+    CELERY_RESULT_BACKEND = '{{ superset_broker_url }}'
+    CELERYD_LOG_LEVEL = '{{ superset_celeryd_log_level }}'
+    CELERYD_PREFETCH_MULTIPLIER = 10
+    CELERY_ACKS_LATE = True
+    CELERY_ANNOTATIONS = {{ superset_celery_annotations }}
+    {% if superset_enable_celerybeat and superset_celerybeat_schedule %}
+    # Superset celery task cache warmup configs
+    CELERYBEAT_SCHEDULE = {{ superset_celerybeat_schedule }}
+    {% endif %}
+
+
+CELERY_CONFIG = CeleryConfig
+
+{% if superset_broker_protocol == 'redis' %}
+from werkzeug.contrib.cache import RedisCache
+RESULTS_BACKEND = RedisCache(
+    host='{{ superset_broker_host }}', port={{ superset_broker_port }}, key_prefix='{{ superset_results_key_prefix }}')
+{% endif %}
+
+{% endif %}
+
+# Change to True if using gunicorn
+ENABLE_FLASK_COMPRESS = False

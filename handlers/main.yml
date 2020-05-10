@@ -7,3 +7,16 @@
 - name: restart superset
   service: name=superset state=restarted enabled=yes
   when: superset_perform_restart|bool
+
+- name: restart_celery
+  systemd:
+    name: "{{ item }}"
+    state: restarted
+    enabled: true
+    daemon_reload: true
+  with_items:
+    - "{{ superset_celeryd_service_name }}"
+    - "{{ superset_celerybeat_service_name }}"
+  when:
+    - superset_enable_celery|bool
+    - superset_force_restart|bool

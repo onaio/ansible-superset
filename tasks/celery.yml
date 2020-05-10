@@ -1,0 +1,41 @@
+---
+- name: Ensure celery pid directories are present
+  file:
+    state: directory
+    owner: "{{ superset_user }}"
+    group: "{{ superset_group }}"
+    path: "{{ item }}"
+  when:
+    - item is defined
+    - item is not none
+  with_items:
+    - "{{ superset_celeryd_pid_directory }}"
+    - "{{ superset_celery_beat_pid_directory }}"
+
+- name: Copy celeryd default script
+  template:
+    src: templates/etc/default/celeryd.j2
+    dest: /etc/default/celeryd-{{ superset_user }}
+    mode: 0644
+
+- name: Copy celerybeat default script
+  template:
+    src: templates/etc/default/celerybeat.j2
+    dest: /etc/default/celerybeat-{{ superset_user }}
+    mode: 0644
+
+- name: Copy celeryd service
+  template:
+    src: "etc/systemd/celeryd.service.j2"
+    dest: "/etc/systemd/system/{{ superset_celeryd_service_name }}.service"
+    mode: 0644
+  notify:
+    - restart_celery
+
+- name: Copy celerybeat upstart script
+  template:
+    src: "etc/systemd/celerybeat.service.j2"
+    dest: "/etc/systemd/system/{{ superset_celerybeat_service_name }}.service"
+    mode: 0644
+  notify:
+    - restart_celery

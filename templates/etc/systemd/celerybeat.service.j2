@@ -1,0 +1,22 @@
+[Unit]
+Description=Celery Beat Schedular {{ superset_user }} Service
+After=network.target
+
+[Service]
+Type=simple
+User={{ superset_user }}
+Group={{ superset_group }}
+EnvironmentFile=-/etc/default/celerybeat-{{ superset_user }}
+WorkingDirectory={{ superset_codebase_path }}
+RuntimeDirectory=celery-{{ superset_user }}
+ExecStart=/bin/sh -c '${CELERY_BIN} beat \
+    -A $CELERY_APP \
+    --workdir={{ superset_codebase_path }} \
+    --pidfile=${CELERYBEAT_PID_FILE} \
+    --logfile=${CELERYBEAT_LOG_FILE} \
+    --loglevel=${CELERYBEAT_LOG_LEVEL} \
+    --schedule=${CELERYBEAT_SCHEDULE}'
+ExecStop=/bin/systemctl kill celerybeat-{{ superset_user }}.service
+
+[Install]
+WantedBy=multi-user.target
