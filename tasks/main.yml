@@ -1,8 +1,8 @@
 ---
 - include: install.yml
 - include: celery.yml
-  when: superset_enable_celery
+  when: superset_enable_celery|bool
 - include: config.yml
 - include: compile-assets.yml
 - include: white-label.yml
-  when: superset_white_label == True
+  when: superset_white_label|bool

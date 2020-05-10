@@ -2,7 +2,8 @@
 # handlers file for superset
 
 - name: reload systemctl
-  command: systemctl daemon-reload
+  systemd:
+    daemon_reload: yes
 
 - name: restart superset
   service: name=superset state=restarted enabled=yes

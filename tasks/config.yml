@@ -1,5 +1,6 @@
 ---
-- set_fact:
+- name: Set superset_base_path
+  set_fact:
     superset_base_path: "{{ superset_virtualenv_path }}/src/superset/superset"
   when: superset_install_from_git|bool
 
@@ -109,7 +110,7 @@
     dest: "{{ superset_service }}"
     owner: root
     group: root
-    mode: 644
+    mode: 0644
   notify:
     - reload systemctl
     - restart superset

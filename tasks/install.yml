@@ -18,7 +18,7 @@
 - name: Ensure dependencies are installed
   apt:
     pkg: "{{ superset_apt_dependencies_packages }}"
-    state: latest
+    state: present
     update_cache: yes
     cache_valid_time: 600
 
@@ -41,7 +41,7 @@
   become_user: "{{ superset_user }}"
   pip:
     name: "{{ superset_pip_dependencies_packages }}"
-    state: latest
+    state: present
     virtualenv: "{{ superset_virtualenv_path }}"
     virtualenv_python: "{{ superset_python_executable }}"
 
@@ -50,7 +50,7 @@
   become_user: "{{ superset_user }}"
   pip:
     name: 'git+{{ superset_ketchup_git_url }}@{{ superset_ketchup_version }}'
-    state: latest
+    state: forcereinstall
     virtualenv: "{{ superset_virtualenv_path }}"
     virtualenv_python: "{{ superset_python_executable }}"
   when: superset_use_ketchup|bool
@@ -60,7 +60,7 @@
   become_user: "{{ superset_user }}"
   pip:
     name: flask_cors
-    state: latest
+    state: present
     virtualenv: "{{ superset_virtualenv_path }}"
     virtualenv_python: "{{ superset_python_executable }}"
   when: superset_enable_cors|bool
@@ -117,7 +117,7 @@
     become_user: "{{ superset_user }}"
     pip:
       name: 'git+{{ superset_git_url }}@{{ superset_version }}#egg=superset'
-      state: latest
+      state: forcereinstall
       virtualenv: "{{ superset_virtualenv_path }}"
       virtualenv_python: "{{ superset_python_executable }}"
       extra_args: "-e"
