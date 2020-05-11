@@ -11,6 +11,24 @@
   delegate_to: "127.0.0.1"
   when: superset_install_from_git|bool
 
+- name: Add country
+  lineinfile:
+    path: "{{ superset_local_build_directory }}/superset/assets/src/explore/controls.jsx"
+    regexp: "^      'Zambia',"
+    line: "      '{{ item }}',"
+    insertafter: "^      'Zambia',"
+  loop: "{{ superset_additional_countries }}"
+  delegate_to: "127.0.0.1"
+  when: superset_install_from_git|bool
+
+- name: Download additional country geojson
+  get_url:
+    url: "{{ item }}"
+    dest: "{{ superset_local_build_directory }}/superset/assets/src/visualizations/CountryMap/countries"
+  loop: "{{ superset_additional_country_geojson }}"
+  delegate_to: "127.0.0.1"
+  when: superset_install_from_git|bool and superset_version is version_compare('0.33.0', '<')
+
 - name: Install javascript dependencies
   become: true
   become_user: "{{ superset_local_build_user }}"

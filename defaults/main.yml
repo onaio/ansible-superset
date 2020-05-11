@@ -33,6 +33,9 @@ superset_languages:
       flag: jp
       name: Japanese
 
+superset_additional_countries: []
+superset_additional_country_geojson: []
+
 # web UI details
 superset_username: admin
 superset_firstname: Superset
