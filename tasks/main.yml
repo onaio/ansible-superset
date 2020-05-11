@@ -4,5 +4,6 @@
   when: superset_enable_celery|bool
 - include: config.yml
 - include: compile-assets.yml
+  when: superset_compile_assets|default(false)
 - include: white-label.yml
   when: superset_white_label|bool
