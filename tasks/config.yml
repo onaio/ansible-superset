@@ -1,7 +1,23 @@
 ---
-- set_fact:
+- name: Set superset_base_path
+  set_fact:
     superset_base_path: "{{ superset_virtualenv_path }}/src/superset/superset"
   when: superset_install_from_git|bool
+
+- name: Ensure required directories are present
+  file:
+    state: directory
+    owner: "{{ superset_user }}"
+    group: "{{ superset_group }}"
+    path: "{{ item }}"
+    mode: 0755
+  when:
+    - item is defined
+    - item is not none
+  with_items:
+    - "{{ superset_codebase_path }}"
+    - "{{ superset_log_path }}"
+    - "{{ superset_pid_sock_dir }}"
 
 - name: Copy pgpass credentials
   template:
@@ -26,8 +42,9 @@
   become_user: "{{ superset_user }}"
   command: "{{ superset_virtualenv_path }}/bin/fabmanager create-admin --app {{ superset_app }} --username {{ superset_username }} \
             --firstname {{ superset_firstname }}  --lastname {{ superset_lastname }}  --email {{ superset_email }} --password {{ superset_pass }}"
+  args:
+    chdir: "{{ superset_codebase_path }}"
   environment:
-    PYTHONPATH: "{{ superset_python_path }}"
   when: not superset_install_from_git|bool and superset_version is version_compare('0.34.0', '<') and superset_perform_restart|bool
 
 - name: Create an admin user(Superset version >= 0.34.0)
@@ -35,8 +52,9 @@
   become_user: "{{ superset_user }}"
   command: "{{ superset_virtualenv_path }}/bin/flask fab create-admin --username {{ superset_username }} --firstname {{ superset_firstname }} \
             --lastname {{ superset_lastname }}  --email {{ superset_email }} --password {{ superset_pass }}"
+  args:
+    chdir: "{{ superset_codebase_path }}"
   environment:
-    PYTHONPATH: "{{ superset_python_path }}"
     FLASK_APP: "{{ superset_app }}"
   when: (superset_install_from_git|bool or superset_version is version_compare('0.34.0', '>=')) and superset_perform_restart|bool
 
@@ -44,40 +62,31 @@
   become: true
   become_user: "{{ superset_user }}"
   command: "{{ superset_virtualenv_path }}/bin/superset db upgrade"
+  args:
+    chdir: "{{ superset_codebase_path }}"
   environment:
-    PYTHONPATH: "{{ superset_python_path }}"
+    FLASK_APP: "{{ superset_app }}"
   when: superset_perform_restart|bool
 
 - name: Load superset examples.
   become: true
   become_user: "{{ superset_user }}"
   command: "{{ superset_virtualenv_path }}/bin/superset load_examples"
+  args:
+    chdir: "{{ superset_codebase_path }}"
   environment:
-    PYTHONPATH: "{{ superset_python_path }}"
+    FLASK_APP: "{{ superset_app }}"
   when: superset_load_examples|bool and superset_perform_restart|bool
 
 - name: Superset init.
   become: true
   become_user: "{{ superset_user }}"
   command: "{{ superset_virtualenv_path }}/bin/superset init"
+  args:
+    chdir: "{{ superset_codebase_path }}"
   environment:
-    PYTHONPATH: "{{ superset_python_path }}"
+    FLASK_APP: "{{ superset_app }}"
   when: superset_perform_restart|bool
-
-- name: Ensure required directories are present
-  file:
-    state: directory
-    owner: "{{ superset_user }}"
-    group: "{{ superset_group }}"
-    path: "{{ item }}"
-    mode: 0755
-  when:
-    - item is defined
-    - item is not none
-  with_items:
-    - "{{ superset_codebase_path }}"
-    - "{{ superset_log_path }}"
-    - "{{ superset_pid_sock_dir }}"
 
 - name: Copy uwsgi.ini
   template:
@@ -101,7 +110,7 @@
     dest: "{{ superset_service }}"
     owner: root
     group: root
-    mode: 644
+    mode: 0644
   notify:
     - reload systemctl
     - restart superset

@@ -7,11 +7,11 @@
 - name: Ensure dependencies are installed
   apt:
     pkg: ["python3.6", "python3.6-dev", "python3-pip", "python3-setuptools"]
-    state: latest
+    state: present
     update_cache: yes
 
 - name: Install virtualenv via pip
   pip:
     name: virtualenv
     virtualenv_python: "{{ superset_python_executable }}"
-    state: latest
+    state: present
