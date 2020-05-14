@@ -1,7 +1,7 @@
 ---
 - name: Set superset_base_path
   set_fact:
-    superset_base_path: "{{ superset_virtualenv_path }}/src/superset/superset"
+    superset_base_path: "{{ superset_virtualenv_path }}/lib/{{ superset_python_executable }}/site-packages/superset"
   when: superset_install_from_git|bool
 
 - name: Ensure required directories are present

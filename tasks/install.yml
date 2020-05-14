@@ -120,26 +120,14 @@
       state: forcereinstall
       virtualenv: "{{ superset_virtualenv_path }}"
       virtualenv_python: "{{ superset_python_executable }}"
-      extra_args: "-e"
-
-  - name: Install packages from requirements.txt
-    become: true
-    become_user: "{{ superset_user }}"
-    pip:
-      chdir: "{{ superset_virtualenv_path }}/src/superset"
-      requirements: "requirements.txt"
-      virtualenv: "{{ superset_virtualenv_path }}"
-      virtualenv_python: "{{ superset_python_executable }}"
-    when: superset_version is version_compare('0.34.0', '>=')
 
   - name: Copy additional static files
     become: true
     become_user: "{{ superset_user }}"
     copy:
       remote_src: yes
-      src: "{{ superset_virtualenv_path }}/lib/python3.6/site-packages/flask_appbuilder/static/appbuilder"
-      dest: "{{ superset_virtualenv_path }}/src/superset/superset/static/"
-
+      src: "{{ superset_virtualenv_path }}/lib/{{ superset_python_executable }}/site-packages/flask_appbuilder/static/appbuilder"
+      dest: "{{ superset_virtualenv_path }}/lib/python3.6/site-packages/superset/static/"
   when: superset_install_from_git|bool
 
 - name: Install additional packages

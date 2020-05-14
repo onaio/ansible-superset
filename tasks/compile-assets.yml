@@ -7,6 +7,7 @@
     repo: "{{ superset_git_url }}"
     version: "{{ superset_version }}"
     dest: "{{ superset_local_build_directory }}"
+    depth: 1
     force: yes
   delegate_to: "127.0.0.1"
   when: superset_install_from_git|bool
@@ -24,9 +25,8 @@
 - name: Download additional country geojson
   get_url:
     url: "{{ item }}"
-    dest: "{{ superset_local_build_directory }}/superset/assets/src/visualizations/CountryMap/countries"
+    dest: "{{ superset_base_path }}/static/assets/src/visualizations/CountryMap/countries"
   loop: "{{ superset_additional_country_geojson }}"
-  delegate_to: "127.0.0.1"
   when: superset_install_from_git|bool and superset_version is version_compare('0.33.0', '<')
 
 - name: Install javascript dependencies
