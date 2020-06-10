@@ -68,6 +68,8 @@ superset_oauth_providers:
     access_token_url:
     authorize_url:
     access_token_method:
+    access_token_params:
+    access_token_headers:
     custom_redirect_url:
 ```
 
