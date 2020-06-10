@@ -45,7 +45,7 @@ OAUTH_PROVIDERS = [
         'consumer_secret': {{ provider.consumer_secret }},
         'base_url': '{{ provider.base_url }}',
         {% if provider.request_token_params is defined %}
-        # if provided this should be a json object
+        # if provided this should be a python dict
         'request_token_params': {{ provider.request_token_params }},
         {% endif %}
         {% if provider.request_token_url is defined %}
@@ -53,6 +53,14 @@ OAUTH_PROVIDERS = [
         {% endif %}
         {% if provider.access_token_method is defined %}
         'access_token_method': '{{ provider.access_token_method }}',
+        {% endif %}
+        {% if provider.access_token_headers is defined %}
+        # if provided this should be a python dict
+        'access_token_headers': {{ provider.access_token_headers }},
+        {% endif %}
+        {% if provider.access_token_params is defined %}
+        # if provided this should be a python dict
+        'access_token_params': {{ provider.access_token_params }},
         {% endif %}
         {% if provider.custom_redirect_url is defined %}
         'custom_redirect_url': '{{ provider.custom_redirect_url }}',
