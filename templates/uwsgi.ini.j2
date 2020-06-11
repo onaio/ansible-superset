@@ -38,3 +38,6 @@ enable-threads
 {% if superset_wsgi_memory_report %}
 memory-report
 {% endif %}
+{% if superset_wsgi_single_interpreter %}
+single-interpreter=true
+{% endif %}
