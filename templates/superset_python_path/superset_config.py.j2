@@ -178,12 +178,12 @@ SESSION_COOKIE_SAMESITE = {{ superset_session_cookie_samesite }}  # One of [None
 # (gunicorn, nginx, apache, ...) timeout setting to be <= to this setting
 SUPERSET_WEBSERVER_TIMEOUT = {{ superset_webserver_timeout|default(60) }}
 
-{% if sentry_dsn %}
+{% if superset_sentry_dsn %}
 import sentry_sdk
 from sentry_sdk.integrations.flask import FlaskIntegration
 
 sentry_sdk.init(
-    dsn='{{ sentry_dsn }}',
+    dsn='{{ superset_sentry_dsn }}',
     integrations=[FlaskIntegration()],
     release='{{ superset_version }}',
 )
@@ -216,7 +216,10 @@ CELERY_CONFIG = CeleryConfig
 {% if superset_broker_protocol == 'redis' %}
 from werkzeug.contrib.cache import RedisCache
 RESULTS_BACKEND = RedisCache(
-    host='{{ superset_broker_host }}', port={{ superset_broker_port }}, key_prefix='{{ superset_results_key_prefix }}')
+    host='{{ superset_broker_host }}',
+    port={{ superset_broker_port }},
+    key_prefix='{{ superset_results_key_prefix }}',
+)
 {% endif %}
 
 {% endif %}
