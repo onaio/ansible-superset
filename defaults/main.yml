@@ -174,7 +174,7 @@ superset_patchup_email_base:
 # Configure superset caching
 superset_enable_cache: False
 superset_results_key_prefix: superset_results
-superset_cache_config: |
+superset_cache_config: |-
   {
     'CACHE_TYPE': 'redis',
     'CACHE_KEY_PREFIX': '{{ superset_results_key_prefix }}',
@@ -189,13 +189,14 @@ superset_broker_host: localhost
 superset_broker_port: 6379
 superset_broker_protocol: redis
 superset_broker_url: "{{ superset_broker_protocol }}://{{ superset_broker_host }}:{{ superset_broker_port }}/0"
-superset_celery_annotations: |
-  {
-      'sql_lab.get_sql_results': {
-          'rate_limit': '100/s',
-      },
-  }
-superset_celery_app: "superset.sql_lab:celery_app"
+superset_celery_annotations: |-
+    {
+        'sql_lab.get_sql_results': {
+            'rate_limit': '100/s',
+        },
+    }
+
+superset_celery_app: "superset.tasks.celery_app:app"
 superset_celeryd_nodes: "{{ superset_service_name }}"
 superset_celeryd_service_name: "celeryd-{{ superset_service_name }}"
 superset_celerybeat_service_name: "celerybeat-{{ superset_service_name }}"
@@ -208,28 +209,29 @@ superset_celery_beat_pid_directory: "/var/run/{{ superset_user }}"
 superset_celery_beat_pid_file: "{{ superset_celery_beat_pid_directory }}/celerybeat.pid"
 superset_celeryd_extra_env_vars: []
 superset_celerybeat_extra_env_vars: []
-superset_celery_imports: |
-  (
-      'superset.sql_lab',
-  )
+superset_celery_imports: |-
+    (
+        'superset.sql_lab',
+    )
+
 superset_enable_celery: True
 
 # Configure superset celery task cache warmup
 superset_enable_celerybeat: True
-superset_celerybeat_schedule: |
-  {
-    'cache-warmup-hourly': {
-      'task': 'cache-warmup',
-      'schedule': crontab(minute=0, hour='*'),  # hourly
-      'kwargs': {
-          'strategy_name': 'top_n_dashboards',
-          'top_n': 5,
-          'since': '7 days ago',
-      },
-    },
-  }
+superset_celerybeat_schedule: |-
+    {
+        'cache-warmup-hourly': {
+            'task': 'cache-warmup',
+            'schedule': crontab(minute=0, hour='*'),  # hourly
+            'kwargs': {
+                'strategy_name': 'top_n_dashboards',
+                'top_n': 5,
+                'since': '7 days ago',
+            },
+        },
+    }
 
-superset_apt_dependencies_packages: ["build-essential", "libssl-dev", "libffi-dev", "libsasl2-dev", "libldap2-dev", "libmysqlclient-dev", "python3-pip", "python3-psycopg2", "libpq-dev"]
+superset_apt_dependencies_packages: ["build-essential", "libssl-dev", "libffi-dev", "libsasl2-dev", "libldap2-dev", "libmysqlclient-dev", "python3-pip", "python3-psycopg2", "libpq-dev", "libpcre3", "libpcre3-dev"]
 superset_pip_dependencies_packages: ["setuptools", "psycopg2-binary", "mysql", "Flask-OAuthlib", "uwsgi", "gevent", "redis"]
 
 # Roles created by superset
@@ -248,6 +250,7 @@ superset_log_path: "/var/log/{{ superset_service_name }}"
 superset_pid_sock_dir: "/var/run/{{ superset_service_name }}"
 
 # uwsgi configs
+superset_flask_env: "production"
 superset_wsgi_http:
 superset_wsgi_socket: "{{ superset_pid_sock_dir }}/superset.sock"
 superset_wsgi_group: "www-data"
@@ -268,9 +271,12 @@ superset_manage_script_name: True
 superset_wsgi_env:
   - "HTTPS=on"
   - "FLASK=superset"
+  - "FLASK_ENV={{ superset_flask_env }}"
 superset_wsgi_stats: "{{ superset_pid_sock_dir }}/superset.stats.sock"
 superset_wsgi_enable_threads: False
 superset_wsgi_memory_report: False
+superset_wsgi_single_interpreter: True
+superset_wsgi_thunder_lock: False
 
 # local npm build
 superset_local_build_npm_dir: "/usr/bin"
@@ -279,4 +285,4 @@ superset_local_build_directory: "/tmp/{{ superset_local_build_user }}/superset/{
 superset_local_build_user: "{{ lookup('env', 'USER') }}"
 
 # sentry
-sentry_dsn:
+superset_sentry_dsn:
