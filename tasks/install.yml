@@ -137,7 +137,7 @@
     become_user: "{{ superset_user }}"
     copy:
       remote_src: yes
-      src: "{{ superset_virtualenv_path }}/lib/python3.6/site-packages/flask_appbuilder/static/appbuilder"
+      src: "{{ superset_virtualenv_path }}/lib/{{ superset_python_executable }}/site-packages/flask_appbuilder/static/appbuilder"
       dest: "{{ superset_virtualenv_path }}/src/superset/superset/static/"
 
   when: superset_install_from_git|bool
