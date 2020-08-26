@@ -122,16 +122,6 @@
       virtualenv_python: "{{ superset_python_executable }}"
       extra_args: "-e"
 
-  - name: Install packages from requirements.txt
-    become: true
-    become_user: "{{ superset_user }}"
-    pip:
-      chdir: "{{ superset_virtualenv_path }}/src/superset"
-      requirements: "requirements.txt"
-      virtualenv: "{{ superset_virtualenv_path }}"
-      virtualenv_python: "{{ superset_python_executable }}"
-    when: superset_version is version_compare('0.34.0', '>=')
-
   - name: Copy additional static files
     become: true
     become_user: "{{ superset_user }}"
