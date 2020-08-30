@@ -45,7 +45,7 @@
   args:
     chdir: "{{ superset_codebase_path }}"
   environment:
-  when: not superset_install_from_git|bool and superset_version is version_compare('0.34.0', '<') and superset_perform_restart|bool
+  when: not superset_install_from_git|bool and (superset_version is regex('[0-9.]+') and superset_version is version('0.34.0', '<')) and superset_perform_restart|bool
 
 - name: Create an admin user(Superset version >= 0.34.0)
   become: true
@@ -56,7 +56,7 @@
     chdir: "{{ superset_codebase_path }}"
   environment:
     FLASK_APP: "{{ superset_app }}"
-  when: (superset_install_from_git|bool or superset_version is version_compare('0.34.0', '>=')) and superset_perform_restart|bool
+  when: (superset_install_from_git|bool or (superset_version is not regex('[0-9.]+') or superset_version is version('0.34.0', '>='))) and superset_perform_restart|bool
 
 - name: Upgrade the superset db.
   become: true

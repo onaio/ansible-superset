@@ -130,7 +130,7 @@
       requirements: "requirements.txt"
       virtualenv: "{{ superset_virtualenv_path }}"
       virtualenv_python: "{{ superset_python_executable }}"
-    when: superset_version is version_compare('0.34.0', '>=')
+    when: superset_version is not regex('[1-9.]+') or superset_version is version('0.34.0', '>=')
 
   - name: Copy additional static files
     become: true
