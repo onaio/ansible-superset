@@ -15,19 +15,34 @@
   become: true
   become_user: "{{ superset_local_build_user }}"
   npm:
-    path: "{{ superset_local_build_directory }}/superset/static/assets"
+    ci: true
+    path: "{{ superset_local_build_assets_directory }}"
     executable: "{{ superset_local_build_npm_dir }}/npm"
   delegate_to: "127.0.0.1"
   environment:
     PATH: "{{ superset_local_build_npm_dir }}:{{ lookup('env', 'PATH') }}"
   when: superset_install_from_git|bool
 
+- name: Install additional/overwrite javascript dependencies
+  become: true
+  become_user: "{{ superset_local_build_user }}"
+  npm:
+    executable: "{{ superset_local_build_npm_dir }}/npm"
+    name: "{{ item.name }}"
+    path: "{{ superset_local_build_assets_directory }}"
+    registry: "{{ item.registry }}"
+  delegate_to: "127.0.0.1"
+  environment:
+    PATH: "{{ superset_local_build_npm_dir }}:{{ lookup('env', 'PATH') }}"
+  with_items: "{{ superset_additional_npm_packages }}"
+  when: superset_install_from_git|bool and superset_additional_npm_packages|length > 0
+
 - name: Compile javascript
   become: true
   become_user: "{{ superset_local_build_user }}"
   command: "{{ superset_local_build_npm_dir }}/npm run build {{ superset_local_build_npm_args }}"
   args:
-    chdir: "{{ superset_local_build_directory }}/superset/static/assets"
+    chdir: "{{ superset_local_build_assets_directory }}"
   environment:
     PATH: "{{ superset_local_build_npm_dir }}:{{ lookup('env', 'PATH') }}"
   delegate_to: "127.0.0.1"
@@ -37,8 +52,8 @@
   become: true
   become_user: "{{ superset_local_build_user }}"
   archive:
-    path: "{{ superset_local_build_directory }}/superset/static/assets/dist"
-    dest: "{{ superset_local_build_directory }}/superset/static/assets/dist.tgz"
+    path: "{{ superset_local_build_directory }}/superset/static/assets"
+    dest: "{{ superset_local_build_assets_directory }}/dist.tgz"
   delegate_to: "127.0.0.1"
   when: superset_install_from_git|bool
 
@@ -46,8 +61,8 @@
   become: true
   become_user: "{{ superset_user }}"
   unarchive:
-    src: "{{ superset_local_build_directory }}/superset/static/assets/dist.tgz"
-    dest: "{{ superset_base_path }}/static/assets"
+    src: "{{ superset_local_build_assets_directory }}/dist.tgz"
+    dest: "{{ superset_base_path }}/static"
   when: superset_install_from_git|bool
   notify:
     - restart superset
