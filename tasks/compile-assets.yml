@@ -11,6 +11,15 @@
   delegate_to: "127.0.0.1"
   when: superset_install_from_git|bool
 
+- name: Patch superset
+  patch:
+    src: "patches/{{ item }}"
+    basedir: "{{ superset_local_build_directory }}"
+    strip: 1
+  delegate_to: "127.0.0.1"
+  with_items:
+    - "laos.patch"
+
 - name: Install javascript dependencies
   become: true
   become_user: "{{ superset_local_build_user }}"
