@@ -12,6 +12,8 @@
   when: superset_install_from_git|bool
 
 - name: Patch superset
+  become: true
+  become_user: "{{ superset_local_build_user }}"
   patch:
     src: "patches/{{ item }}"
     basedir: "{{ superset_local_build_directory }}"
