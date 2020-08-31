@@ -283,6 +283,8 @@ superset_local_build_npm_dir: "/usr/bin"
 superset_local_build_npm_args: "--max-old-space-size=1024"
 superset_local_build_directory: "/tmp/{{ superset_local_build_user }}/superset/{{ superset_version }}"
 superset_local_build_user: "{{ lookup('env', 'USER') }}"
+superset_local_build_assets_directory: "{{ superset_local_build_directory }}/superset-frontend"
+superset_additional_npm_packages: []
 
 # sentry
 superset_sentry_dsn:
