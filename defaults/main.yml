@@ -182,6 +182,26 @@ superset_cache_config: |-
   }
 superset_cache_default_timeout: 60 * 60 * 24  # 1 day
 
+superset_enable_tables_name_cache: "{{ superset_enable_cache }}"
+superset_table_names_key_prefix: superset_table_names
+superset_table_names_cache_config: |-
+  {
+    'CACHE_TYPE': 'redis',
+    'CACHE_KEY_PREFIX': '{{ superset_table_names_key_prefix }}',
+    'CACHE_REDIS_URL': 'redis://localhost:6379/0'
+  }
+
+superset_enable_thumbnail_cache: False
+superset_thumbnail_cache_config: |-
+  {
+    'CACHE_TYPE': 'null',
+    'CACHE_NO_NULL_WARNING': True,
+  }
+
+# Enable compression on Flask responses with gzip. Use python True or False
+# values.
+superset_enable_compression: False
+
 superset_webserver_timeout: 60
 
 # celery
