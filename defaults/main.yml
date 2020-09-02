@@ -288,3 +288,8 @@ superset_additional_npm_packages: []
 
 # sentry
 superset_sentry_dsn:
+
+# Superset patches to be applied when compiling superset-frontend, see files/patches.
+# Example:
+# superset_patches: ["0.36.0-laos.patch"]
+superset_patches: []
