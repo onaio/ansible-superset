@@ -313,3 +313,16 @@ superset_sentry_dsn:
 # Example:
 # superset_patches: ["0.36.0-laos.patch"]
 superset_patches: []
+
+# recaptcha
+superset_recaptcha_public_key:
+superset_recaptcha_private_key:
+
+# email
+superset_mail_server:
+superset_mail_port:
+superset_mail_use_tls: "False"
+superset_mail_use_ssl: "False"
+superset_mail_username:
+superset_mail_password:
+superset_mail_default_sender: "None"

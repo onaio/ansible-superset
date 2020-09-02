@@ -245,3 +245,17 @@ ENABLE_FLASK_COMPRESS = {{ superset_enable_compression }}
 COMPRESS_REGISTER	= {{ superset_enable_compression }}
 {% endif %}
 
+{% if superset_recaptcha_public_key %}
+RECAPTCHA_PUBLIC_KEY = '{{ superset_recaptcha_public_key }}'
+RECAPTCHA_PRIVATE_KEY = '{{ superset_recaptcha_private_key }}'
+{% endif %}
+
+{% if superset_mail_server is defined %}
+MAIL_SERVER = '{{ superset_mail_server }}'
+MAIL_PORT = {{ superset_mail_port }}
+MAIL_USE_TLS = {{ superset_mail_use_tls }}
+MAIL_USE_SSL = {{ superset_mail_use_ssl }}
+MAIL_USERNAME = '{{ superset_mail_username }}'
+MAIL_PASSWORD = '{{ superset_mail_password }}'
+MAIL_DEFAULT_SENDER = '{{ superset_mail_default_sender }}'
+{% endif %}
