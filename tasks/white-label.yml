@@ -28,7 +28,7 @@
 - name: Decode and set up base64 encoded @2x logo
   shell: |
     set -o pipefail
-    echo {{ superset_2x_logo_base64 }} | base64 -d > "{{ superset_base_path }}/static/assets/images/superset-logo@2x.png"
+    echo {{ superset_2x_logo_base64 }} | base64 -d > "{{ superset_base_path }}/static/assets/images/{{ superset_2x_logo_filename }}"
   args:
     executable: /bin/bash
   when: superset_white_label_use_base64|bool
