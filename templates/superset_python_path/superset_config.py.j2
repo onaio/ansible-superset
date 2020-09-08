@@ -41,9 +41,24 @@ OAUTH_PROVIDERS = [
     'token_key': '{{ provider.token_key }}',
     {% endif %}
     'remote_app': {
+        {% if provider.consumer_key is defined %}
         'consumer_key': {{ provider.consumer_key }},
         'consumer_secret': {{ provider.consumer_secret }},
+        {% endif %}
+        {% if provider.client_id is defined %}
+        'client_id': {{ provider.client_id }},
+        'client_secret': {{ provider.client_secret }},
+        {% endif %}
+        {% if provider.api_base_url is defined %}
+        'api_base_url': '{{ provider.api_base_url }}',
+        {% endif %}
+        {% if provider.base_url is defined %}
         'base_url': '{{ provider.base_url }}',
+        {% endif %}
+        {% if provider.client_kwargs is defined %}
+        # if provided this should be a python dict
+        'client_kwargs': {{ provider.client_kwargs }},
+        {% endif %}
         {% if provider.request_token_params is defined %}
         # if provided this should be a python dict
         'request_token_params': {{ provider.request_token_params }},
