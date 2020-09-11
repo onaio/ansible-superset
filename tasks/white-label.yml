@@ -1,5 +1,7 @@
 ---
 - name: Copy superset branding images.
+  become: true
+  become_user: "{{ superset_user }}"
   copy:
     src: "files/{{ item }}"
     dest: "{{ superset_base_path }}/static/assets/images/{{ item }}"
@@ -15,6 +17,8 @@
     echo {{ superset_favicon_base64 }} | base64 -d > "{{ superset_base_path }}/static/assets/images/favicon.png"
   args:
     executable: /bin/bash
+  become: true
+  become_user: "{{ superset_user }}"
   when: superset_white_label_use_base64|bool
 
 - name: Decode and set up base64 encoded logo
@@ -23,14 +27,18 @@
     echo {{ superset_logo_base64 }} | base64 -d > "{{ superset_base_path }}/static/assets/images/superset.png"
   args:
     executable: /bin/bash
+  become: true
+  become_user: "{{ superset_user }}"
   when: superset_white_label_use_base64|bool
 
 - name: Decode and set up base64 encoded @2x logo
   shell: |
     set -o pipefail
-    echo {{ superset_2x_logo_base64 }} | base64 -d > "{{ superset_base_path }}/static/assets/images/superset-logo@2x.png"
+    echo {{ superset_2x_logo_base64 }} | base64 -d > "{{ superset_base_path }}/static/assets/images/{{ superset_2x_logo_filename }}"
   args:
     executable: /bin/bash
+  become: true
+  become_user: "{{ superset_user }}"
   when: superset_white_label_use_base64|bool
 
 - name: Ensure Superset is restarted

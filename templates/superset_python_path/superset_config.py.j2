@@ -41,9 +41,24 @@ OAUTH_PROVIDERS = [
     'token_key': '{{ provider.token_key }}',
     {% endif %}
     'remote_app': {
+        {% if provider.consumer_key is defined %}
         'consumer_key': {{ provider.consumer_key }},
         'consumer_secret': {{ provider.consumer_secret }},
+        {% endif %}
+        {% if provider.client_id is defined %}
+        'client_id': {{ provider.client_id }},
+        'client_secret': {{ provider.client_secret }},
+        {% endif %}
+        {% if provider.api_base_url is defined %}
+        'api_base_url': '{{ provider.api_base_url }}',
+        {% endif %}
+        {% if provider.base_url is defined %}
         'base_url': '{{ provider.base_url }}',
+        {% endif %}
+        {% if provider.client_kwargs is defined %}
+        # if provided this should be a python dict
+        'client_kwargs': {{ provider.client_kwargs }},
+        {% endif %}
         {% if provider.request_token_params is defined %}
         # if provided this should be a python dict
         'request_token_params': {{ provider.request_token_params }},
@@ -152,6 +167,14 @@ CACHE_CONFIG = {{ superset_cache_config }}
 CACHE_DEFAULT_TIMEOUT = {{ superset_cache_default_timeout }}
 {% endif %}
 
+{% if superset_enable_tables_name_cache and superset_table_names_cache_config %}
+TABLE_NAMES_CACHE_CONFIG = {{ superset_table_names_cache_config }}
+{% endif %}
+
+{% if superset_enable_thumbnail_cache and superset_thumbnail_cache_config %}
+THUMBNAIL_CACHE_CONFIG = {{ superset_thumbnail_cache_config }}
+{% endif %}
+
 # Roles that are controlled by the API / Superset and should not be changes
 # by humans.
 ROBOT_PERMISSION_ROLES = {{ superset_robot_permission_roles }}
@@ -214,7 +237,13 @@ class CeleryConfig(object):
 CELERY_CONFIG = CeleryConfig
 
 {% if superset_broker_protocol == 'redis' %}
+
+{% if superset_version is regex('[0-9.]+') and superset_version is version('0.37.0', '<') %}
 from werkzeug.contrib.cache import RedisCache
+{% else %}
+from cachelib.redis import RedisCache
+{% endif %}
+
 RESULTS_BACKEND = RedisCache(
     host='{{ superset_broker_host }}',
     port={{ superset_broker_port }},
@@ -224,5 +253,24 @@ RESULTS_BACKEND = RedisCache(
 
 {% endif %}
 
+{% if superset_version is regex('[0-9.]+') and superset_version is version('0.37.0', '<') %}
 # Change to True if using gunicorn
-ENABLE_FLASK_COMPRESS = False
+ENABLE_FLASK_COMPRESS = {{ superset_enable_compression }}
+{% else %}
+COMPRESS_REGISTER	= {{ superset_enable_compression }}
+{% endif %}
+
+{% if superset_recaptcha_public_key %}
+RECAPTCHA_PUBLIC_KEY = '{{ superset_recaptcha_public_key }}'
+RECAPTCHA_PRIVATE_KEY = '{{ superset_recaptcha_private_key }}'
+{% endif %}
+
+{% if superset_mail_server is defined %}
+MAIL_SERVER = '{{ superset_mail_server }}'
+MAIL_PORT = {{ superset_mail_port }}
+MAIL_USE_TLS = {{ superset_mail_use_tls }}
+MAIL_USE_SSL = {{ superset_mail_use_ssl }}
+MAIL_USERNAME = '{{ superset_mail_username }}'
+MAIL_PASSWORD = '{{ superset_mail_password }}'
+MAIL_DEFAULT_SENDER = '{{ superset_mail_default_sender }}'
+{% endif %}

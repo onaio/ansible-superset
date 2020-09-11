@@ -8,6 +8,7 @@
     version: "{{ superset_version }}"
     dest: "{{ superset_local_build_directory }}"
     force: yes
+    depth: "1"
   delegate_to: "127.0.0.1"
   when: superset_install_from_git|bool
 
@@ -19,8 +20,8 @@
     basedir: "{{ superset_local_build_directory }}"
     strip: 1
   delegate_to: "127.0.0.1"
-  with_items:
-    - "laos.patch"
+  with_items: "{{ superset_patches }}"
+  when: superset_patches|length > 0
 
 - name: Install javascript dependencies
   become: true
