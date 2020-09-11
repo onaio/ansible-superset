@@ -56,6 +56,7 @@
     chdir: "{{ superset_codebase_path }}"
   environment:
     FLASK_APP: "{{ superset_app }}"
+    SUPERSET_CONFIG_PATH: "{{ superset_config_module_path }}"
   when: (superset_install_from_git|bool or (superset_version is not regex('[0-9.]+') or superset_version is version('0.34.0', '>='))) and superset_perform_restart|bool
 
 - name: Upgrade the superset db.
@@ -66,6 +67,7 @@
     chdir: "{{ superset_codebase_path }}"
   environment:
     FLASK_APP: "{{ superset_app }}"
+    SUPERSET_CONFIG_PATH: "{{ superset_config_module_path }}"
   when: superset_perform_restart|bool
 
 - name: Load superset examples.
@@ -76,6 +78,7 @@
     chdir: "{{ superset_codebase_path }}"
   environment:
     FLASK_APP: "{{ superset_app }}"
+    SUPERSET_CONFIG_PATH: "{{ superset_config_module_path }}"
   when: superset_load_examples|bool and superset_perform_restart|bool
 
 - name: Superset init.
@@ -86,6 +89,7 @@
     chdir: "{{ superset_codebase_path }}"
   environment:
     FLASK_APP: "{{ superset_app }}"
+    SUPERSET_CONFIG_PATH: "{{ superset_config_module_path }}"
   when: superset_perform_restart|bool
 
 - name: Copy uwsgi.ini
