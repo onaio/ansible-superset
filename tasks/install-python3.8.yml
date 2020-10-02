@@ -1,0 +1,17 @@
+---
+- name: Add Deadsnakes PPA
+  apt_repository:
+    repo: ppa:deadsnakes/ppa
+  when: ansible_lsb.major_release|int < 18
+
+- name: Ensure dependencies are installed
+  apt:
+    pkg: ["python3.8", "python3.8-dev", "python3-pip", "python3-setuptools"]
+    state: present
+    update_cache: yes
+
+- name: Install virtualenv via pip
+  pip:
+    name: virtualenv
+    virtualenv_python: "{{ superset_python_executable }}"
+    state: present
