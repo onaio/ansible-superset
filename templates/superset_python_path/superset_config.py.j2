@@ -265,7 +265,7 @@ RECAPTCHA_PUBLIC_KEY = '{{ superset_recaptcha_public_key }}'
 RECAPTCHA_PRIVATE_KEY = '{{ superset_recaptcha_private_key }}'
 {% endif %}
 
-{% if superset_mail_server is defined %}
+{% if superset_mail_server is defined and superset_mail_server %}
 MAIL_SERVER = '{{ superset_mail_server }}'
 MAIL_PORT = {{ superset_mail_port }}
 MAIL_USE_TLS = {{ superset_mail_use_tls }}
